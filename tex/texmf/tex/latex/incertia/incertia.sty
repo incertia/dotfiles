@@ -1,0 +1,103 @@
+\ProvidesPackage{incertia}
+
+% some default packages
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{mathtools}
+
+% set related commands
+% common sets
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+
+% powerset is done with mathcal
+\newcommand{\PP}{\mathcal{P}}
+
+% isomorphic sets denoted by congruence
+\newcommand{\iso}{\cong}
+
+% asymptote
+\usepackage{asymptote}
+
+\begin{asydef}
+import cse5;
+import olympiad;
+
+pointpen = black;
+pathpen = black;
+pathfontpen = black;
+anglepen = black;
+anglefontpen = black;
+pointfontsize = 10;
+
+defaultpen(fontsize(10pt));
+
+size(6cm);
+
+usepackage("amsmath");
+usepackage("amssymb");
+\end{asydef}
+
+% theorem
+\usepackage{amsthm}
+
+% setup definition/theorem etc
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{st}{Step}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{clm}[thm]{Claim}
+\newtheorem{exr}[thm]{Exercise}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{prb}[thm]{Problem}
+\newtheorem{note}[thm]{Note}
+
+% i like parskip
+\usepackage{parskip}
+
+% this is usually nice
+\usepackage{enumerate}
+
+% just useful shorthand
+\renewcommand{\st}{\,\operatorname{s.t.}\,}
+\let\hom\relax
+\DeclareMathOperator{\hom}{Hom}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\proj}{proj}
+\newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
+
+% for easier math
+\everymath{\displaystyle}
+
+% define some arrows for easier use
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\inj}{\rightarrowtail}
+\newcommand{\rsurj}{\twoheadleftarrow}
+\newcommand{\rinj}{\leftarrowtail}
+\newcommand{\biject}{\leftrightarrow}
+\newcommand{\mono}{\rightarrowtail}
+\newcommand{\monoh}{\hookrightarrow}
+\newcommand{\epi}{\twoheadrightarrow}
