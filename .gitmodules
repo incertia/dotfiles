@@ -1,0 +1,3 @@
+[submodule "vim/vimacs"]
+	path = vim/vimacs
+	url = https://github.com/andrep/vimacs.git
