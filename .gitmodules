@@ -1,3 +1,9 @@
 [submodule "vim/vimacs"]
 	path = vim/vimacs
 	url = https://github.com/andrep/vimacs.git
+[submodule "vim/vim-pathogen"]
+	path = vim/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule "vim/bundle/YouCompleteMe"]
+	path = vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
