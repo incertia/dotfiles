@@ -98,6 +98,35 @@ nnoremap <C-y>          :tabnew<CR>
 nnoremap <TAB>          gt
 nnoremap <S-TAB>        gT
 
+" tab navigation
+function! TabSwitch(tabnum)
+    call feedkeys(a:tabnum . "gt", "n")
+endfunction
+function! TabMove(n, dir)
+    if(a:dir == "left")
+        let d = "-"
+    elseif(a:dir == "right")
+        let d = "+"
+    else
+        let d = ""
+    endif
+
+    call feedkeys(":" . d . a:n . "tabmove\<CR>", "n")
+endfunction
+
+" :Tab commands
+command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
+command! -nargs=1 TabMoveL  :call TabMove(<f-args>, "left")
+command! -nargs=1 TabMoveR  :call TabMove(<f-args>, "right")
+
+" tab bindings
+nnoremap <C-x><C-t>       :TabSwitch<SPACE>
+nnoremap <C-x>t           :TabSwitch<SPACE>
+nnoremap <silent> <C-x>h  :call TabMove("1", "left")<CR>
+nnoremap <silent> <C-x>l  :call TabMove("1", "right")<CR>
+nnoremap <C-x><Left>      :TabMoveL<SPACE>
+nnoremap <C-x><Right>     :TabMoveR<SPACE>
+
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>        @q
 
