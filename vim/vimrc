@@ -204,3 +204,7 @@ let g:DVB_TrimWS = 1
 
 " pathogen
 execute pathogen#infect()
+
+if has("autocmd")
+    au CompleteDone * pclose
+endif
