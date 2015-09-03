@@ -85,6 +85,9 @@ nnoremap <silent> <F2>  :set hlsearch! hlsearch?<CR>
 " kill all other unmodified tabs
 nnoremap <silent> <F3>  :tabonly<CR>
 
+" kill the current tab
+nnoremap <silent> <F4>  :q!<CR>
+
 " emacs <C-x><C-c> with prompt is really nice
 nnoremap <C-x><C-x>     :confirm qa<CR>
 
@@ -100,6 +103,9 @@ nnoremap <S-TAB>        gT
 
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>        @q
+
+" map enter to execute the a macro
+nnoremap <CR>           @a
 
 " who cares about ex mode. map QQ to reflow paragraphs
 " nnoremap QQ             gqap
