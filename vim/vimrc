@@ -115,9 +115,26 @@ nnoremap <leader>=      <C-w>+
 " because we remmaped <C-l>
 nnoremap <C-m>          <C-l>
 
+" scroll up to <C-q> (don't need this to be visual block)
+nnoremap <C-q>          <C-y>
+
+function! Scroll(dir)
+    let lines = winheight(0)
+
+    if(a:dir == "up")
+        let cmd = "\<C-y>"
+    elseif(a:dir == "down")
+        let cmd = "\<C-e>"
+    else
+        let cmd = "\<Esc>"
+    endif
+
+    call feedkeys(lines . cmd, "n")
+endfunction
+
 " change this emacs binding because j/k is more useful
-nnoremap <C-n>          <C-f>
-nnoremap <C-p>          <C-b>
+nnoremap <silent> <C-n> :call Scroll("down")<CR>
+nnoremap <silent> <C-p> :call Scroll("up")<CR>
 
 " 2 line status bar
 set laststatus=2
