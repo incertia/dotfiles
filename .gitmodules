@@ -10,3 +10,6 @@
 [submodule "vim/bundle/vim-colorschemes"]
 	path = vim/bundle/vim-colorschemes
 	url = https://github.com/flazz/vim-colorschemes.git
+[submodule "vim/bundle/presenting.vim"]
+	path = vim/bundle/presenting.vim
+	url = https://github.com/sotte/presenting.vim.git
