@@ -66,6 +66,9 @@ set foldnestmax=16      " deepest fold is 16 levels
 set nofoldenable        " don't fold by default
 set foldlevel=1         " yay
 
+" number formats
+set nf=alpha,octal,hex
+
 " map <F1> to deleting trailing whitespace and clearing empty lines
 function! KillWhiteThings()
     let save_cursor = getpos(".")
