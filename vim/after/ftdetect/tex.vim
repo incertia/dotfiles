@@ -10,8 +10,12 @@ function! TexEnv(env, ...)
     " enumerate and itemize should have at least one item
     let extra = (a:env == "enumerate" || a:env == "itemize") ? "\\item " : ""
 
-    :exe ":normal " . ins . "\\begin{" . a:env . "}" . opt
-    :exe ":normal o" . "\\end{" . a:env . "}"
+    " aligned should be in \[ math mode \]
+    let pre  = a:env == "aligned" ? "\\[ " : ""
+    let post = a:env == "aligned" ? " \\]" : ""
+
+    :exe ":normal " . ins . pre . "\\begin{" . a:env . "}" . opt
+    :exe ":normal o" . "\\end{" . a:env . "}" . post
     :exe ":normal O" . extra
 endfunction
 
