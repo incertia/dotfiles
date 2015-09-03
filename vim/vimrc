@@ -63,6 +63,9 @@ set foldlevel=1         " yay
 " number formats
 set nf=alpha,octal,hex
 
+" split to the right and below
+set splitbelow splitright
+
 " map <F1> to deleting trailing whitespace and clearing empty lines
 function! KillWhiteThings()
     let save_cursor = getpos(".")
