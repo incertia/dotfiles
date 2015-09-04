@@ -32,6 +32,9 @@ syntax enable
 "" show line numbers
 set number
 
+" autoindent is helpful
+set autoindent
+
 "" autocmd stuff
 if has("autocmd")
     " Uncomment the following to have Vim jump to the last position when
@@ -94,7 +97,8 @@ nnoremap <UP>           :bprev<CR>
 
 " tabs
 nnoremap <C-t>          :tabnew<SPACE>
-nnoremap <C-y>          :tabnew<CR>
+let g:newtab_command = ":tabnew\<CR>"
+nnoremap <C-y>          @=g:newtab_command<CR>
 nnoremap <S-TAB>        gt
 
 " tab navigation
@@ -119,8 +123,10 @@ nnoremap <leader>8           8gt
 nnoremap <leader>9           9gt
 nnoremap <silent> <leader>0  :tablast<CR>
 
-nnoremap <silent> <leader>h :-tabmove<CR>
-nnoremap <silent> <leader>l :+tabmove<CR>
+let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
+let s:tabmoveright_cmd = ":+tabmove\<CR>"
+nnoremap <silent> <leader>h @=g:tabmoveleft_cmd<CR>
+nnoremap <silent> <leader>l @=g:tabmoveright_cmd<CR>
 nnoremap <leader>j          gt
 nnoremap <leader>k          gT
 
