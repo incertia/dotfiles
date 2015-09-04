@@ -35,6 +35,10 @@ set number
 " autoindent is helpful
 set autoindent
 
+" leader command section
+nnoremap <leader>vc     :e<SPACE>~/.vim/vimrc<CR>
+nnoremap <leader>;      m`A;<ESC>``
+
 "" autocmd stuff
 if has("autocmd")
     " Uncomment the following to have Vim jump to the last position when
