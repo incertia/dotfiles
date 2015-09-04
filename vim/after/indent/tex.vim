@@ -1,2 +1,2 @@
 " disable indent
-setl noai nocin nosi inde=
+setl nocin nosi inde=
