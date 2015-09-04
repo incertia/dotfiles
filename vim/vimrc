@@ -95,37 +95,34 @@ nnoremap <UP>           :bprev<CR>
 " tabs
 nnoremap <C-t>          :tabnew<SPACE>
 nnoremap <C-y>          :tabnew<CR>
-nnoremap <TAB>          gt
-nnoremap <S-TAB>        gT
+nnoremap <S-TAB>        gt
 
 " tab navigation
 function! TabSwitch(tabnum)
     call feedkeys(a:tabnum . "gt", "n")
 endfunction
-function! TabMove(n, dir)
-    if(a:dir == "left")
-        let d = "-"
-    elseif(a:dir == "right")
-        let d = "+"
-    else
-        let d = ""
-    endif
-
-    call feedkeys(":" . d . a:n . "tabmove\<CR>", "n")
-endfunction
 
 " :Tab commands
 command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
-command! -nargs=1 TabMoveL  :call TabMove(<f-args>, "left")
-command! -nargs=1 TabMoveR  :call TabMove(<f-args>, "right")
 
 " tab bindings
-nnoremap <C-x><C-t>       :TabSwitch<SPACE>
-nnoremap <C-x>t           :TabSwitch<SPACE>
-nnoremap <silent> <C-x>h  :call TabMove("1", "left")<CR>
-nnoremap <silent> <C-x>l  :call TabMove("1", "right")<CR>
-nnoremap <C-x><Left>      :TabMoveL<SPACE>
-nnoremap <C-x><Right>     :TabMoveR<SPACE>
+nnoremap <C-x><C-t>          :TabSwitch<SPACE>
+nnoremap <C-x>t              :TabSwitch<SPACE>
+nnoremap <leader>1           1gt
+nnoremap <leader>2           2gt
+nnoremap <leader>3           3gt
+nnoremap <leader>4           4gt
+nnoremap <leader>5           5gt
+nnoremap <leader>6           6gt
+nnoremap <leader>7           7gt
+nnoremap <leader>8           8gt
+nnoremap <leader>9           9gt
+nnoremap <silent> <leader>0  :tablast<CR>
+
+nnoremap <silent> <leader>h :-tabmove<CR>
+nnoremap <silent> <leader>l :+tabmove<CR>
+nnoremap <leader>j          gt
+nnoremap <leader>k          gT
 
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>        @q
