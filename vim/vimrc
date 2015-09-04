@@ -36,6 +36,7 @@ set number
 set autoindent
 
 " leader command section
+nnoremap <leader>so     :so<SPACE>%<CR>
 nnoremap <leader>vc     :e<SPACE>~/.vim/vimrc<CR>
 nnoremap <leader>;      m`A;<ESC>``
 
