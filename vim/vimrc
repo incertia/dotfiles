@@ -38,6 +38,7 @@ set autoindent
 " leader command section
 nnoremap <leader>so     :so<SPACE>%<CR>
 nnoremap <leader>vc     :e<SPACE>~/.vim/vimrc<CR>
+nnoremap <leader>la     :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
 nnoremap <leader>;      m`A;<ESC>``
 
 "" autocmd stuff
@@ -92,6 +93,9 @@ nnoremap <silent> <F3>  :tabonly<CR>
 
 " kill the current tab
 nnoremap <silent> <F4>  :q!<CR>
+
+nnoremap Q              gqgq
+vnoremap Q              gq
 
 " emacs <C-x><C-c> with prompt is really nice
 nnoremap <C-x><C-x>     :confirm qa<CR>
