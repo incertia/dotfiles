@@ -7,6 +7,10 @@
 \usepackage{amssymb}
 \usepackage{fancyhdr}
 \usepackage{mathtools}
+\usepackage{tikz}
+
+% tikz things
+\usetikzlibrary{arrows}
 
 % set related commands
 % common sets
@@ -84,12 +88,19 @@ usepackage("amssymb");
 \let\hom\relax
 \DeclareMathOperator{\hom}{Hom}
 \DeclareMathOperator{\aut}{Aut}
+\DeclareMathOperator{\aff}{Aff}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\gl}{GL}
+% \DeclareMathOperator{\sl}{SL}
 \DeclareMathOperator{\tr}{Tr}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\adj}{adj}
 \DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\orb}{orb}
+\DeclareMathOperator{\stab}{stab}
 \newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
+\newcommand{\cycgroup}[1]{\langle #1 \rangle}
 
 % for easier math
 \everymath{\displaystyle}
