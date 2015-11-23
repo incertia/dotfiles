@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.s setlocal ft=mips
+au BufRead,BufNewFile *.s setlocal ft=nasm
