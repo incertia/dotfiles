@@ -273,8 +273,4 @@ alias svnremove='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -rf'
 # screw guis, and i will never use emacs so whatever
 # alias emacs='emacs -nw'
 
-# this is to store different configurations for different computers in case i
-# need to login to a remote shell or something
-# if [ -f "$HOME/.zprofile" ]; then
-#     source "$HOME/.zprofile"
-# fi
+alias irssi='screen irssi'
