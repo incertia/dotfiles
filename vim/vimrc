@@ -71,6 +71,8 @@ set foldlevel=1         " yay
 
 " number formats
 set nf=alpha,octal,hex
+nnoremap <C-x> <nop>
+nnoremap <C-d> <C-x>
 
 " split to the right and below
 set splitbelow splitright
@@ -84,16 +86,11 @@ function! KillWhiteThings()
 endfunction
 
 nnoremap <silent> <F1>  :call KillWhiteThings()<CR>
-
-" easy key to turn off search highlight once we are done
 nnoremap <silent> <F2>  :set hlsearch! hlsearch?<CR>
-
-" kill all other unmodified tabs
 nnoremap <silent> <F3>  :tabonly<CR>
-
-" kill the current tab
 nnoremap <silent> <F4>  :q!<CR>
 
+" reflow bindings
 nnoremap Q              gqgq
 vnoremap Q              gq
 
@@ -171,6 +168,10 @@ nnoremap j              gj
 nnoremap k              gk
 nnoremap gj             j
 nnoremap gk             k
+vnoremap j              gj
+vnoremap k              gk
+vnoremap gj             j
+vnoremap gk             k
 
 function! Scroll(dir)
     let lines = winheight(0)
@@ -282,6 +283,7 @@ endif
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_key_list_select_completion = [ "<Down>", ]
 let g:ycm_key_list_previous_completion = [ "<Up>", ]
+let g:ycm_confirm_extra_conf = 0
 
 " set the colorscheme to solarized-256
 if has("gui_running")
