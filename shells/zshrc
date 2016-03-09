@@ -59,6 +59,7 @@ fi
 
 # emacs terminal
 [[ $EMACS = t ]] && unsetopt zle
+[[ $TERM = "dumb" ]] && unsetopt zle
 
 # some more ls aliases
 alias ll='ls -l'
