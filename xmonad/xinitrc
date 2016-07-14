@@ -1,0 +1,51 @@
+#! /bin/bash
+
+[ "$XMOBAR_NOTIFICATION_PIPE" == "" ] &&
+    XMOBAR_NOTIFICATION_PIPE=$HOME/.local/share/xmobar/notifications.pipe
+
+export XMOBAR_NOTIFICATION_PIPE
+
+# startup configuration script for Xorg
+
+# read .Xresrouces
+xrdb -merge ~/.Xresources
+
+# set up left pointer as cursor
+xsetroot -cursor_name left_ptr
+
+# set shell level to 0
+export SHLVL=-3
+
+# set wallpaper
+# xloadimage -onroot -fullscreen ~/wallpapers/archanime.png
+hsetroot -fill "$HOME/stuff/wallpapers/shinobu sword.jpg"
+
+# set key repeat rates
+xset r rate 250 60
+
+# start compton for compositing
+compton -b --no-fading-openclose
+
+xset -dpms
+xset s off
+
+# trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+#     --expand true --width 10 --transparent true --height 10 &
+
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+
+[ -e "$XMOBAR_NOTIFICATION_PIPE" ] || mkfifo "$XMOBAR_NOTIFICATION_PIPE"
+
+# start useful services
+# xmobar &
+stalonetray &
+nm-applet &
+ibus-daemon -rx &
+urxvtd -f -o
+
+# start xmonad
+exec xmonad | xmobar
+
+rm "$XMOBAR_NOTIFICATION_PIPE"
