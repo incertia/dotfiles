@@ -1,5 +1,5 @@
 "" tab stuff
-set ts=4 sw=4 sts=4 expandtab
+set ts=2 sw=2 sts=2 expandtab
 
 " 256 colors
 set t_Co=256
@@ -130,11 +130,11 @@ nnoremap <leader>9           9gt
 nnoremap <silent> <leader>0  :tablast<CR>
 
 let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
-let s:tabmoveright_cmd = ":+tabmove\<CR>"
-nnoremap <silent> <leader>h @=g:tabmoveleft_cmd<CR>
-nnoremap <silent> <leader>l @=g:tabmoveright_cmd<CR>
-nnoremap <leader>j          gt
-nnoremap <leader>k          gT
+let g:tabmoveright_cmd = ":+tabmove\<CR>"
+nnoremap <silent> <leader>hh @=g:tabmoveleft_cmd<CR>
+nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
+nnoremap <leader>j           gt
+nnoremap <leader>k           gT
 
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>        @q
