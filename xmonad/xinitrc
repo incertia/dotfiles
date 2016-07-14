@@ -1,7 +1,7 @@
 #! /bin/bash
 
 [ "$XMOBAR_NOTIFICATION_PIPE" == "" ] &&
-    XMOBAR_NOTIFICATION_PIPE=$HOME/.local/share/xmobar/notifications.pipe
+    XMOBAR_NOTIFICATION_PIPE="$HOME/.local/share/xmobar/notifications.pipe"
 
 export XMOBAR_NOTIFICATION_PIPE
 
