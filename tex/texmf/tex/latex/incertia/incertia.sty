@@ -5,13 +5,22 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{centernot}
 \usepackage{fancyhdr}
+\usepackage[cal=cm,bb=ams,frak=boondox,scr=rsfso]{mathalfa}
+% \usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{siunitx}
 \usepackage{tikz}
 
 % tikz things
 \usetikzlibrary{arrows}
+
+% \DeclareFontFamily{U}{mt2ms}{\skewchar\font42}
+% \DeclareFontShape{U}{mt2ms}{m}{n}{}{}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+% \DeclareMathAlphabet{\mathmtc}{OT1}{mt2ms}{m}{it}
 
 % set related commands
 % common sets
@@ -76,7 +85,7 @@ usepackage("siunitx");
 \newtheorem{clm}[thm]{Claim}
 \newtheorem{exr}[thm]{Exercise}
 \newtheorem{ex}[thm]{Example}
-\newtheorem{prb}[thm]{Problem}
+\newtheorem{prb}{Problem}[subsection]
 \newtheorem{note}[thm]{Note}
 
 % i like parskip
@@ -106,6 +115,8 @@ usepackage("siunitx");
 \DeclareMathOperator{\normal}{N}
 \newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
 \newcommand{\cycgroup}[1]{\langle #1 \rangle}
+\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
 
 % for easier math
 \everymath{\displaystyle}
