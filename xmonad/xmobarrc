@@ -1,0 +1,28 @@
+Config { bgColor = "black"
+       , fgColor = "green"
+       , position = Static { xpos = 0, ypos = 0, width = 1808, height = 16 }
+       , font = "xft:Inconsolata:size=12,xft:IPAGothic:size=12"
+
+       -- general behavior
+       , lowerOnStart = True
+       , hideOnStart  = False
+       , allDesktops  = True
+       , persistent   = True
+       , commands =
+          [ Run MultiCpu    [ "--template", "cpu: <total0>%|<total1>%|<total2>%|<total3>%"
+                            , "--Low"     , "50"
+                            , "--High"    , "85"
+                            , "--low"     , "green"
+                            , "--normal"  , "orange"
+                            , "--high"    , "red"
+                            ] 10
+          , Run Date        "%a %b %d, %Y %T %Z" "date" 10
+          , Run StdinReader
+          , Run PipeReader "waiting for pipe...:/home/incertia/.local/share/xmobar/notifications.pipe" "PipeReader"
+          ]
+
+       -- display
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% << %PipeReader% }{ %date% >> %multicpu%"
+       }
