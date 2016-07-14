@@ -179,6 +179,11 @@ if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-no
     }
 fi
 
+urxvt-switchfont()
+{
+    [[ "$1" == "" ]] || printf '\e]710;%s\007' "$1"
+}
+
 # source the required git-prompt.sh
 source ~/.git-prompt.sh
 
@@ -280,3 +285,7 @@ alias svnremove='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -rf'
 # alias emacs='emacs -nw'
 
 alias irssi='screen irssi'
+
+# set up gpg-agent
+unset SSH_AGENT_PID
+export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
