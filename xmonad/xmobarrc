@@ -9,7 +9,7 @@ Config { bgColor = "black"
        , allDesktops  = True
        , persistent   = True
        , commands =
-          [ Run MultiCpu    [ "--template", "cpu: <total0>%|<total1>%|<total2>%|<total3>%"
+          [ Run MultiCpu    [ "--template", "cpu: <total0>%,<total1>%,<total2>%,<total3>%"
                             , "--Low"     , "50"
                             , "--High"    , "85"
                             , "--low"     , "green"
