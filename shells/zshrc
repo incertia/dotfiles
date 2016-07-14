@@ -181,6 +181,7 @@ fi
 
 urxvt-switchfont()
 {
+    [ -e "$XMOBAR_NOTIFICATION_PIPE" ] && echo "setting urxvt font to: '$1'" > "$XMOBAR_NOTIFICATION_PIPE"
     [[ "$1" == "" ]] || printf '\e]710;%s\007' "$1"
 }
 
