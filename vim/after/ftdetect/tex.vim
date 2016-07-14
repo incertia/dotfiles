@@ -8,7 +8,7 @@ function! TexEnv(env, ...)
     let ins = match(l, "^\\s*$") != -1 ? "S" : "O"
 
     " enumerate and itemize should have at least one item
-    let extra = (a:env == "enumerate" || a:env == "itemize") ? "\\item " : ""
+    let extra = (a:env == "enumerate" || a:env == "itemize") ? "\\item\n" : ""
 
     " aligned should be in \[ math mode \]
     let pre  = a:env == "aligned" ? "\\[ " : ""
