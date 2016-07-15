@@ -1,8 +1,11 @@
 import Control.Exception            (catch, SomeException)
 import Data.List                    (intercalate)
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 import System.Environment           (getEnv)
-import System.IO                    (hPutStrLn, hSetBuffering, hClose, stdout, BufferMode (LineBuffering))
-import System.Posix.IO              (openFd, fdToHandle, defaultFileFlags, OpenMode (WriteOnly))
+import System.IO                    (hPutStrLn, hSetBuffering, hClose, stdout, BufferMode (LineBuffering), hSetEncoding, utf8)
+import System.Locale.SetLocale
+import System.Posix.IO              (openFd, fdToHandle, defaultFileFlags, OpenMode (..))
 import System.Process               (spawnProcess, waitForProcess)
 import XMonad                           -- well duh
 import XMonad.Actions.CycleWS           -- nextWS and shiftToNext magics
@@ -52,20 +55,25 @@ myWorkspaces = [ "1:main", "2:web", "3:chat", "4:graphic", "5:files", "6:media",
 
 -- xmonad main
 main = do
-  notification_pipe <- getEnv "XMOBAR_NOTIFICATION_PIPE"
-  xmb_pipe <- fdToHandle =<< tryOpenFile notification_pipe
-  hSetBuffering xmb_pipe LineBuffering
-  hPutStrLn xmb_pipe "starting xmonad..."
-  xmonad $ defaults xmb_pipe `additionalKeys` myBindings
-  hClose xmb_pipe
+  setLocale LC_CTYPE (Just "en_US.UTF-8")
+  input_pipe <- getEnv "XMOBAR_INPUT_PIPE"
+  notif_pipe <- getEnv "XMOBAR_NOTIFICATION_PIPE"
+  xmb_input <- fdToHandle =<< tryOpenFile input_pipe
+  xmb_notif <- fdToHandle =<< tryOpenFile notif_pipe
+  hSetBuffering xmb_input LineBuffering
+  hSetBuffering xmb_notif LineBuffering
+  hPutStrLn xmb_notif "starting xmonad..."
+  xmonad $ defaults xmb_input xmb_notif `additionalKeys` myBindings
+  hClose xmb_input
+  hClose xmb_notif
 
   where
-    defaults xmb = defaultConfig
+    defaults xmb_input xmb_notif = defaultConfig
       { modMask               = mod4Mask
       , manageHook            = manageDocks <+> myManageHook
       , layoutHook            = avoidStruts $ myLayoutHook
       , startupHook           = myStartupHook
-      , logHook               = myLogHook stdout
+      , logHook               = myLogHook xmb_input xmb_notif
       , handleEventHook       = docksEventHook
       , terminal              = "urxvtc"
       , normalBorderColor     = "#63c0f5"
@@ -75,9 +83,10 @@ main = do
 
     myStartupHook = return ()
 
-    myLogHook handle = dynamicLogWithPP xmobarPP
-                         { ppOutput = hPutStrLn handle
-                         }
+    myLogHook xmb_input xmb_notif = dynamicLogWithPP xmobarPP
+      { ppOutput = \s -> output xmb_input s >> output xmb_notif "no notifications"
+      }
+      where output handle = T.hPutStrLn handle . T.pack
 
     myBindings = concat [ printScreenBindings
                         , termSpawnBindings
@@ -110,7 +119,7 @@ main = do
           , ((myModMask, xK_b), bringMenu) ]
 
     tryOpenFile fname = openFile fname `catchAny` \e -> openFile "/dev/null"
-      where openFile fname = openFd fname WriteOnly Nothing defaultFileFlags
+      where openFile fname = openFd fname ReadWrite Nothing defaultFileFlags
 
 -- define some masks to make things more readable
 leftAltMask  :: KeyMask

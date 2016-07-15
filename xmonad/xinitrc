@@ -1,9 +1,12 @@
 #! /bin/bash
 
+[ "$XMOBAR_INPUT_PIPE" == "" ] &&
+    XMOBAR_INPUT_PIPE="$HOME/.local/share/xmobar/xmobar.pipe"
 [ "$XMOBAR_NOTIFICATION_PIPE" == "" ] &&
     XMOBAR_NOTIFICATION_PIPE="$HOME/.local/share/xmobar/notifications.pipe"
 
 export XMOBAR_NOTIFICATION_PIPE
+export XMOBAR_INPUT_PIPE
 
 # startup configuration script for Xorg
 
@@ -36,16 +39,18 @@ export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 
+[ -e "$XMOBAR_INPUT_PIPE" ] || mkfifo "$XMOBAR_INPUT_PIPE"
 [ -e "$XMOBAR_NOTIFICATION_PIPE" ] || mkfifo "$XMOBAR_NOTIFICATION_PIPE"
 
 # start useful services
-# xmobar &
+xmobar &
 stalonetray &
 nm-applet &
 ibus-daemon -rx &
 urxvtd -f -o
 
 # start xmonad
-exec xmonad | xmobar
+exec xmonad
 
+rm "$XMOBAR_INPUT_PIPE"
 rm "$XMOBAR_NOTIFICATION_PIPE"
