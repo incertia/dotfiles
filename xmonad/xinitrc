@@ -43,11 +43,11 @@ export QT_IM_MODULE=ibus
 [ -e "$XMOBAR_NOTIFICATION_PIPE" ] || mkfifo "$XMOBAR_NOTIFICATION_PIPE"
 
 # start useful services
-xmobar &
-stalonetray &
+xmobar $HOME/.xmonad/xmobarrc &
+stalonetray --config $HOME/.xmonad/stalonetrayrc &
 nm-applet &
 ibus-daemon -rx &
-urxvtd -f -o
+urxvtd -o &
 
 # start xmonad
 exec xmonad
