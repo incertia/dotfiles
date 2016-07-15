@@ -18,7 +18,7 @@ $(BINDIR)ida_patcher: $(ODIR)ida_patcher.o
 	$(CC) $(CFLAGS) -o $(BINDIR)ida_patcher $(ODIR)ida_patcher.o
 
 $(BINDIR)forker: $(ODIR)forker.o
-	$(CC) $(CFLAGS) -pthread -o $(BINDIR)ida_patcher $(ODIR)ida_patcher.o
+	$(CC) $(CFLAGS) -pthread -o $(BINDIR)forker $(ODIR)ida_patcher.o
 
 $(ODIR)%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
