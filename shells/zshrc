@@ -9,12 +9,23 @@
 
 setopt histignorealldups sharehistory append_history
 
+# zle -N urxvt-clear
+
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
+bindkey "\e[3~"   delete-char           # del
+bindkey "\e[5~"   beginning-of-history  # pgup
+bindkey "\e[6~"   end-of-history        # pgdn
+bindkey "\e[7~"   beginning-of-line     # home
+bindkey "\e[8~"   end-of-line           # end
+bindkey "\e\e[C"  forward-word          # alt-right
+bindkey "\e\e[D"  backward-word         # alt-left
+[[ "$TERM" =~ "rxvt-unicode" ]] && bindkey -s "^l"   '^qurxvt-clear\n'
+# bindkey "^l"   urxvt-clear
 
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
+# Keep 4096 lines of history within the shell and save it to ~/.zsh_history:
+HISTSIZE=4096
+SAVEHIST=4096
 HISTFILE=~/.zsh_history
 
 # Use modern completion system
@@ -64,8 +75,8 @@ fi
 # some more ls aliases
 alias ll='ls -l'
 alias la='ls -A'
+alias lal='ls -Al'
 alias l='ls -CF'
-alias roxterm='roxterm -T 5h3ll'
 alias sl='sl -aF'
 
 # some file management aliases
@@ -183,6 +194,11 @@ urxvt-switchfont()
 {
     [ -e "$XMOBAR_NOTIFICATION_PIPE" ] && echo "setting urxvt font to: '$1'" > "$XMOBAR_NOTIFICATION_PIPE"
     [[ "$1" == "" ]] || printf '\e]710;%s\007' "$1"
+}
+
+urxvt-clear()
+{
+  yes "" | head -`echo "$LINES - 1" | bc`; clear
 }
 
 # source the required git-prompt.sh
