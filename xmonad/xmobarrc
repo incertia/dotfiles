@@ -1,14 +1,14 @@
 Config { bgColor = "black"
        , fgColor = "green"
        , position = Static { xpos = 0, ypos = 0, width = 1808, height = 16 }
-       , font = "xft:monospace:size=11,IPAGothic:size=11,Unifont:size=11"
-       , additionalFonts = ["xft:IPAGothic:size=12"]
+       , font = "xft:monospace:size=9,IPAGothic:size=9,Unifont:size=9"
+       , additionalFonts = ["xft:IPAGothic:size=9"]
 
        -- general behavior
        , lowerOnStart = True
        , hideOnStart  = False
        , allDesktops  = True
-       , persistent   = True
+       , persistent   = False
        , commands =
           [ Run MultiCpu    [ "--template", "cpu: <total0>%,<total1>%,<total2>%,<total3>%"
                             , "--Low"     , "50"
@@ -17,7 +17,7 @@ Config { bgColor = "black"
                             , "--normal"  , "orange"
                             , "--high"    , "red"
                             ] 10
-          , Run Date        "%a %b %d, %Y %T %Z" "date" 10
+          , Run Date        "<fc=orange>%a %b %d, %Y %T %Z</fc>" "date" 10
           , Run PipeReader "Updating...:/home/incertia/.local/share/xmobar/xmobar.pipe"                "InputReader"
           , Run PipeReader "waiting for pipe...:/home/incertia/.local/share/xmobar/notifications.pipe" "NotifReader"
           ]
@@ -25,5 +25,5 @@ Config { bgColor = "black"
        -- display
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%InputReader% << %NotifReader% }{ %date% >> %multicpu%"
+       , template = "%InputReader% | %NotifReader% }{ %date% | %multicpu%"
        }

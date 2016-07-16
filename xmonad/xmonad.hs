@@ -17,8 +17,9 @@ import XMonad.Hooks.ManageDocks         -- manage docks
 import XMonad.Layout.NoBorders          -- smart borders for solo clients
 import XMonad.Layout.Spacing            -- spacing for tiled
 import XMonad.Layout.PerWorkspace       -- onWorkspace
-import XMonad.Util.Run                  -- spawn, spawnSafe, etc
 import XMonad.Util.EZConfig             -- additionalKeys function for keybindings
+import XMonad.Util.Loggers
+import XMonad.Util.Run                  -- spawn, spawnSafe, etc
 
 -- specialize catch to catch anything deriving SomeException
 catchAny :: IO a -> (SomeException -> IO a) -> IO a
@@ -38,7 +39,11 @@ myManageHook = composeAll
   , title     =? "cs242-chess-gui"    --> doFloat
   , className =? "Firefox"            --> doShift "2:web"
   , className =? "plugin-container"   --> doShift "8:plugin-container"
-  , isFullscreen --> doFullFloat ]
+  , isFullscreen --> doFullFloat
+  -- urxvt named windows
+  , title     =? "urxvt-weechat"      --> doShift "3:chat"
+  , title     =? "urxvt-htop"         --> doShift "9:system-monitor"
+  ]
   -- , className =? "feh"            --> doShift "3:graphic" ]
 
 
@@ -51,7 +56,18 @@ myLayoutHook = smartBorders myDefaultLayout
                 delta = 2/100 -- percent of screen to in/decrement when resizing
 
 -- workspaces
-myWorkspaces = [ "1:main", "2:web", "3:chat", "4:graphic", "5:files", "6:media", "7:misc", "8:plugin-container", "9:extra-space" ]
+myWorkspaces = [ "1:main"
+               , "2:web"
+               , "3:chat"
+               , "4:graphic"
+               , "5:files"
+               , "6:media"
+               , "7:misc"
+               , "8:plugin-container"
+               , "9:system-monitor"
+               , "-2:extra-space-2"
+               , "-1:extra-space-1"
+               ]
 
 -- xmonad main
 main = do
@@ -70,7 +86,7 @@ main = do
   where
     defaults xmb_input xmb_notif = defaultConfig
       { modMask               = mod4Mask
-      , manageHook            = manageDocks <+> myManageHook
+      , manageHook            = myManageHook <+> manageDocks
       , layoutHook            = avoidStruts $ myLayoutHook
       , startupHook           = myStartupHook
       , logHook               = myLogHook xmb_input xmb_notif
@@ -85,8 +101,14 @@ main = do
 
     myLogHook xmb_input xmb_notif = dynamicLogWithPP xmobarPP
       { ppOutput = \s -> output xmb_input s >> output xmb_notif "no notifications"
+      , ppHidden = takeUntil ':'
+      , ppTitle = shorten 32
+      , ppExtras = []
       }
       where output handle = T.hPutStrLn handle . T.pack
+            takeUntil :: Eq a => a -> [a] -> [a]
+            takeUntil _ [] = []
+            takeUntil x (a:as) = if a == x then [] else a:takeUntil x as
 
     myBindings = concat [ printScreenBindings
                         , termSpawnBindings
@@ -116,7 +138,9 @@ main = do
 
         miscBindings =
           [ ((myModMask, xK_g), gotoMenu)
-          , ((myModMask, xK_b), bringMenu) ]
+          , ((myModMask, xK_b), bringMenu)
+          , ((myModMask, xK_y), sendMessage $ ToggleStrut U)
+          ]
 
     tryOpenFile fname = openFile fname `catchAny` \e -> openFile "/dev/null"
       where openFile fname = openFd fname ReadWrite Nothing defaultFileFlags

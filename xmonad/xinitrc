@@ -47,7 +47,7 @@ xmobar $HOME/.xmonad/xmobarrc &
 stalonetray --config $HOME/.xmonad/stalonetrayrc &
 nm-applet &
 ibus-daemon -rx &
-urxvtd -o &
+urxvtd -f -o
 
 # start xmonad
 exec xmonad
