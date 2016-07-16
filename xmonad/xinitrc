@@ -27,7 +27,7 @@ hsetroot -fill "$HOME/stuff/wallpapers/shinobu sword.jpg"
 xset r rate 250 60
 
 # start compton for compositing
-compton -b --no-fading-openclose
+compton --no-fading-openclose &
 
 xset -dpms
 xset s off
