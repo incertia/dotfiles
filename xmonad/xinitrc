@@ -21,7 +21,7 @@ export SHLVL=-3
 
 # set wallpaper
 # xloadimage -onroot -fullscreen ~/wallpapers/archanime.png
-hsetroot -fill "$HOME/stuff/wallpapers/shinobu sword.jpg"
+[[ -f $HOME/.set-wallpaper ]] && $HOME/.set-wallpaper
 
 # set key repeat rates
 xset r rate 250 60
