@@ -9,17 +9,21 @@ import System.Posix.IO              (openFd, fdToHandle, defaultFileFlags, OpenM
 import System.Process               (spawnProcess, waitForProcess)
 import XMonad                           -- well duh
 import XMonad.Actions.CycleWS           -- nextWS and shiftToNext magics
+import XMonad.Actions.Navigation2D
 import XMonad.Actions.WindowBringer     -- dmenu for goto/bring window
 import XMonad.Config
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers       -- manage hoook
 import XMonad.Hooks.ManageDocks         -- manage docks
+-- import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.NoBorders          -- smart borders for solo clients
 import XMonad.Layout.Spacing            -- spacing for tiled
 import XMonad.Layout.PerWorkspace       -- onWorkspace
 import XMonad.Util.EZConfig             -- additionalKeys function for keybindings
 import XMonad.Util.Loggers
 import XMonad.Util.Run                  -- spawn, spawnSafe, etc
+
+import XMonad.Layout.AnotherBinarySpacePartition
 
 -- specialize catch to catch anything deriving SomeException
 catchAny :: IO a -> (SomeException -> IO a) -> IO a
@@ -48,12 +52,7 @@ myManageHook = composeAll
 
 
 myLayoutHook = smartBorders myDefaultLayout
-  where noBordersLayout = noBorders $ Full
-        myDefaultLayout = tiled ||| Mirror tiled ||| Full
-          where tiled = spacing 0 $ Tall nmaster delta ratio
-                nmaster = 1   -- default number of windows in master
-                ratio = 1/2   -- default proportion of space occupied by master
-                delta = 2/100 -- percent of screen to in/decrement when resizing
+  where myDefaultLayout = emptyBSP ||| Full
 
 -- workspaces
 myWorkspaces = [ "1:main"
@@ -110,11 +109,34 @@ main = do
             takeUntil _ [] = []
             takeUntil x (a:as) = if a == x then [] else a:takeUntil x as
 
-    myBindings = concat [ printScreenBindings
+    myBindings = concat [ bspBindings
+                        , printScreenBindings
                         , termSpawnBindings
                         , wsShiftBindings
                         , miscBindings ]
       where
+        bspBindings =
+          [ ((myModMask .|. shiftMask, xK_l)               , sendMessage $ ExpandTowards R)
+          , ((myModMask .|. shiftMask, xK_h)               , sendMessage $ ExpandTowards L)
+          , ((myModMask .|. shiftMask, xK_j)               , sendMessage $ ExpandTowards D)
+          , ((myModMask .|. shiftMask, xK_k)               , sendMessage $ ExpandTowards U)
+          , ((myModMask .|. controlMask .|.shiftMask, xK_l), sendMessage $ ShrinkFrom R)
+          , ((myModMask .|. controlMask .|.shiftMask, xK_h), sendMessage $ ShrinkFrom L)
+          , ((myModMask .|. controlMask .|.shiftMask, xK_j), sendMessage $ ShrinkFrom D)
+          , ((myModMask .|. controlMask .|.shiftMask, xK_k), sendMessage $ ShrinkFrom U)
+          , ((myModMask, xK_r)                             , sendMessage $ Rotate)
+          , ((myModMask, xK_s)                             , sendMessage $ Swap)
+          , ((myModMask, xK_n)                             , sendMessage $ FocusParent)
+          , ((myModMask .|. controlMask, xK_n)             , sendMessage $ SelectNode)
+          , ((myModMask .|. shiftMask, xK_n)               , sendMessage $ MoveNode)
+          , ((myModMask, xK_a)                             , sendMessage $ Balance)
+          , ((myModMask .|. shiftMask, xK_a)               , sendMessage $ Equalize)
+          , ((myModMask, xK_l)                             , windowGo R False)
+          , ((myModMask, xK_h)                             , windowGo L False)
+          , ((myModMask, xK_j)                             , windowGo D False)
+          , ((myModMask, xK_k)                             , windowGo U False)
+          ]
+
         printScreenBindings =
           [ ((0          , xK_Print), safeSpawn "scrot" scrotArgs)    -- use PrintScr to scrot the entire screen
           , ((leftAltMask, xK_Print), safeSpawn "scrot" ("-s":scrotArgs)) ]  -- use LeftAlt-PrintScr to scrot the current window
