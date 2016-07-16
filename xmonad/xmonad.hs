@@ -162,6 +162,7 @@ main = do
           [ ((myModMask, xK_g), gotoMenu)
           , ((myModMask, xK_b), bringMenu)
           , ((myModMask, xK_y), sendMessage $ ToggleStrut U)
+          , ((myModMask .|. shiftMask, xK_r), spawn "xmonad --recompile && xmonad --restart")
           ]
 
     tryOpenFile fname = openFile fname `catchAny` \e -> openFile "/dev/null"
