@@ -1,9 +1,14 @@
 #! /bin/bash
 
-[ "$XMOBAR_INPUT_PIPE" == "" ] &&
-    XMOBAR_INPUT_PIPE="$HOME/.local/share/xmobar/xmobar.pipe"
-[ "$XMOBAR_NOTIFICATION_PIPE" == "" ] &&
-    XMOBAR_NOTIFICATION_PIPE="$HOME/.local/share/xmobar/notifications.pipe"
+DISPNUM=${DISPLAY:1}
+
+[ "$XMOBAR_PIPE_LOCATION" == "" ] &&
+  XMOBAR_PIPE_LOCATION="$HOME/.local/share/xmobar"
+
+[ ! -d "$XMOBAR_PIPE_LOCATION" ] && mkdir -p "$XMOBAR_PIPE_LOCATION"
+
+XMOBAR_INPUT_PIPE="$XMOBAR_PIPE_LOCATION/xmobar.pipe.$DISPNUM"
+XMOBAR_NOTIFICATION_PIPE="$XMOBAR_PIPE_LOCATION/notifications.pipe.$DISPNUM"
 
 export XMOBAR_NOTIFICATION_PIPE
 export XMOBAR_INPUT_PIPE
