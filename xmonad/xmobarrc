@@ -18,8 +18,8 @@ Config { bgColor = "black"
                             , "--high"    , "red"
                             ] 10
           , Run Date        "<fc=orange>%a %b %d, %Y %T %Z</fc>" "date" 10
-          , Run PipeReader "Updating...:/home/incertia/.local/share/xmobar/xmobar.pipe"                "InputReader"
-          , Run PipeReader "waiting for pipe...:/home/incertia/.local/share/xmobar/notifications.pipe" "NotifReader"
+          , Run PipeReader "Updating...:$XMOBAR_INPUT_PIPE"                "InputReader"
+          , Run PipeReader "waiting for pipe...:$XMOBAR_NOTIFICATION_PIPE" "NotifReader"
           ]
 
        -- display
