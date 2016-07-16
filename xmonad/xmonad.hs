@@ -147,7 +147,7 @@ main = do
 
         termSpawnBindings =
           [ ((myModMask .|. shiftMask, xK_Return), safeSpawn "urxvtc" [])
-          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "urxvtc" ["-fn", commaSep ["xft:monospace:size=14", "xft:ipagothic:size=14"]])
+          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "urxvtc" ["-fn", commaSep ["xft:monospace:size=13", "xft:ipagothic:size=13"]])
           , ((controlMask .|. leftAltMask .|. shiftMask, xK_t), safeSpawn "xfce4-terminal" []) ]
           where commaSep = intercalate ","
 
