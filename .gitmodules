@@ -27,4 +27,4 @@
 	url = git@github.com:incertia/BinarySpacePartition.git
 [submodule "xmonad/xmonad-equalspacing"]
 	path = xmonad/xmonad-equalspacing
-	url = https://github.com/egasimus/xmonad-equalspacing.git
+	url = git@github.com:incertia/xmonad-equalspacing.git
