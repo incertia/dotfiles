@@ -24,6 +24,7 @@ import XMonad.Util.Loggers
 import XMonad.Util.Run                  -- spawn, spawnSafe, etc
 
 import XMonad.Layout.BinarySpacePartition
+import XMonad.Layout.EqualSpacing
 
 -- specialize catch to catch anything deriving SomeException
 catchAny :: IO a -> (SomeException -> IO a) -> IO a
@@ -52,7 +53,7 @@ myManageHook = composeAll
 
 
 myLayoutHook = smartBorders myDefaultLayout
-  where myDefaultLayout = emptyBSP ||| Full
+  where myDefaultLayout = equalSpacing 12 4 0 1 $ emptyBSP ||| Full
 
 -- workspaces
 myWorkspaces = [ "1:main"
