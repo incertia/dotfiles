@@ -6,7 +6,7 @@ xterm*cursorColor:            green
 
 ! urxvt.termName:               rxvt
 urxvt.depth:                  32
-urxvt.background:             rgba:0000/0000/0000/dddd
+urxvt.background:             rgba:0000/0000/0000/bbbb
 urxvt.foreground:             white
 urxvt.boldFont:
 urxvt.cursorColor:            green
