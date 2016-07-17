@@ -53,7 +53,7 @@ myManageHook = composeAll
 
 
 myLayoutHook = smartBorders myDefaultLayout
-  where myDefaultLayout = equalSpacing 12 4 0 1 $ emptyBSP ||| Full
+  where myDefaultLayout = equalSpacing 12 4 0 1 emptyBSP ||| Full
 
 -- workspaces
 myWorkspaces = [ "1:main"
