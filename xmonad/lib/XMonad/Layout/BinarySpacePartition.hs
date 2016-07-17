@@ -1,0 +1,1 @@
+../../../BinarySpacePartition/XMonad/Layout/BinarySpacePartition.hs

@@ -22,3 +22,6 @@
 	path = vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
   branch = master
+[submodule "xmonad/BinarySpacePartition"]
+	path = xmonad/BinarySpacePartition
+	url = git@github.com:incertia/BinarySpacePartition.git

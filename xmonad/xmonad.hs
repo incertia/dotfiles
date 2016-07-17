@@ -23,7 +23,7 @@ import XMonad.Util.EZConfig             -- additionalKeys function for keybindin
 import XMonad.Util.Loggers
 import XMonad.Util.Run                  -- spawn, spawnSafe, etc
 
-import XMonad.Layout.AnotherBinarySpacePartition
+import XMonad.Layout.BinarySpacePartition
 
 -- specialize catch to catch anything deriving SomeException
 catchAny :: IO a -> (SomeException -> IO a) -> IO a
@@ -116,26 +116,27 @@ main = do
                         , miscBindings ]
       where
         bspBindings =
-          [ ((myModMask .|. shiftMask, xK_l)               , sendMessage $ ExpandTowards R)
-          , ((myModMask .|. shiftMask, xK_h)               , sendMessage $ ExpandTowards L)
-          , ((myModMask .|. shiftMask, xK_j)               , sendMessage $ ExpandTowards D)
-          , ((myModMask .|. shiftMask, xK_k)               , sendMessage $ ExpandTowards U)
-          , ((myModMask .|. controlMask .|.shiftMask, xK_l), sendMessage $ ShrinkFrom R)
-          , ((myModMask .|. controlMask .|.shiftMask, xK_h), sendMessage $ ShrinkFrom L)
-          , ((myModMask .|. controlMask .|.shiftMask, xK_j), sendMessage $ ShrinkFrom D)
-          , ((myModMask .|. controlMask .|.shiftMask, xK_k), sendMessage $ ShrinkFrom U)
-          , ((myModMask, xK_r)                             , sendMessage $ Rotate)
-          , ((myModMask, xK_s)                             , sendMessage $ Swap)
-          , ((myModMask, xK_n)                             , sendMessage $ FocusParent)
-          , ((myModMask .|. controlMask, xK_n)             , sendMessage $ SelectNode)
-          , ((myModMask .|. shiftMask, xK_n)               , sendMessage $ MoveNode)
-          , ((myModMask, xK_a)                             , sendMessage $ Balance)
-          , ((myModMask .|. shiftMask, xK_a)               , sendMessage $ Equalize)
-          , ((myModMask, xK_l)                             , windowGo R False)
-          , ((myModMask, xK_h)                             , windowGo L False)
-          , ((myModMask, xK_j)                             , windowGo D False)
-          , ((myModMask, xK_k)                             , windowGo U False)
+          [ ((myModMask .|. shiftMask, xK_l)                , sendMessage $ ExpandTowardsDelta delta R)
+          , ((myModMask .|. shiftMask, xK_h)                , sendMessage $ ExpandTowardsDelta delta L)
+          , ((myModMask .|. shiftMask, xK_j)                , sendMessage $ ExpandTowardsDelta delta D)
+          , ((myModMask .|. shiftMask, xK_k)                , sendMessage $ ExpandTowardsDelta delta U)
+          , ((myModMask .|. controlMask .|. shiftMask, xK_l), sendMessage $ ShrinkFromDelta delta R)
+          , ((myModMask .|. controlMask .|. shiftMask, xK_h), sendMessage $ ShrinkFromDelta delta L)
+          , ((myModMask .|. controlMask .|. shiftMask, xK_j), sendMessage $ ShrinkFromDelta delta D)
+          , ((myModMask .|. controlMask .|. shiftMask, xK_k), sendMessage $ ShrinkFromDelta delta U)
+          , ((myModMask, xK_r)                              , sendMessage $ Rotate)
+          , ((myModMask, xK_s)                              , sendMessage $ Swap)
+          , ((myModMask, xK_n)                              , sendMessage $ FocusParent)
+          , ((myModMask .|. controlMask, xK_n)              , sendMessage $ SelectNode)
+          , ((myModMask .|. shiftMask, xK_n)                , sendMessage $ MoveNode)
+          , ((myModMask, xK_a)                              , sendMessage $ Balance)
+          , ((myModMask .|. shiftMask, xK_a)                , sendMessage $ Equalize)
+          , ((myModMask, xK_l)                              , windowGo R False)
+          , ((myModMask, xK_h)                              , windowGo L False)
+          , ((myModMask, xK_j)                              , windowGo D False)
+          , ((myModMask, xK_k)                              , windowGo U False)
           ]
+        delta = 0.002
 
         printScreenBindings =
           [ ((0          , xK_Print), safeSpawn "scrot" scrotArgs)    -- use PrintScr to scrot the entire screen
