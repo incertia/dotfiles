@@ -28,3 +28,6 @@
 [submodule "xmonad/xmonad-equalspacing"]
 	path = xmonad/xmonad-equalspacing
 	url = git@github.com:incertia/xmonad-equalspacing.git
+[submodule "powerline"]
+	path = powerline
+	url = https://github.com/powerline/powerline.git
