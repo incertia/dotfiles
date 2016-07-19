@@ -43,24 +43,24 @@ nnoremap <leader>;      m`A;<ESC>``
 
 "" autocmd stuff
 if has("autocmd")
-    " Uncomment the following to have Vim jump to the last position when
-    " reopening a file
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  " Uncomment the following to have Vim jump to the last position when
+  " reopening a file
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-    " Set scripts to be executable from the shell
-    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
-    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
+  " Set scripts to be executable from the shell
+  au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
+  au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
 
-    " Uncomment the following to have Vim load indentation rules and plugins
-    " according to the detected filetype.
-    filetype plugin indent on
+  " Uncomment the following to have Vim load indentation rules and plugins
+  " according to the detected filetype.
+  filetype plugin indent on
 
-    "" I don't know what this does
-    au BufWrite * mkview
-    au BufRead * silent loadview
+  "" I don't know what this does
+  au BufWrite * mkview
+  au BufRead * silent loadview
 
-    " Uncomment the following line to disable auto commenting
-    au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  " Uncomment the following line to disable auto commenting
+  au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 endif
 
 "folding settings
@@ -79,10 +79,10 @@ set splitbelow splitright
 
 " map <F1> to deleting trailing whitespace and clearing empty lines
 function! KillWhiteThings()
-    let save_cursor = getpos(".")
-    :silent! %s#\($\n\s*\)\+\%$##
-    :silent! %s/\s\+$//g
-    call setpos('.', save_cursor)
+  let save_cursor = getpos(".")
+  :silent! %s#\($\n\s*\)\+\%$##
+  :silent! %s/\s\+$//g
+  call setpos('.', save_cursor)
 endfunction
 
 nnoremap <silent> <F1>  :call KillWhiteThings()<CR>
@@ -109,7 +109,7 @@ nnoremap <S-TAB>        gt
 
 " tab navigation
 function! TabSwitch(tabnum)
-    call feedkeys(a:tabnum . "gt", "n")
+  call feedkeys(a:tabnum . "gt", "n")
 endfunction
 
 " :Tab commands
@@ -174,17 +174,17 @@ vnoremap gj             j
 vnoremap gk             k
 
 function! Scroll(dir)
-    let lines = winheight(0)
+  let lines = winheight(0)
 
-    if(a:dir == "up")
-        let cmd = "\<C-y>"
-    elseif(a:dir == "down")
-        let cmd = "\<C-e>"
-    else
-        let cmd = "\<Esc>"
-    endif
+  if(a:dir == "up")
+    let cmd = "\<C-y>"
+  elseif(a:dir == "down")
+    let cmd = "\<C-e>"
+  else
+    let cmd = "\<Esc>"
+  endif
 
-    call feedkeys(lines . cmd, "n")
+  call feedkeys(lines . cmd, "n")
 endfunction
 
 " change this emacs binding because j/k is more useful
@@ -200,13 +200,13 @@ set cinoptions=g-1,:0,(0
 "" All of the following settings were taken from Damian Conway
 "====[ Make the 81st column stand out ]====================
 
-    " EITHER the entire 81st column, full-screen
-    " highlight ColorColumn ctermbg=magenta
-    " set colorcolumn=81
+" EITHER the entire 81st column, full-screen
+" highlight ColorColumn ctermbg=magenta
+" set colorcolumn=81
 
-    " OR ELSE just the 81st column of wide lines
-    highlight ColorColumn ctermbg=magenta
-    call matchadd('ColorColumn', '\%81v', 100)
+" OR ELSE just the 81st column of wide lines
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
 
 
 ""=====[ Highlight matches when jumping to next ]=============
@@ -231,19 +231,19 @@ set cinoptions=g-1,:0,(0
 
 "====[ Swap : and ; to make colon commands easier to type ]======
 
-    nnoremap  ;  :
-    nnoremap  :  ;
-    vnoremap  ;  :
-    vnoremap  :  ;
+nnoremap  ;  :
+nnoremap  :  ;
+vnoremap  ;  :
+vnoremap  :  ;
 
 
 "====[ Swap v and CTRL-V, because Block mode is more useful that Visual mode "]======
 
-    nnoremap    v   <C-V>
-    nnoremap <C-V>     v
+nnoremap    v   <C-V>
+nnoremap <C-V>     v
 
-    vnoremap    v   <C-V>
-    vnoremap <C-V>     v
+vnoremap    v   <C-V>
+vnoremap <C-V>     v
 
 
 "====[ Open any file with a pre-existing swapfile in readonly mode "]=========
@@ -278,7 +278,7 @@ let g:DVB_TrimWS = 1
 execute pathogen#infect()
 
 if has("autocmd")
-    au CompleteDone * pclose
+  au CompleteDone * pclose
 endif
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_key_list_select_completion = [ "<Down>", ]
@@ -287,11 +287,16 @@ let g:ycm_confirm_extra_conf = 0
 
 " set the colorscheme to solarized-256
 if has("gui_running")
-    set background=light
+  set background=light
 else
-    set background=dark
-    let g:solarized_termcolors  = 256
-    let g:solarized_termtrans   = 1
-    let g:solarized_visibility  = "normal"
+  set background=dark
+  let g:solarized_termcolors  = 256
+  let g:solarized_termtrans   = 1
+  let g:solarized_visibility  = "normal"
 endif
 colorscheme solarized
+
+" enable powerline if it exists and we are not in a tty
+if !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))
+  set rtp+=~/.vim/powerline/powerline/bindings/vim/
+endif
