@@ -26,20 +26,56 @@ set wrap
 "" show unwanted whitespace
 set list listchars=tab:\|\ ,trail:.
 
-"" syntax highlighting
 syntax enable
 
-"" show line numbers
 set number
 
-" autoindent is helpful
 set autoindent
+
+" tab navigation
+function! TabSwitch(tabnum)
+  call feedkeys(a:tabnum . "gt", "n")
+endfunction
 
 " leader command section
 nnoremap <leader>so     :so<SPACE>%<CR>
 nnoremap <leader>vc     :e<SPACE>~/.vim/vimrc<CR>
 nnoremap <leader>la     :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
 nnoremap <leader>;      m`A;<ESC>``
+
+" :Tab commands
+command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
+
+" tab bindings
+nnoremap <C-x><C-t>          :TabSwitch<SPACE>
+nnoremap <C-x>t              :TabSwitch<SPACE>
+nnoremap <leader>1           1gt
+nnoremap <leader>2           2gt
+nnoremap <leader>3           3gt
+nnoremap <leader>4           4gt
+nnoremap <leader>5           5gt
+nnoremap <leader>6           6gt
+nnoremap <leader>7           7gt
+nnoremap <leader>8           8gt
+nnoremap <leader>9           9gt
+nnoremap <silent> <leader>0  :tablast<CR>
+
+let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
+let g:tabmoveright_cmd = ":+tabmove\<CR>"
+nnoremap <silent> <leader>hh @=g:tabmoveleft_cmd<CR>
+nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
+nnoremap <leader>j           gt
+nnoremap <leader>k           gT
+
+" windowswap
+let g:windowswap_map_keys = 0
+nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
+
+" tabularize
+let g:haskell_tabular = 1
+vnoremap a= :Tabularize /=<CR>
+vnoremap a; :Tabularize /::<CR>
+vnoremap a- :Tabularize /-><CR>
 
 "" autocmd stuff
 if has("autocmd")
@@ -106,39 +142,6 @@ nnoremap <C-t>          :tabnew<SPACE>
 let g:newtab_command = ":tabnew\<CR>"
 nnoremap <C-y>          @=g:newtab_command<CR>
 nnoremap <S-TAB>        gt
-
-" tab navigation
-function! TabSwitch(tabnum)
-  call feedkeys(a:tabnum . "gt", "n")
-endfunction
-
-" :Tab commands
-command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
-
-" tab bindings
-nnoremap <C-x><C-t>          :TabSwitch<SPACE>
-nnoremap <C-x>t              :TabSwitch<SPACE>
-nnoremap <leader>1           1gt
-nnoremap <leader>2           2gt
-nnoremap <leader>3           3gt
-nnoremap <leader>4           4gt
-nnoremap <leader>5           5gt
-nnoremap <leader>6           6gt
-nnoremap <leader>7           7gt
-nnoremap <leader>8           8gt
-nnoremap <leader>9           9gt
-nnoremap <silent> <leader>0  :tablast<CR>
-
-let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
-let g:tabmoveright_cmd = ":+tabmove\<CR>"
-nnoremap <silent> <leader>hh @=g:tabmoveleft_cmd<CR>
-nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
-nnoremap <leader>j           gt
-nnoremap <leader>k           gT
-
-" windowswap
-let g:windowswap_map_keys = 0
-nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>        @q

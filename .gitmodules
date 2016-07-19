@@ -46,3 +46,9 @@
 [submodule "vim/bundle/haskell.vim"]
 	path = vim/bundle/haskell.vim
 	url = https://github.com/vim-scripts/haskell.vim.git
+[submodule "vim/bundle/tabular"]
+	path = vim/bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule "vim/bundle/ghcmod-vim"]
+	path = vim/bundle/ghcmod-vim
+	url = https://github.com/eagletmt/ghcmod-vim.git
