@@ -285,6 +285,7 @@ let g:ycm_key_list_previous_completion = [ "<Up>", ]
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
 let g:rust_recommended_style = 0
+let g:EclimCompletionMethod = 'omnifunc'
 
 " pathogen
 execute pathogen#infect()
