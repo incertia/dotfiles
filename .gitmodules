@@ -43,3 +43,6 @@
 [submodule "vim/bundle/vim-windowswap"]
 	path = vim/bundle/vim-windowswap
 	url = https://github.com/wesQ3/vim-windowswap.git
+[submodule "vim/bundle/haskell.vim"]
+	path = vim/bundle/haskell.vim
+	url = https://github.com/vim-scripts/haskell.vim.git
