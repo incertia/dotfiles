@@ -136,6 +136,10 @@ nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
 nnoremap <leader>j           gt
 nnoremap <leader>k           gT
 
+" windowswap
+let g:windowswap_map_keys = 0
+nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
+
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>        @q
 
