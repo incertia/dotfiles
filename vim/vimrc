@@ -254,6 +254,7 @@ let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
 let g:rust_recommended_style = 0
 let g:EclimCompletionMethod = 'omnifunc'
 let g:ghcmod_type_highlight = "Normal"
+let g:surround_no_mappings = 1
 
 " pathogen
 execute pathogen#infect()
