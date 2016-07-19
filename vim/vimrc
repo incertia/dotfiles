@@ -97,6 +97,11 @@ if has("autocmd")
 
   " Uncomment the following line to disable auto commenting
   au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+  " disable haskell-vim omnifunc
+  let g:haskellmode_completion_ghc = 0
+  let g:necoghc_enable_detailed_browse = 1
+  au FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
 
 "folding settings
@@ -215,67 +220,25 @@ set cinoptions=g-1,:0,(0
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v', 100)
 
-
-""=====[ Highlight matches when jumping to next ]=============
-"
-"    " This rewires n and N to do the highlighing
-"    nnoremap <silent> n   n:call HLNext(0.4)<cr>
-"    nnoremap <silent> N   N:call HLNext(0.4)<cr>
-"
-"
-"    " OR ELSE just highlight the match in red
-"    function! HLNext (blinktime)
-"        let [bufnum, lnum, col, off] = getpos('.')
-"        let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
-"        let target_pat = '\c\%#'.@/
-"        let ring = matchadd('WhiteOnRed', target_pat, 101)
-"        redraw
-"        exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
-"        call matchdelete(ring)
-"        redraw
-"    endfunction
-
-
-"====[ Swap : and ; to make colon commands easier to type ]======
-
 nnoremap  ;  :
 nnoremap  :  ;
 vnoremap  ;  :
 vnoremap  :  ;
-
-
-"====[ Swap v and CTRL-V, because Block mode is more useful that Visual mode "]======
-
 nnoremap    v   <C-V>
 nnoremap <C-V>     v
-
 vnoremap    v   <C-V>
 vnoremap <C-V>     v
 
+" runtime plugin/dragvisuals.vim
 
-"====[ Open any file with a pre-existing swapfile in readonly mode "]=========
-
-"    augroup NoSimultaneousEdits
-"        autocmd!
-"        autocmd SwapExists * let v:swapchoice = 'o'
-"        autocmd SwapExists * echomsg ErrorMsg
-"        autocmd SwapExists * echo 'Duplicate edit session (readonly)'
-"        autocmd SwapExists * echohl None
-"        autocmd SwapExists * sleep 2
-"    augroup END
-"
-"    " Also consider the autoswap_mac.vim plugin (but beware its limitations)
-
-runtime plugin/dragvisuals.vim
-
-vmap  <expr>  <LEFT>   DVB_Drag('left')
-vmap  <expr>  <RIGHT>  DVB_Drag('right')
-vmap  <expr>  <DOWN>   DVB_Drag('down')
-vmap  <expr>  <UP>     DVB_Drag('up')
-vmap  <expr>  D        DVB_Duplicate()
+" vmap  <expr>  <LEFT>   DVB_Drag('left')
+" vmap  <expr>  <RIGHT>  DVB_Drag('right')
+" vmap  <expr>  <DOWN>   DVB_Drag('down')
+" vmap  <expr>  <UP>     DVB_Drag('up')
+" vmap  <expr>  D        DVB_Duplicate()
 
 " Remove any introduced trailing whitespace after moving
-let g:DVB_TrimWS = 1
+" let g:DVB_TrimWS = 1
 
 " vimacs
 " let g:VM_CmdHeightAdj = 0
@@ -286,9 +249,11 @@ let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_key_list_select_completion = [ "<Down>", ]
 let g:ycm_key_list_previous_completion = [ "<Up>", ]
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
 let g:rust_recommended_style = 0
 let g:EclimCompletionMethod = 'omnifunc'
+let g:ghcmod_type_highlight = "Normal"
 
 " pathogen
 execute pathogen#infect()
