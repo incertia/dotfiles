@@ -1,1 +1,0 @@
-../vimacs/plugin/vimacs.vim
