@@ -6,13 +6,13 @@ set cinoptions=g-1,:0,(0
 set t_Co=256 title scrolloff=2 wrap showmatch tw=0
 set list listchars=tab:\|\ ,trail:.
 set laststatus=2
-
-syntax enable
+syntax on
 
 "" other stuff
 set matchtime=1
 let mapleader="\\"
 let localleader=","
+set sessionoptions-=options
 
 " latex should be default
 let g:tex_flavor = "latex"
