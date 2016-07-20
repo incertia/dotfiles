@@ -14,6 +14,3 @@ cnoremap <C-b> <Left>
 inoremap <C-f> <C-o><Right>
 onoremap <C-f> l
 cnoremap <C-f> <Right>
-
-" nice to be able to easily delete current char
-inoremap <C-d> <C-o>x
