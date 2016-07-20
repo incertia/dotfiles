@@ -1,36 +1,21 @@
-"" tab stuff
-set ts=2 sw=2 sts=2 expandtab
+"" editing
+set ts=2 sw=2 sts=2 et ai number
+set cinoptions=g-1,:0,(0
 
-" 256 colors
-set t_Co=256
-
-"" other stuff
-set scrolloff=2
-set title
-set matchtime=1
-set nowrap
-set showmatch
-let mapleader="\\"
-let localleader=","
-
-" "" smart indentation
-" set smartindent
-
-" latex should be default
-let g:tex_flavor = "latex"
-
-"" text width
-set textwidth=72
-set wrap
-
-"" show unwanted whitespace
+" appearance
+set t_Co=256 title scrolloff=2 wrap showmatch tw=0
 set list listchars=tab:\|\ ,trail:.
+set laststatus=2
 
 syntax enable
 
-set number
+"" other stuff
+set matchtime=1
+let mapleader="\\"
+let localleader=","
 
-set autoindent
+" latex should be default
+let g:tex_flavor = "latex"
 
 " tab navigation
 function! TabSwitch(tabnum)
@@ -215,12 +200,6 @@ endfunction
 nnoremap <silent> <C-n> :call Scroll("down")<CR>
 nnoremap <silent> <C-p> :call Scroll("up")<CR>
 
-" 2 line status bar
-set laststatus=2
-
-" good public/private indents?
-set cinoptions=g-1,:0,(0
-
 "" All of the following settings were taken from Damian Conway
 "====[ Make the 81st column stand out ]====================
 
@@ -240,21 +219,6 @@ nnoremap    v   <C-V>
 nnoremap <C-V>     v
 vnoremap    v   <C-V>
 vnoremap <C-V>     v
-
-" runtime plugin/dragvisuals.vim
-
-" vmap  <expr>  <LEFT>   DVB_Drag('left')
-" vmap  <expr>  <RIGHT>  DVB_Drag('right')
-" vmap  <expr>  <DOWN>   DVB_Drag('down')
-" vmap  <expr>  <UP>     DVB_Drag('up')
-" vmap  <expr>  D        DVB_Duplicate()
-
-" Remove any introduced trailing whitespace after moving
-" let g:DVB_TrimWS = 1
-
-" vimacs
-" let g:VM_CmdHeightAdj = 0
-" let g:VM_Enabled = 1
 
 " sest variables before running pathogen
 let g:ycm_min_num_of_chars_for_completion = 4
