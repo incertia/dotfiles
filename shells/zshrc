@@ -266,11 +266,11 @@ precmd()
     if [ $EXIT -eq "000" ]; then
         DERP=$Green$EXIT
     else
-        DERP=$Red$EXIT
+        DERP=$IRed$EXIT
     fi
-    DERP=$DERP$IBlack
+    DERP=$DERP$Color_Off
 
-    export PS1=$IBlack'['$DERP']'"[%D{%H:%M:%S}] "$BIYellow"%n@%M"$Color_Off":%~$(repoprompt) "$Cyan'lvl'$Color_Off'('$Red$SHLVL$Color_Off')'$'\n'"%# "
+    export PS1='['$DERP']'"[%D{%H:%M:%S}] "$Blue"%n@%M"$Color_Off":%~$(repoprompt) "$Cyan'lvl'$Color_Off'('$IRed$SHLVL$Color_Off')'$'\n'"%# "
     export RPS1="on "$IPurple$TTY$Color_Off
 }
 
