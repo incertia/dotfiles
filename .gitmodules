@@ -57,6 +57,9 @@
 [submodule "vim/bundle/vim-repeat"]
 	path = vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
+[submodule "vim/bundle/vim-haskell-indent"]
+	path = vim/bundle/00-vim-haskell-indent
+	url = https://github.com/itchyny/vim-haskell-indent.git
 [submodule "vim/bundle/haskell-vim"]
 	path = vim/bundle/haskell-vim
 	url = https://github.com/neovimhaskell/haskell-vim.git
