@@ -17,23 +17,15 @@ set sessionoptions-=options
 " latex should be default
 let g:tex_flavor = "latex"
 
-" tab navigation
-function! TabSwitch(tabnum)
-  call feedkeys(a:tabnum . "gt", "n")
-endfunction
-
 " leader command section
 nnoremap <leader>so     :so<SPACE>%<CR>
 nnoremap <leader>vc     :e<SPACE>~/.vim/vimrc<CR>
 nnoremap <leader>la     :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
 nnoremap <leader>;      m`A;<ESC>``
 
-" :Tab commands
-command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
+nnoremap <silent> <leader>n  :NERDTreeToggle<CR>
 
 " tab bindings
-nnoremap <C-x><C-t>          :TabSwitch<SPACE>
-nnoremap <C-x>t              :TabSwitch<SPACE>
 nnoremap <leader>1           1gt
 nnoremap <leader>2           2gt
 nnoremap <leader>3           3gt
@@ -73,6 +65,15 @@ let g:haskell_tabular = 1
 vnoremap a= :Tabularize /=<CR>
 vnoremap a; :Tabularize /::<CR>
 vnoremap a- :Tabularize /-><CR>
+
+
+" tab navigation
+function! TabSwitch(tabnum)
+  call feedkeys(a:tabnum . "gt", "n")
+endfunction
+command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
+nnoremap <C-x><C-t>          :TabSwitch<SPACE>
+nnoremap <C-x>t              :TabSwitch<SPACE>
 
 "" autocmd stuff
 if has("autocmd")
