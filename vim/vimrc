@@ -267,6 +267,7 @@ let g:rust_recommended_style = 0
 let g:EclimCompletionMethod = 'omnifunc'
 let g:ghcmod_type_highlight = "Normal"
 let g:surround_no_mappings = 1
+let b:surround_indent = 0
 
 " pathogen
 execute pathogen#infect()
