@@ -259,6 +259,20 @@ let g:surround_no_mappings = 1
 " pathogen
 execute pathogen#infect()
 
+" extra keybindings
+if exists("g:loaded_surround") && g:loaded_surround == 1
+  nnoremap <leader>ds  <Plug>Dsurround
+  nnoremap <leader>cs  <Plug>Csurround
+  nnoremap <leader>cS  <Plug>CSurround
+  nnoremap <leader>ys  <Plug>Ysurround
+  nnoremap <leader>yS  <Plug>YSurround
+  nnoremap <leader>yss <Plug>Yssurround
+  nnoremap <leader>ySs <Plug>YSsurround
+  nnoremap <leader>ySS <Plug>YSsurround
+  xnoremap <leader>S   <Plug>VSurround
+  xnoremap <leader>gS  <Plug>VgSurround
+endif
+
 if has("autocmd")
   au CompleteDone * pclose
 endif
