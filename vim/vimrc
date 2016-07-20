@@ -67,6 +67,18 @@ nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
 nnoremap <leader>j           gt
 nnoremap <leader>k           gT
 
+" surround.vim
+nmap <leader>ds  <Plug>Dsurround
+nmap <leader>cs  <Plug>Csurround
+nmap <leader>cS  <Plug>CSurround
+nmap <leader>ys  <Plug>Ysurround
+nmap <leader>yS  <Plug>YSurround
+nmap <leader>yss <Plug>Yssurround
+nmap <leader>ySs <Plug>YSsurround
+nmap <leader>ySS <Plug>YSsurround
+xmap <leader>S   <Plug>VSurround
+xmap <leader>gS  <Plug>VgSurround
+
 " windowswap
 let g:windowswap_map_keys = 0
 nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
@@ -258,20 +270,6 @@ let g:surround_no_mappings = 1
 
 " pathogen
 execute pathogen#infect()
-
-" extra keybindings
-if exists("g:loaded_surround") && g:loaded_surround == 1
-  nnoremap <leader>ds  <Plug>Dsurround
-  nnoremap <leader>cs  <Plug>Csurround
-  nnoremap <leader>cS  <Plug>CSurround
-  nnoremap <leader>ys  <Plug>Ysurround
-  nnoremap <leader>yS  <Plug>YSurround
-  nnoremap <leader>yss <Plug>Yssurround
-  nnoremap <leader>ySs <Plug>YSsurround
-  nnoremap <leader>ySS <Plug>YSsurround
-  xnoremap <leader>S   <Plug>VSurround
-  xnoremap <leader>gS  <Plug>VgSurround
-endif
 
 if has("autocmd")
   au CompleteDone * pclose
