@@ -148,9 +148,6 @@ nnoremap <S-TAB>        gt
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>        @q
 
-" map enter to execute the a macro
-nnoremap <CR>           @a
-
 " who cares about ex mode. map QQ to reflow paragraphs
 " nnoremap QQ             gqap
 " vnoremap QQ             gq
