@@ -24,10 +24,10 @@
   branch = master
 [submodule "xmonad/BinarySpacePartition"]
 	path = xmonad/BinarySpacePartition
-	url = git@github.com:incertia/BinarySpacePartition.git
+	url = https://github.com/incertia/BinarySpacePartition.git
 [submodule "xmonad/xmonad-equalspacing"]
 	path = xmonad/xmonad-equalspacing
-	url = git@github.com:incertia/xmonad-equalspacing.git
+	url = https://github.com/incertia/xmonad-equalspacing.git
 [submodule "powerline"]
 	path = powerline
 	url = https://github.com/powerline/powerline.git
