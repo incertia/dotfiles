@@ -164,7 +164,7 @@ nnoremap <C-l>          <C-w>l
 nnoremap <leader>-      <C-w>-
 nnoremap <leader>=      <C-w>+
 " because we remmaped <C-l>
-nnoremap <C-m>          <C-l>
+nnoremap <leader><C-l>  <C-l>
 
 " scroll up to <C-q> (don't need this to be visual block)
 nnoremap <C-q>          <C-y>
