@@ -218,7 +218,7 @@ nnoremap <C-V>     v
 vnoremap    v   <C-V>
 vnoremap <C-V>     v
 
-" sest variables before running pathogen
+" sets variables before running pathogen
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_key_list_select_completion = [ "<Down>", ]
 let g:ycm_key_list_previous_completion = [ "<Up>", ]
@@ -230,6 +230,19 @@ let g:EclimCompletionMethod = 'omnifunc'
 let g:ghcmod_type_highlight = "Normal"
 let g:surround_no_mappings = 1
 let b:surround_indent = 0
+
+function! s:AdaptColorScheme()
+  " hi clear   CursorLine
+  hi Normal     ctermbg=NONE
+  hi NonText    ctermbg=NONE
+  hi LineNr     ctermbg=NONE
+  hi Folded     ctermbg=NONE
+  hi SpecialKey ctermbg=NONE
+  hi VertSplit  ctermbg=NONE
+  hi SignColumn ctermbg=NONE
+endfunction
+
+autocmd ColorScheme * call s:AdaptColorScheme()
 
 " pathogen
 execute pathogen#infect()
