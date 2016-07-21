@@ -84,7 +84,7 @@ urxvt.font:                   xft:Dejavu\ Sans\ Mono:size=9,xft:Dejavu\ Sans\ Mo
 
 ! solarized for urxvt
 ! #define S_base03        #002b36
-urxvt.background:              [80]#000a0d
+urxvt.background:              [95]#002b36
 urxvt.foreground:              S_base0
 ! urxvt.fading:                  40
 ! urxvt.fadeColor:               S_base03
