@@ -66,7 +66,6 @@ vnoremap a= :Tabularize /=<CR>
 vnoremap a; :Tabularize /::<CR>
 vnoremap a- :Tabularize /-><CR>
 
-
 " tab navigation
 function! TabSwitch(tabnum)
   call feedkeys(a:tabnum . "gt", "n")
@@ -194,10 +193,6 @@ function! Scroll(dir)
   call feedkeys(lines . cmd, "n")
 endfunction
 
-" change this emacs binding because j/k is more useful
-nnoremap <silent> <C-n> :call Scroll("down")<CR>
-nnoremap <silent> <C-p> :call Scroll("up")<CR>
-
 "" All of the following settings were taken from Damian Conway
 "====[ Make the 81st column stand out ]====================
 
@@ -218,19 +213,6 @@ nnoremap <C-V>     v
 vnoremap    v   <C-V>
 vnoremap <C-V>     v
 
-" sets variables before running pathogen
-let g:ycm_min_num_of_chars_for_completion = 4
-let g:ycm_key_list_select_completion = [ "<Down>", ]
-let g:ycm_key_list_previous_completion = [ "<Up>", ]
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
-let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
-let g:rust_recommended_style = 0
-let g:EclimCompletionMethod = 'omnifunc'
-let g:ghcmod_type_highlight = "Normal"
-let g:surround_no_mappings = 1
-let b:surround_indent = 0
-
 function! s:AdaptColorScheme()
   " hi clear   CursorLine
   hi Normal     ctermbg=NONE
@@ -244,8 +226,45 @@ endfunction
 
 autocmd ColorScheme * call s:AdaptColorScheme()
 
-" pathogen
-execute pathogen#infect()
+" vim-plug
+call plug#begin('~/.vim/plugged')
+
+let g:EclimCompletionMethod = 'omnifunc'
+
+let g:surround_no_mappings = 1
+let b:surround_indent = 0
+Plug 'flazz/vim-colorschemes'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'wesQ3/vim-windowswap'
+Plug 'scrooloose/syntastic'
+Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
+
+nnoremap <silent> <C-p> :<C-u>CtrlP<CR>
+Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
+Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
+Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
+Plug 'sotte/presenting.vim',        { 'on': 'StartPresenting' }
+
+" make sure to load vim-haskell-indent before haskell-vim
+let g:ghcmod_type_highlight = "Normal"
+Plug 'itchyny/vim-haskell-indent',  { 'for': 'haskell' }
+Plug 'neovimhaskell/haskell-vim',   { 'for': 'haskell' }
+Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
+Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
+
+let g:rust_recommended_style = 0
+Plug 'rust-lang/rust.vim',          { 'for': 'rust' }
+
+let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_key_list_select_completion = [ "<Down>", ]
+let g:ycm_key_list_previous_completion = [ "<Up>", ]
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
+let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
+call plug#end()
 
 if has("autocmd")
   au CompleteDone * pclose
