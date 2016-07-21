@@ -240,7 +240,8 @@ Plug 'wesQ3/vim-windowswap'
 Plug 'scrooloose/syntastic'
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
 
-nnoremap <silent> <C-p> :<C-u>CtrlP<CR>
+nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
+nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
 Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
 Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
 Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
@@ -248,13 +249,13 @@ Plug 'sotte/presenting.vim',        { 'on': 'StartPresenting' }
 
 " make sure to load vim-haskell-indent before haskell-vim
 let g:ghcmod_type_highlight = "Normal"
-Plug 'itchyny/vim-haskell-indent',  { 'for': 'haskell' }
-Plug 'neovimhaskell/haskell-vim',   { 'for': 'haskell' }
+Plug 'itchyny/vim-haskell-indent'
+Plug 'neovimhaskell/haskell-vim'
 Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
 
 let g:rust_recommended_style = 0
-Plug 'rust-lang/rust.vim',          { 'for': 'rust' }
+Plug 'rust-lang/rust.vim'
 
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_key_list_select_completion = [ "<Down>", ]
