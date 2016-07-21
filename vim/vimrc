@@ -254,6 +254,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'wesQ3/vim-windowswap'
 Plug 'scrooloose/syntastic'
+Plug 'sotte/presenting.vim'
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
 
 nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
@@ -261,7 +262,6 @@ nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
 Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
 Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
 Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
-Plug 'sotte/presenting.vim',        { 'on': 'StartPresenting' }
 
 " make sure to load vim-haskell-indent before haskell-vim
 let g:ghcmod_type_highlight = "Normal"
