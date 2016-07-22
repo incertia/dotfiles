@@ -29,7 +29,7 @@ function! s:NewScratch(name)
 endfunction
 
 command!          NewScratch      :call s:NewScratch("")
-command! -nargs=1 NewNamedScratch :call s:NewScratch(<f-args>)
+command! -nargs=1 OpenScratch     :call s:NewScratch(<f-args>)
 
 " leader command section
 nnoremap <silent> <leader>so      :so<SPACE>%<CR>
@@ -37,7 +37,7 @@ nnoremap <silent> <leader>vc      :e<SPACE>~/.vim/vimrc<CR>
 nnoremap <silent> <leader>la      :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
 nnoremap <silent> <leader>;       m`A;<ESC>``
 nnoremap <silent> <leader>gs      :NewScratch<CR>
-nnoremap          <leader>gS      :NewNamedScratch<SPACE>
+nnoremap          <leader>gS      :OpenScratch<SPACE>
 
 nnoremap <silent> <leader>n  :NERDTreeToggle<CR>
 
