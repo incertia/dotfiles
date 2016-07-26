@@ -59,7 +59,7 @@ myLayoutHook = smartBorders myDefaultLayout
 myWorkspaces = [ "1:main"
                , "2:web"
                , "3:chat"
-               , "4:graphic"
+               , "4:mail"
                , "5:files"
                , "6:media"
                , "7:misc"

@@ -273,6 +273,8 @@ Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
 let g:rust_recommended_style = 0
 Plug 'rust-lang/rust.vim'
 
+Plug 'OmniSharp/omnisharp-vim'
+
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_key_list_select_completion = [ "<Down>", ]
 let g:ycm_key_list_previous_completion = [ "<Up>", ]
