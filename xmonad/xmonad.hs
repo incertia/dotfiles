@@ -45,6 +45,7 @@ myManageHook = composeAll
   , className =? "Firefox"            --> doShift "2:web"
   , className =? "plugin-container"   --> doShift "8:plugin-container"
   , isFullscreen --> doFullFloat
+  , title     =? "vktest"             --> doFloat
   -- urxvt named windows
   , title     =? "urxvt-weechat"      --> doShift "3:chat"
   , title     =? "urxvt-htop"         --> doShift "9:system-monitor"
