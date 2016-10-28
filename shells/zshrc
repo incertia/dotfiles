@@ -20,7 +20,7 @@ bindkey "\e[7~"   beginning-of-line     # home
 bindkey "\e[8~"   end-of-line           # end
 bindkey "\e\e[C"  forward-word          # alt-right
 bindkey "\e\e[D"  backward-word         # alt-left
-[[ "$TERM" =~ "rxvt-unicode" ]] && bindkey -s "^l"   '^qurxvt-clear\n'
+# [[ "$TERM" =~ "rxvt-unicode" ]] && bindkey -s "^l"   '^qurxvt-clear\n'
 # bindkey "^l"   urxvt-clear
 
 # Keep 4096 lines of history within the shell and save it to ~/.zsh_history:
