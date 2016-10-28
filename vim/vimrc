@@ -1,6 +1,7 @@
 "" editing
 set ts=2 sw=2 sts=2 et ai number
-set cinoptions=g-1,:0,(0
+" set cinoptions=g-1,:0,(0
+set cinoptions=g0,:0,(0
 
 " appearance
 set t_Co=256 title scrolloff=2 wrap showmatch tw=0
@@ -110,6 +111,7 @@ if has("autocmd")
 
   " Uncomment the following line to disable auto commenting
   au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  au FileType tex setlocal textwidth=80
 
   " disable haskell-vim omnifunc
   let g:haskellmode_completion_ghc = 0
