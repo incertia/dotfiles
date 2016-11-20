@@ -6,10 +6,10 @@ xterm*cursorColor:            green
 
 ! urxvt.termName:               rxvt
 urxvt.depth:                  32
-urxvt.background:             [88]#000000
-urxvt.foreground:             white
+! urxvt.background:             [88]#000000
+! urxvt.foreground:             white
 urxvt.boldFont:
-urxvt.cursorColor:            green
+! urxvt.cursorColor:            green
 urxvt.scrollstyle:            xterm
 urxvt.scrollBar:              false
 urxvt.scrollTtyOutput:        false
@@ -17,7 +17,7 @@ urxvt.scrollWithBuffer:       true
 urxvt.scrollTtyKeypress:      true
 urxvt.pointerBlank:           true
 urxvt.saveLines:              4096
-urxvt.color12:                rgb:5c/5c/ff
+! urxvt.color12:                rgb:5c/5c/ff
 urxvt.geometry:               280x74
 urxvt.secondaryScreen:        1
 urxvt.secondaryScroll:        0
@@ -39,3 +39,54 @@ urxvt.font:                   xft:Dejavu\ Sans\ Mono:size=9,xft:Dejavu\ Sans\ Mo
 emacs.geometry:               234x68+0+0
 
 *international:               true
+
+!TomorrowNight
+#define t_background       #1d1f21
+#define t_current_line     #282a2e
+#define t_selection        #373b41
+#define t_foreground       #c5c8c6
+#define t_comment          #969896
+#define t_red              #cc6666
+#define t_orange           #de935f
+#define t_yellow           #f0c674
+#define t_green            #b5bd68
+#define t_aqua             #8abeb7
+#define t_blue             #81a2be
+#define t_purple           #b294bb
+
+
+urxvt.foreground:   t_foreground
+urxvt.background:   [92]t_background
+urxvt.cursorColor:  #aeafad
+
+! Black / Grey
+urxvt.color0:       #000000
+urxvt.color8:       #666666
+
+! Red / Bright Red
+urxvt.color1:       t_red
+urxvt.color9:       #FF3334
+
+! Green + Bright Green
+urxvt.color2:       t_green
+urxvt.color10:      #9ec400
+
+! Yellow (Orange) + Bright Yellow (Yellow)
+urxvt.color3:       t_orange
+urxvt.color11:      t_yellow
+
+! Blue + Bright Blue
+urxvt.color4:       t_blue
+urxvt.color12:      t_blue
+
+! Magenta (Purple) + Bright Magenta
+urxvt.color5:       t_purple
+urxvt.color13:      #b777e0
+
+! Cyan (Aqua) + Bright Cyan
+urxvt.color6:       t_aqua
+urxvt.color14:      #54ced6
+
+! Light Grey (Selection) + White (Current Line)
+urxvt.color7:       t_selection
+urxvt.color15:      t_current_line
