@@ -300,7 +300,7 @@ else
   let g:solarized_termtrans   = 1
   let g:solarized_visibility  = "normal"
 endif
-colorscheme solarized
+colorscheme default
 
 " enable powerline if it exists and we are not in a tty
 if !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))
