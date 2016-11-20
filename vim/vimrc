@@ -255,6 +255,9 @@ Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'wesQ3/vim-windowswap'
+
+let g:syntastic_python_python_exec = '/usr/bin/python2'
+let g:syntastic_python_flake8_exec = '/usr/bin/python2'
 Plug 'scrooloose/syntastic'
 Plug 'sotte/presenting.vim'
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
@@ -273,7 +276,7 @@ Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
 
 let g:rust_recommended_style = 0
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
 
 Plug 'OmniSharp/omnisharp-vim'
 
