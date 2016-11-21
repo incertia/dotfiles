@@ -219,7 +219,7 @@ endfunction
 " set colorcolumn=81
 
 " OR ELSE just the 81st column of wide lines
-highlight ColorColumn ctermbg=white
+hi ColorColumn ctermbg=white
 call matchadd('ColorColumn', '\%81v', 100)
 
 nnoremap  ;  :
@@ -232,16 +232,17 @@ vnoremap    v   <C-V>
 vnoremap <C-V>     v
 
 function! s:AdaptColorScheme()
-  " hi clear   CursorLine
-  hi Normal     ctermbg=NONE
-  hi NonText    ctermbg=NONE
-  hi LineNr     ctermbg=NONE
-  hi Folded     ctermbg=NONE
-  hi SpecialKey ctermbg=NONE
-  hi VertSplit  ctermbg=NONE
-  hi SignColumn ctermbg=NONE
-  hi SpellBad   ctermbg=NONE cterm=underline ctermfg=red
-  hi SpellCap   ctermbg=NONE cterm=underline ctermfg=magenta
+  hi Normal      ctermbg=NONE
+  hi NonText     ctermbg=NONE
+  hi LineNr      ctermbg=NONE
+  hi Folded      ctermbg=NONE
+  hi SpecialKey  ctermbg=NONE
+  hi VertSplit   ctermbg=NONE
+  hi SignColumn  ctermbg=NONE
+  hi SpellBad    cterm=underline ctermbg=NONE ctermfg=red
+  hi SpellCap    cterm=underline ctermbg=NONE ctermfg=magenta
+  hi String      ctermbg=NONE ctermfg=cyan
+  hi ColorColumn ctermbg=white
 endfunction
 
 autocmd ColorScheme * call s:AdaptColorScheme()
