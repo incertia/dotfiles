@@ -261,6 +261,7 @@ Plug 'wesQ3/vim-windowswap'
 
 let g:syntastic_python_python_exec = '/usr/bin/python2'
 let g:syntastic_python_flake8_exec = '/usr/bin/python2'
+let g:syntastic_python_checkers    = ['pylint', 'python']
 Plug 'scrooloose/syntastic'
 Plug 'sotte/presenting.vim'
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
@@ -277,6 +278,8 @@ Plug 'itchyny/vim-haskell-indent'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
+
+Plug 'idris-hackers/idris-vim',     { 'for': 'idris'   }
 
 let g:rust_recommended_style = 0
 Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
