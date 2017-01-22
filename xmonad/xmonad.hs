@@ -46,6 +46,7 @@ myManageHook = composeAll
   , className =? "plugin-container"   --> doShift "8:plugin-container"
   , isFullscreen --> doFullFloat
   , title     =? "vktest"             --> doFloat
+  , title     =? "StardewValley.bin.x86_64" --> doFloat
   -- urxvt named windows
   , title     =? "urxvt-weechat"      --> doShift "3:chat"
   , title     =? "urxvt-htop"         --> doShift "9:system-monitor"
@@ -72,7 +73,7 @@ myWorkspaces = [ "1:main"
 
 -- xmonad main
 main = do
-  setLocale LC_CTYPE (Just "en_US.UTF-8")
+  setLocale LC_ALL (Just "en_US.UTF-8")
   input_pipe <- getEnv "XMOBAR_INPUT_PIPE"
   notif_pipe <- getEnv "XMOBAR_NOTIFICATION_PIPE"
   xmb_input <- fdToHandle =<< tryOpenFile input_pipe
