@@ -86,14 +86,16 @@ usepackage("siunitx");
 \newtheorem{clm}[thm]{Claim}
 \newtheorem{exr}[thm]{Exercise}
 \newtheorem{ex}[thm]{Example}
-\newtheorem{prb}{Problem}[subsection]
+% \newtheorem{prb}{Problem}[subsection]
+\newtheorem{prb}[thm]{Problem}
 \newtheorem{note}[thm]{Note}
 
 % i like parskip
 \usepackage{parskip}
 
 % this is usually nice
-\usepackage{enumerate}
+% \usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
 
 % hyperbolic trig
 \DeclareMathOperator{\sech}{sech}
@@ -117,21 +119,27 @@ usepackage("siunitx");
 \DeclareMathOperator{\Aff}{Aff}
 \DeclareMathOperator{\End}{End}
 \DeclareMathOperator{\im}{im}
-\DeclareMathOperator{\gl}{GL}
-% \DeclareMathOperator{\sl}{SL}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
 \DeclareMathOperator{\tr}{Tr}
 \DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Id}{Id}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\adj}{adj}
 \DeclareMathOperator{\proj}{proj}
 \DeclareMathOperator{\orb}{orb}
 \DeclareMathOperator{\stab}{stab}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\chr}{char}
 \DeclareMathOperator{\cent}{C}
 \DeclareMathOperator{\normal}{N}
 \newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
-\newcommand{\cycgroup}[1]{\langle #1 \rangle}
-\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
-\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\cycgroup}[1]{\langle#1\rangle}
+\newcommand{\gen}[1]{\langle#1\rangle}
+\newcommand{\set}[1]{\left\lbrace#1\right\rbrace}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\op}[1]{#1^{\textrm{op}}}
+% \newcommand{\spn}[1]{\operatorname{span}\left\lbrace#1\right\rbrace}
 
 % for easier math
 \everymath{\displaystyle}
