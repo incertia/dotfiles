@@ -5,7 +5,7 @@ import qualified Data.Text.IO as T
 import System.Environment           (getEnv)
 import System.IO                    (hPutStrLn, hSetBuffering, hClose, stdout, BufferMode (LineBuffering), hSetEncoding, utf8)
 import System.Locale.SetLocale
-import System.Posix.IO              (openFd, fdToHandle, defaultFileFlags, OpenMode (..))
+import System.Posix.IO              (openFd, fdToHandle, defaultFileFlags, OpenMode (ReadWrite), setFdOption, FdOption (CloseOnExec))
 import System.Process               (spawnProcess, waitForProcess)
 import XMonad                           -- well duh
 import XMonad.Actions.CycleWS           -- nextWS and shiftToNext magics
@@ -142,9 +142,10 @@ main = do
         delta = 0.002
 
         printScreenBindings =
-          [ ((0          , xK_Print), safeSpawn "scrot" scrotArgs)    -- use PrintScr to scrot the entire screen
-          , ((leftAltMask, xK_Print), safeSpawn "scrot" ("-s":scrotArgs)) ]  -- use LeftAlt-PrintScr to scrot the current window
+          [ ((0          , xK_Print), safeSpawn scrot scrotArgs)    -- use PrintScr to scrot the entire screen
+          , ((leftAltMask, xK_Print), safeSpawn scrot ("-s":scrotArgs)) ]  -- use LeftAlt-PrintScr to scrot the current window
           where
+            scrot = "escrotum"
             scrotPostCmd = "mv $f ~/scrots/"
             scrotFilename = "%Y-%m-%d_%T.png"
             scrotArgs = [scrotFilename, "-e", scrotPostCmd]
@@ -170,7 +171,10 @@ main = do
           ]
 
     tryOpenFile fname = openFile fname `catchAny` \e -> openFile "/dev/null"
-      where openFile fname = openFd fname ReadWrite Nothing defaultFileFlags
+      where openFile fname = do
+              fd <- openFd fname ReadWrite Nothing defaultFileFlags
+              setFdOption fd CloseOnExec True
+              return fd
 
 -- define some masks to make things more readable
 leftAltMask  :: KeyMask
