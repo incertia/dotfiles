@@ -1,5 +1,7 @@
 #! /bin/bash
 
+[ -f ~/.xvideo ] && . ~/.xvideo
+
 DISPNUM=${DISPLAY:1}
 
 [ "$XMOBAR_PIPE_LOCATION" == "" ] &&
