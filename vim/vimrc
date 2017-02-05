@@ -234,7 +234,7 @@ vnoremap <C-V>     v
 function! s:AdaptColorScheme()
   hi Normal      ctermbg=NONE
   hi NonText     ctermbg=NONE
-  hi LineNr      ctermbg=NONE
+  hi LineNr      ctermfg=blue
   hi Folded      ctermbg=NONE
   hi SpecialKey  ctermbg=NONE
   hi VertSplit   ctermbg=NONE
