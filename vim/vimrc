@@ -245,8 +245,6 @@ function! s:AdaptColorScheme()
   hi ColorColumn ctermbg=white
 endfunction
 
-autocmd ColorScheme * call s:AdaptColorScheme()
-
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
@@ -309,8 +307,10 @@ else
   let g:solarized_termcolors  = 256
   let g:solarized_termtrans   = 1
   let g:solarized_visibility  = "normal"
+
+  autocmd ColorScheme * call s:AdaptColorScheme()
 endif
-colorscheme default
+colorscheme Tomorrow-Night
 
 " enable powerline if it exists and we are not in a tty
 if !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))
