@@ -54,4 +54,4 @@ emacs.geometry:               234x68+0+0
 *international:               true
 
 ! some transparency
-urxvt.background:   [88]#1d1f21
+urxvt.background:   [90]#1d1f21
