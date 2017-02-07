@@ -299,9 +299,12 @@ if has("autocmd")
   au CompleteDone * pclose
 endif
 
-" set the colorscheme to solarized-256
+" set the colorscheme
 if has("gui_running")
   set background=light
+  set guioptions-=T
+  set guioptions-=m
+  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 else
   set background=dark
   let g:solarized_termcolors  = 256
@@ -313,6 +316,6 @@ endif
 colorscheme Tomorrow-Night
 
 " enable powerline if it exists and we are not in a tty
-if !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))
+if (!(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
   set rtp+=~/.vim/powerline/powerline/bindings/vim/
 endif
