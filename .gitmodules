@@ -6,6 +6,7 @@
 	url = https://github.com/incertia/xmonad-equalspacing.git
 [submodule "powerline"]
 	path = powerline
+  branch = develop
 	url = https://github.com/powerline/powerline.git
 [submodule "powerline-fonts"]
 	path = powerline-fonts
