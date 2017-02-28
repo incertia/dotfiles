@@ -4,7 +4,7 @@ set ts=2 sw=2 sts=2 et ai number
 set cinoptions=g0,:0,(0
 
 " appearance
-set t_Co=256 title scrolloff=2 wrap showmatch tw=0
+set t_Co=256 title scrolloff=2 wrap showmatch tw=80
 set list listchars=tab:\|\ ,trail:.
 set laststatus=2
 syntax on
@@ -91,6 +91,8 @@ command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
 nnoremap <C-x><C-t>          :TabSwitch<SPACE>
 nnoremap <C-x>t              :TabSwitch<SPACE>
 
+filetype plugin indent on
+
 "" autocmd stuff
 if has("autocmd")
   " Uncomment the following to have Vim jump to the last position when
@@ -101,16 +103,15 @@ if has("autocmd")
   au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
   au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
 
-  " Uncomment the following to have Vim load indentation rules and plugins
-  " according to the detected filetype.
-  filetype plugin indent on
-
   "" I don't know what this does
   au BufWrite * mkview
   au BufRead * silent loadview
 
+  au BufEnter,WinEnter * call matchadd('ColorColumn', '\%81v', 100)
+
   " Uncomment the following line to disable auto commenting
-  au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  " au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  au FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
   au FileType tex setlocal textwidth=80
 
   " disable haskell-vim omnifunc
@@ -123,7 +124,7 @@ endif
 set foldmethod=indent   " fold based on indent
 set foldnestmax=16      " deepest fold is 16 levels
 set nofoldenable        " don't fold by default
-set foldlevel=1         " yay
+set foldlevel=100       " yay
 
 " number formats
 set nf=alpha,octal,hex
@@ -220,7 +221,6 @@ endfunction
 
 " OR ELSE just the 81st column of wide lines
 hi ColorColumn ctermbg=white
-call matchadd('ColorColumn', '\%81v', 100)
 
 nnoremap  ;  :
 nnoremap  :  ;
@@ -230,20 +230,6 @@ nnoremap    v   <C-V>
 nnoremap <C-V>     v
 vnoremap    v   <C-V>
 vnoremap <C-V>     v
-
-function! s:AdaptColorScheme()
-  hi Normal      ctermbg=NONE
-  hi NonText     ctermbg=NONE
-  hi LineNr      ctermfg=blue
-  hi Folded      ctermbg=NONE
-  hi SpecialKey  ctermbg=NONE
-  hi VertSplit   ctermbg=NONE
-  hi SignColumn  ctermbg=NONE
-  hi SpellBad    cterm=underline ctermbg=NONE ctermfg=red
-  hi SpellCap    cterm=underline ctermbg=NONE ctermfg=magenta
-  hi String      ctermbg=NONE ctermfg=cyan
-  hi ColorColumn ctermbg=white
-endfunction
 
 " vim-plug
 call plug#begin('~/.vim/plugged')
@@ -305,15 +291,26 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=m
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
-else
-  set background=dark
-  let g:solarized_termcolors  = 256
-  let g:solarized_termtrans   = 1
-  let g:solarized_visibility  = "normal"
-
-  autocmd ColorScheme * call s:AdaptColorScheme()
 endif
 colorscheme Tomorrow-Night
+
+hi Normal      ctermbg=NONE
+hi NonText     ctermbg=NONE
+hi LineNr      ctermfg=blue
+hi Folded      ctermbg=NONE
+hi SpecialKey  ctermbg=NONE
+hi VertSplit   ctermbg=NONE
+hi SignColumn  ctermbg=NONE
+hi SpellBad    cterm=underline ctermbg=NONE ctermfg=red
+hi SpellCap    cterm=underline ctermbg=NONE ctermfg=magenta
+hi String      ctermbg=NONE ctermfg=cyan
+hi ColorColumn ctermbg=white ctermfg=black
+hi Special     ctermfg=magenta
+hi Label       ctermfg=green
+hi Statement   ctermfg=red
+hi PreProc     ctermfg=lightcyan
+hi cInclude    ctermfg=lightcyan
+hi Todo        ctermbg=darkred ctermfg=white
 
 " enable powerline if it exists and we are not in a tty
 if (!(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
