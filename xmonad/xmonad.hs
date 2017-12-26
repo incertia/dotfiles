@@ -38,6 +38,7 @@ myManageHook = composeAll
   , className =? "Xfce4-notifyd"      --> doIgnore
   , className =? "Arandr"             --> doFloat
   , className =? "Vlc"                --> doFloat
+  , className =? "mpv"                --> doFloat
   , className =? "Steam"              --> doFloat
   , className =? "feh"                --> doFloat
   , className =? "Xmessage"           --> doFloat
@@ -55,7 +56,7 @@ myManageHook = composeAll
 
 
 myLayoutHook = smartBorders myDefaultLayout
-  where myDefaultLayout = emptyBSP ||| Full
+  where myDefaultLayout = emptyBSP ||| noBorders Full
 
 -- workspaces
 myWorkspaces = [ "1:main"
