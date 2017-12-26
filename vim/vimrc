@@ -111,8 +111,12 @@ if has("autocmd")
 
   " Uncomment the following line to disable auto commenting
   " au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-  au FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
+  " au FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
   au FileType tex setlocal textwidth=80
+
+  autocmd FileType markdown 
+    \ setlocal formatoptions-=q |
+    \ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
 
   " disable haskell-vim omnifunc
   let g:haskellmode_completion_ghc = 0
@@ -247,6 +251,11 @@ Plug 'moll/vim-bbye'
 let g:syntastic_python_python_exec = '/usr/bin/python2'
 let g:syntastic_python_flake8_exec = '/usr/bin/python2'
 let g:syntastic_python_checkers    = ['pylint', 'python']
+let g:syntastic_mode_map = {
+      \ 'mode': 'passive',
+      \ 'active_filetypes': ['c', 'cpp', 'haskell'],
+      \ 'passive_filetypes': []
+      \ }
 Plug 'scrooloose/syntastic'
 Plug 'sotte/presenting.vim'
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
@@ -257,12 +266,16 @@ Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
 Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
 Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
 
+" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
+
 " make sure to load vim-haskell-indent before haskell-vim
 let g:ghcmod_type_highlight = "Normal"
 Plug 'itchyny/vim-haskell-indent'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
+" Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
+
+Plug 'petRUShka/vim-sage',          { 'for': 'sage'    }
 
 Plug 'idris-hackers/idris-vim',     { 'for': 'idris'   }
 
@@ -271,7 +284,7 @@ Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
 
 Plug 'OmniSharp/omnisharp-vim'
 
-let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_min_num_of_chars_for_completion = 8
 let g:ycm_key_list_select_completion = [ "<Down>", ]
 let g:ycm_key_list_previous_completion = [ "<Up>", ]
 let g:ycm_confirm_extra_conf = 0
