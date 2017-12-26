@@ -1,7 +1,32 @@
 \ProvidesPackage{incertia}
 
+\newif\ifincertiageom\incertiageomtrue
+\newif\ifincertiasubsection\incertiasubsectionfalse
+\newif\ifincertiacd\incertiacdfalse
+\newif\ifincertiaasy\incertiaasyfalse
+\newif\ifincertiasets\incertiasetstrue
+\newif\ifincertiadisplay\incertiadisplaytrue
+
+\DeclareOption{geom}{\incertiageomtrue}
+\DeclareOption{nogeom}{\incertiageomfalse}
+\DeclareOption{subsection}{\incertiasubsectiontrue}
+\DeclareOption{nosubsection}{\incertiasubsectionfalse}
+\DeclareOption{cd}{\incertiacdtrue}
+\DeclareOption{nocd}{\incertiacdfalse}
+\DeclareOption{asy}{\incertiaasytrue}
+\DeclareOption{noasy}{\incertiaasyfalse}
+\DeclareOption{sets}{\incertiasetstrue}
+\DeclareOption{nosets}{\incertiasetsfalse}
+\DeclareOption{display}{\incertiadisplaytrue}
+\DeclareOption{nodisplay}{\incertiadisplayfalse}
+
+\ProcessOptions\relax
+
 % some default packages
+\ifincertiageom
 \usepackage[margin=0.7in]{geometry}
+\fi
+
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -12,6 +37,9 @@
 \usepackage{mathtools}
 \usepackage{siunitx}
 \usepackage{tikz}
+\ifincertiacd
+\usepackage{tikz-cd}
+\fi
 
 % tikz things
 \usetikzlibrary{arrows}
@@ -25,19 +53,23 @@
 
 % set related commands
 % common sets
+\ifincertiasets
 \newcommand{\CC}{\mathbb{C}}
 \newcommand{\ZZ}{\mathbb{Z}}
 \newcommand{\QQ}{\mathbb{Q}}
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\NN}{\mathbb{N}}
+\newcommand{\FF}{\mathbb{F}}
 
 % powerset is done with mathcal
 \newcommand{\PP}{\mathcal{P}}
+\fi
 
 % isomorphic sets denoted by congruence
 \newcommand{\iso}{\cong}
 
 % asymptote
+\ifincertiaasy
 \usepackage{asymptote}
 
 \begin{asydef}
@@ -59,6 +91,7 @@ usepackage("amsmath");
 usepackage("amssymb");
 usepackage("siunitx");
 \end{asydef}
+\fi
 
 % theorem
 \usepackage{amsthm}
@@ -86,8 +119,12 @@ usepackage("siunitx");
 \newtheorem{clm}[thm]{Claim}
 \newtheorem{exr}[thm]{Exercise}
 \newtheorem{ex}[thm]{Example}
-% \newtheorem{prb}{Problem}[subsection]
-\newtheorem{prb}[thm]{Problem}
+\ifincertiasubsection
+\newtheorem{prb}{Problem}[subsection]
+\else
+\newtheorem{prb}{Problem}[section]
+\fi
+% \newtheorem{prb}[thm]{Problem}
 \newtheorem{note}[thm]{Note}
 
 % i like parskip
@@ -129,20 +166,22 @@ usepackage("siunitx");
 \DeclareMathOperator{\proj}{proj}
 \DeclareMathOperator{\orb}{orb}
 \DeclareMathOperator{\stab}{stab}
+\DeclareMathOperator{\fix}{fix}
 \DeclareMathOperator{\spn}{span}
 \DeclareMathOperator{\chr}{char}
 \DeclareMathOperator{\cent}{C}
 \DeclareMathOperator{\normal}{N}
 \newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
-\newcommand{\cycgroup}[1]{\langle#1\rangle}
-\newcommand{\gen}[1]{\langle#1\rangle}
+\newcommand{\cycgroup}[1]{\left\langle#1\rangle\right}
+\newcommand{\gen}[1]{\left\langle#1\rangle\right}
 \newcommand{\set}[1]{\left\lbrace#1\right\rbrace}
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
 \newcommand{\op}[1]{#1^{\textrm{op}}}
-% \newcommand{\spn}[1]{\operatorname{span}\left\lbrace#1\right\rbrace}
 
 % for easier math
+\ifincertiadisplay
 \everymath{\displaystyle}
+\fi
 \newcommand{\degree}{^\circ}
 
 % define some arrows for easier use
