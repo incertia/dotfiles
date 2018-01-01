@@ -24,7 +24,7 @@
 
 % some default packages
 \ifincertiageom
-\usepackage[margin=0.7in]{geometry}
+\usepackage[margin=1in]{geometry}
 \fi
 
 \usepackage{amsmath}
@@ -74,6 +74,8 @@
 
 \begin{asydef}
 import cse5;
+import graph;
+import markers;
 import olympiad;
 
 pointpen = black;
@@ -86,6 +88,10 @@ pointfontsize = 10;
 defaultpen(fontsize(10pt));
 
 size(6cm);
+
+marker angleticker(int _n, real sz) {
+  return marker(markinterval(stickframe(n=_n, sz), true));
+}
 
 usepackage("amsmath");
 usepackage("amssymb");
