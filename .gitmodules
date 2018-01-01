@@ -10,7 +10,9 @@
 	url = https://github.com/powerline/powerline.git
 [submodule "powerline-fonts"]
 	path = powerline-fonts
-	url = https://github.com/powerline/powerline-fonts.git
+  branch = master
+	url = https://github.com/powerline/fonts.git
 [submodule "vim/vim-plug"]
 	path = vim/vim-plug
+  branch = master
 	url = https://github.com/junegunn/vim-plug.git
