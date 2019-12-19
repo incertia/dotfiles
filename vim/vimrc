@@ -259,7 +259,7 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 " (Optional) Multi-entry selection UI.
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
 
 " echos docstrings
 Plug 'Shougo/echodoc'
