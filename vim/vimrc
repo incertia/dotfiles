@@ -268,9 +268,9 @@ if has('nvim')
   let g:echodoc#type = "floating"
 else
   let g:echodoc#type = "echo"
+  set cmdheight=2
 endif
 let g:echodoc#enable_at_startup = 1
-set cmdheight=2
 
 let g:surround_no_mappings = 1
 let b:surround_indent = 0
