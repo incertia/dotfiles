@@ -238,7 +238,31 @@ vnoremap <C-V>     v
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
-let g:EclimCompletionMethod = 'omnifunc'
+Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
+
+" mucomplete
+set completeopt+=menuone
+set completeopt+=noselect
+Plug 'lifepillar/vim-mucomplete'
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'c'   : ['clangd'],
+    \ 'cpp' : ['clangd'],
+    \ }
+
+" vim language client
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf'
+
+" let g:EclimCompletionMethod = 'omnifunc'
 
 let g:surround_no_mappings = 1
 let b:surround_indent = 0
@@ -248,17 +272,16 @@ Plug 'tpope/vim-surround'
 Plug 'wesQ3/vim-windowswap'
 Plug 'moll/vim-bbye'
 
-let g:syntastic_python_python_exec = '/usr/bin/python2'
-let g:syntastic_python_flake8_exec = '/usr/bin/python2'
-let g:syntastic_python_checkers    = ['pylint', 'python']
-let g:syntastic_mode_map = {
-      \ 'mode': 'passive',
-      \ 'active_filetypes': ['c', 'cpp', 'haskell'],
-      \ 'passive_filetypes': []
-      \ }
-Plug 'scrooloose/syntastic'
+" let g:syntastic_python_python_exec = '/usr/bin/python2'
+" let g:syntastic_python_flake8_exec = '/usr/bin/python2'
+" let g:syntastic_python_checkers    = ['pylint', 'python']
+" let g:syntastic_mode_map = {
+"       \ 'mode': 'passive',
+"       \ 'active_filetypes': ['c', 'cpp', 'haskell'],
+"       \ 'passive_filetypes': []
+"       \ }
+" Plug 'scrooloose/syntastic'
 Plug 'sotte/presenting.vim'
-Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
 
 nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
 nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
@@ -272,8 +295,6 @@ Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
 let g:ghcmod_type_highlight = "Normal"
 Plug 'itchyny/vim-haskell-indent'
 Plug 'neovimhaskell/haskell-vim'
-" Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
-Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
 
 Plug 'petRUShka/vim-sage',          { 'for': 'sage'    }
 
@@ -284,14 +305,14 @@ Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
 
 Plug 'OmniSharp/omnisharp-vim'
 
-let g:ycm_min_num_of_chars_for_completion = 8
-let g:ycm_key_list_select_completion = [ "<Down>", ]
-let g:ycm_key_list_previous_completion = [ "<Up>", ]
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
-let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
-Plug 'Valloric/YouCompleteMe'
-Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
+" let g:ycm_min_num_of_chars_for_completion = 8
+" let g:ycm_key_list_select_completion = [ "<Down>", ]
+" let g:ycm_key_list_previous_completion = [ "<Up>", ]
+" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_semantic_triggers = {'haskell' : ['.']}
+" let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
+" Plug 'Valloric/YouCompleteMe'
+" Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
 call plug#end()
 
 if has("autocmd")
@@ -326,6 +347,6 @@ hi cInclude    ctermfg=lightcyan
 hi Todo        ctermbg=darkred ctermfg=white
 
 " enable powerline if it exists and we are not in a tty
-if (!(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
+if (!has('nvim') && !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
   set rtp+=~/.vim/powerline/powerline/bindings/vim/
 endif
