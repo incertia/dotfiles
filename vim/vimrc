@@ -240,17 +240,22 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
 
-" mucomplete
-set completeopt+=menuone
-set completeopt+=noselect
-Plug 'lifepillar/vim-mucomplete'
+if has('nvim')
+  let g:deoplete_enable_at_startup = 1
+  Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
+else
+  " mucomplete
+  set completeopt+=menuone,noselect
+  Plug 'lifepillar/vim-mucomplete'
+endif
 
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
 let g:LanguageClient_serverCommands = {
-    \ 'c'   : ['clangd'],
-    \ 'cpp' : ['clangd'],
+    \ 'c'       : ['clangd'],
+    \ 'cpp'     : ['clangd'],
+    \ 'haskell' : ['hie'],
     \ }
 
 " vim language client
@@ -261,8 +266,6 @@ Plug 'autozimu/LanguageClient-neovim', {
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf'
-
-" let g:EclimCompletionMethod = 'omnifunc'
 
 let g:surround_no_mappings = 1
 let b:surround_indent = 0
@@ -292,7 +295,6 @@ Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
 " Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 
 " make sure to load vim-haskell-indent before haskell-vim
-let g:ghcmod_type_highlight = "Normal"
 Plug 'itchyny/vim-haskell-indent'
 Plug 'neovimhaskell/haskell-vim'
 
@@ -303,7 +305,7 @@ Plug 'idris-hackers/idris-vim',     { 'for': 'idris'   }
 let g:rust_recommended_style = 0
 Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
 
-Plug 'OmniSharp/omnisharp-vim'
+" Plug 'OmniSharp/omnisharp-vim'
 
 " let g:ycm_min_num_of_chars_for_completion = 8
 " let g:ycm_key_list_select_completion = [ "<Down>", ]
@@ -314,6 +316,8 @@ Plug 'OmniSharp/omnisharp-vim'
 " Plug 'Valloric/YouCompleteMe'
 " Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
 call plug#end()
+
+call deoplete#enable()
 
 if has("autocmd")
   au CompleteDone * pclose
