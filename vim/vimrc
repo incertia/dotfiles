@@ -2,6 +2,7 @@
 set ts=2 sw=2 sts=2 et ai number
 " set cinoptions=g-1,:0,(0
 set cinoptions=g0,:0,(0
+set nohlsearch
 
 " appearance
 set t_Co=256 title scrolloff=2 wrap showmatch tw=80
@@ -263,7 +264,13 @@ Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
 
 " echos docstrings
 Plug 'Shougo/echodoc'
+if has('nvim')
+  let g:echodoc#type = "floating"
+else
+  let g:echodoc#type = "echo"
+endif
 let g:echodoc#enable_at_startup = 1
+set cmdheight=2
 
 let g:surround_no_mappings = 1
 let b:surround_indent = 0
@@ -323,6 +330,18 @@ endif
 if has("autocmd")
   au CompleteDone * pclose
 endif
+
+function SetLSPShortcuts()
+  nnoremap <silent> <leader><F5> :call LanguageClient_contextMenu()<CR>
+  nnoremap <silent> <leader>gd   :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <silent> <leader>xx   :call LanguageClient#textDocument_references()<CR>
+  nnoremap <silent> <leader>K    :call LanguageClient#textDocument_hover()<CR>
+endfunction()
+
+augroup LSP
+  autocmd!
+  autocmd FileType c,cpp,haskell call SetLSPShortcuts()
+augroup END
 
 " set the colorscheme
 if has("gui_running")
