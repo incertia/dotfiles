@@ -97,7 +97,7 @@ filetype plugin indent on
 if has("autocmd")
   " Uncomment the following to have Vim jump to the last position when
   " reopening a file
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " Set scripts to be executable from the shell
   au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
@@ -107,6 +107,7 @@ if has("autocmd")
   au BufWrite * mkview
   au BufRead * silent loadview
 
+  " tags the 81st column to ColorColumn
   au BufEnter,WinEnter * call matchadd('ColorColumn', '\%81v', 100)
 
   " Uncomment the following line to disable auto commenting
@@ -114,14 +115,9 @@ if has("autocmd")
   " au FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
   au FileType tex setlocal textwidth=80
 
-  autocmd FileType markdown 
+  autocmd FileType markdown
     \ setlocal formatoptions-=q |
     \ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
-
-  " disable haskell-vim omnifunc
-  let g:haskellmode_completion_ghc = 0
-  let g:necoghc_enable_detailed_browse = 1
-  au FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
 
 "folding settings
@@ -241,8 +237,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
 
 if has('nvim')
-  let g:deoplete_enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
 else
   " mucomplete
   set completeopt+=menuone,noselect
@@ -251,21 +247,23 @@ endif
 
 " Required for operations modifying multiple buffers like rename.
 set hidden
-
+" vim language client
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 let g:LanguageClient_serverCommands = {
     \ 'c'       : ['clangd'],
     \ 'cpp'     : ['clangd'],
     \ 'haskell' : ['hie'],
     \ }
 
-" vim language client
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf'
+
+" echos docstrings
+Plug 'Shougo/echodoc'
+let g:echodoc#enable_at_startup = 1
 
 let g:surround_no_mappings = 1
 let b:surround_indent = 0
@@ -317,7 +315,10 @@ Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
 " Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
 call plug#end()
 
-call deoplete#enable()
+if has('nvim')
+  " use <ESC> to get out of insert mode in neovim terminals
+  tnoremap <ESC> <C-\><C-n>
+endif
 
 if has("autocmd")
   au CompleteDone * pclose
