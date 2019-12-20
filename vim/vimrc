@@ -94,6 +94,8 @@ nnoremap <C-x>t              :TabSwitch<SPACE>
 
 filetype plugin indent on
 
+set viewoptions-=options
+
 "" autocmd stuff
 if has("autocmd")
   " Uncomment the following to have Vim jump to the last position when
@@ -104,9 +106,9 @@ if has("autocmd")
   au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
   au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
 
-  "" I don't know what this does
+  "" save/restore views when exiting/entering vim
   au BufWrite * mkview
-  au BufRead * silent loadview
+  au BufRead * silent! loadview
 
   " tags the 81st column to ColorColumn
   au BufEnter,WinEnter * call matchadd('ColorColumn', '\%81v', 100)
@@ -250,14 +252,15 @@ endif
 set hidden
 " vim language client
 Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
 let g:LanguageClient_serverCommands = {
-    \ 'c'       : ['clangd'],
-    \ 'cpp'     : ['clangd'],
-    \ 'haskell' : ['hie'],
-    \ }
+  \ 'c'       : ['clangd'],
+  \ 'cpp'     : ['clangd'],
+  \ 'haskell' : ['hie'],
+  \ 'rust'    : ['rls'],
+  \ }
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
