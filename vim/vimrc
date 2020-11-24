@@ -2,6 +2,7 @@
 set ts=2 sw=2 sts=2 et ai number
 " set cinoptions=g-1,:0,(0
 set cinoptions=g0,:0,(0
+set nohlsearch
 
 " appearance
 set t_Co=256 title scrolloff=2 wrap showmatch tw=80
@@ -93,20 +94,23 @@ nnoremap <C-x>t              :TabSwitch<SPACE>
 
 filetype plugin indent on
 
+set viewoptions-=options
+
 "" autocmd stuff
 if has("autocmd")
   " Uncomment the following to have Vim jump to the last position when
   " reopening a file
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " Set scripts to be executable from the shell
   au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
   au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
 
-  "" I don't know what this does
+  "" save/restore views when exiting/entering vim
   au BufWrite * mkview
-  au BufRead * silent loadview
+  au BufRead * silent! loadview
 
+  " tags the 81st column to ColorColumn
   au BufEnter,WinEnter * call matchadd('ColorColumn', '\%81v', 100)
 
   " Uncomment the following line to disable auto commenting
@@ -114,14 +118,9 @@ if has("autocmd")
   " au FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
   au FileType tex setlocal textwidth=80
 
-  autocmd FileType markdown 
+  autocmd FileType markdown
     \ setlocal formatoptions-=q |
     \ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
-
-  " disable haskell-vim omnifunc
-  let g:haskellmode_completion_ghc = 0
-  let g:necoghc_enable_detailed_browse = 1
-  au FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
 
 "folding settings
@@ -238,7 +237,43 @@ vnoremap <C-V>     v
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
-let g:EclimCompletionMethod = 'omnifunc'
+Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+else
+  " mucomplete
+  set completeopt+=menuone,noselect
+  Plug 'lifepillar/vim-mucomplete'
+endif
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+" vim language client
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
+let g:LanguageClient_serverCommands = {
+  \ 'c'       : ['clangd'],
+  \ 'cpp'     : ['clangd'],
+  \ 'haskell' : ['hie'],
+  \ 'rust'    : ['rls'],
+  \ }
+
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
+
+" echos docstrings
+Plug 'Shougo/echodoc'
+if has('nvim')
+  let g:echodoc#type = "floating"
+else
+  let g:echodoc#type = "echo"
+  set cmdheight=2
+endif
+let g:echodoc#enable_at_startup = 1
 
 let g:surround_no_mappings = 1
 let b:surround_indent = 0
@@ -248,17 +283,16 @@ Plug 'tpope/vim-surround'
 Plug 'wesQ3/vim-windowswap'
 Plug 'moll/vim-bbye'
 
-let g:syntastic_python_python_exec = '/usr/bin/python2'
-let g:syntastic_python_flake8_exec = '/usr/bin/python2'
-let g:syntastic_python_checkers    = ['pylint', 'python']
-let g:syntastic_mode_map = {
-      \ 'mode': 'passive',
-      \ 'active_filetypes': ['c', 'cpp', 'haskell'],
-      \ 'passive_filetypes': []
-      \ }
-Plug 'scrooloose/syntastic'
+" let g:syntastic_python_python_exec = '/usr/bin/python2'
+" let g:syntastic_python_flake8_exec = '/usr/bin/python2'
+" let g:syntastic_python_checkers    = ['pylint', 'python']
+" let g:syntastic_mode_map = {
+"       \ 'mode': 'passive',
+"       \ 'active_filetypes': ['c', 'cpp', 'haskell'],
+"       \ 'passive_filetypes': []
+"       \ }
+" Plug 'scrooloose/syntastic'
 Plug 'sotte/presenting.vim'
-Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
 
 nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
 nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
@@ -269,11 +303,8 @@ Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
 " Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 
 " make sure to load vim-haskell-indent before haskell-vim
-let g:ghcmod_type_highlight = "Normal"
 Plug 'itchyny/vim-haskell-indent'
 Plug 'neovimhaskell/haskell-vim'
-" Plug 'eagletmt/ghcmod-vim',         { 'for': 'haskell' }
-Plug 'eagletmt/neco-ghc',           { 'for': 'haskell' }
 
 Plug 'petRUShka/vim-sage',          { 'for': 'sage'    }
 
@@ -282,21 +313,38 @@ Plug 'idris-hackers/idris-vim',     { 'for': 'idris'   }
 let g:rust_recommended_style = 0
 Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
 
-Plug 'OmniSharp/omnisharp-vim'
+" Plug 'OmniSharp/omnisharp-vim'
 
-let g:ycm_min_num_of_chars_for_completion = 8
-let g:ycm_key_list_select_completion = [ "<Down>", ]
-let g:ycm_key_list_previous_completion = [ "<Up>", ]
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
-let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
-Plug 'Valloric/YouCompleteMe'
-Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
+" let g:ycm_min_num_of_chars_for_completion = 8
+" let g:ycm_key_list_select_completion = [ "<Down>", ]
+" let g:ycm_key_list_previous_completion = [ "<Up>", ]
+" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_semantic_triggers = {'haskell' : ['.']}
+" let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
+" Plug 'Valloric/YouCompleteMe'
+" Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
 call plug#end()
+
+if has('nvim')
+  " use <ESC> to get out of insert mode in neovim terminals
+  tnoremap <ESC> <C-\><C-n>
+endif
 
 if has("autocmd")
   au CompleteDone * pclose
 endif
+
+function SetLSPShortcuts()
+  nnoremap <silent> <leader><F5> :call LanguageClient_contextMenu()<CR>
+  nnoremap <silent> <leader>gd   :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <silent> <leader>xx   :call LanguageClient#textDocument_references()<CR>
+  nnoremap <silent> <leader>K    :call LanguageClient#textDocument_hover()<CR>
+endfunction()
+
+augroup LSP
+  autocmd!
+  autocmd FileType c,cpp,haskell call SetLSPShortcuts()
+augroup END
 
 " set the colorscheme
 if has("gui_running")
@@ -326,6 +374,6 @@ hi cInclude    ctermfg=lightcyan
 hi Todo        ctermbg=darkred ctermfg=white
 
 " enable powerline if it exists and we are not in a tty
-if (!(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
+if (!has('nvim') && !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
   set rtp+=~/.vim/powerline/powerline/bindings/vim/
 endif

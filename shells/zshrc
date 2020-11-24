@@ -292,6 +292,9 @@ alias jsc='jrunscript'
 # just in case
 alias svi='sudo vi'
 
+# migrate to neovim
+alias vim='nvim'
+
 # svn utilities
 # use ./.svnignore to ignore files
 alias svnignore='svn propset svn:ignore -F .svnignore .'

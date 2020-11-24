@@ -1,6 +1,7 @@
 \ProvidesPackage{incertia}
 
 \newif\ifincertiageom\incertiageomtrue
+\newif\ifincertiasection\incertiasectiontrue
 \newif\ifincertiasubsection\incertiasubsectionfalse
 \newif\ifincertiacd\incertiacdfalse
 \newif\ifincertiaasy\incertiaasyfalse
@@ -9,6 +10,8 @@
 
 \DeclareOption{geom}{\incertiageomtrue}
 \DeclareOption{nogeom}{\incertiageomfalse}
+\DeclareOption{section}{\incertiasectiontrue}
+\DeclareOption{nosection}{\incertiasectionfalse}
 \DeclareOption{subsection}{\incertiasubsectiontrue}
 \DeclareOption{nosubsection}{\incertiasubsectionfalse}
 \DeclareOption{cd}{\incertiacdtrue}
@@ -32,7 +35,7 @@
 \usepackage{amssymb}
 \usepackage{centernot}
 \usepackage{fancyhdr}
-\usepackage[cal=cm,bb=ams,frak=boondox,scr=rsfso]{mathalfa}
+% \usepackage[cal=cm,bb=ams,frak=boondox,scr=rsfso]{mathalfa}
 % \usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{siunitx}
@@ -40,6 +43,9 @@
 \ifincertiacd
 \usepackage{tikz-cd}
 \fi
+\usepackage{xfrac}
+\usepackage{faktor}
+\usepackage[mathscr]{euscript}
 
 % tikz things
 \usetikzlibrary{arrows}
@@ -114,7 +120,11 @@ usepackage("siunitx");
 {}
 
 \theoremstyle{norm}
+\ifincertiasection
 \newtheorem{thm}{Theorem}[section]
+\else
+\newtheorem{thm}{Theorem}
+\fi
 \newtheorem{lem}[thm]{Lemma}
 \newtheorem{df}[thm]{Definition}
 \newtheorem{rem}[thm]{Remark}
@@ -125,10 +135,14 @@ usepackage("siunitx");
 \newtheorem{clm}[thm]{Claim}
 \newtheorem{exr}[thm]{Exercise}
 \newtheorem{ex}[thm]{Example}
+\ifincertiasection
 \ifincertiasubsection
 \newtheorem{prb}{Problem}[subsection]
 \else
 \newtheorem{prb}{Problem}[section]
+\fi
+\else
+\newtheorem{prb}{Problem}
 \fi
 % \newtheorem{prb}[thm]{Problem}
 \newtheorem{note}[thm]{Note}
@@ -159,9 +173,14 @@ usepackage("siunitx");
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\aff}{aff}
 \DeclareMathOperator{\Aff}{Aff}
 \DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Der}{Der}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Spec}{Spec}
 \DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\rk}{rk}
 \DeclareMathOperator{\GL}{GL}
 \DeclareMathOperator{\SL}{SL}
 \DeclareMathOperator{\tr}{Tr}
@@ -177,11 +196,18 @@ usepackage("siunitx");
 \DeclareMathOperator{\chr}{char}
 \DeclareMathOperator{\cent}{C}
 \DeclareMathOperator{\normal}{N}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\gl}{\mathfrak{gl}}
+\let\sl\undefined
+\DeclareMathOperator{\sl}{\mathfrak{sl}}
+\DeclareMathOperator{\so}{\mathfrak{so}}
+\DeclareMathOperator{\Ht}{ht}
+\DeclareMathOperator{\nil}{nil}
 \newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
-\newcommand{\cycgroup}[1]{\left\langle#1\rangle\right}
-\newcommand{\gen}[1]{\left\langle#1\rangle\right}
-\newcommand{\set}[1]{\left\lbrace#1\right\rbrace}
-\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\cycgroup}[1]{\left\langle #1 \right\rangle}
+\newcommand{\gen}[1]{\left\langle #1 \right\rangle}
+\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
 \newcommand{\op}[1]{#1^{\textrm{op}}}
 
 % for easier math
@@ -200,3 +226,5 @@ usepackage("siunitx");
 \newcommand{\mono}{\rightarrowtail}
 \newcommand{\monoh}{\hookrightarrow}
 \newcommand{\epi}{\twoheadrightarrow}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
