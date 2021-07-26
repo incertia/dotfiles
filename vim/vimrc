@@ -3,6 +3,7 @@ set ts=2 sw=2 sts=2 et ai number
 " set cinoptions=g-1,:0,(0
 set cinoptions=g0,:0,(0
 set nohlsearch
+set guicursor=
 
 " appearance
 set t_Co=256 title scrolloff=2 wrap showmatch tw=80
@@ -19,6 +20,96 @@ set sessionoptions-=options
 " latex should be default
 let g:tex_flavor = "latex"
 
+" vim-plug
+call plug#begin('~/.vim/plugged')
+
+Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+set completeopt+=menuone,noselect
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+  " Plug 'neovim/nvim-lspconfig'
+  " set omnifunc=v:lua.vim.lsp.omnifunc
+else
+  " mucomplete
+  Plug 'lifepillar/vim-mucomplete'
+endif
+
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
+let g:LanguageClient_serverCommands = {
+  \ 'c'       : ['clangd'],
+  \ 'cpp'     : ['clangd'],
+  \ 'haskell' : ['hie'],
+  \ 'rust'    : {
+    \ 'name'  : 'rust-analyzer',
+    \ 'command': ['rustup', 'run', 'nightly', 'rust-analyzer'],
+    \ 'initializationOptions': {
+      \ 'cargo': {
+        \ 'loadOutDirsFromCheck': v:true
+      \ },
+      \ 'procMacro': {
+        \ 'enable': v:true
+      \ },
+      \ 'diagnostics': {
+        \ 'disabled': [ 'use-field-shorthand' ]
+      \ },
+    \ }
+  \ }
+\ }
+let g:LanguageClient_useVirtualText = "No"
+let g:LanguageClient_hoverMarginSize = 0
+
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
+
+" echos docstrings
+Plug 'Shougo/echodoc'
+if has('nvim')
+  set noshowmode
+  let g:echodoc#type = 'floating'
+else
+  let g:echodoc#type = "echo"
+  set cmdheight=2
+endif
+let g:echodoc#enable_at_startup = 1
+
+" language plugins
+Plug 'itchyny/vim-haskell-indent',  { 'for': 'haskell'  } " make sure to load vim-haskell-indent before haskell-vim
+Plug 'neovimhaskell/haskell-vim',   { 'for': 'haskell'  }
+Plug 'petRUShka/vim-sage',          { 'for': 'sage'     }
+Plug 'idris-hackers/idris-vim',     { 'for': 'idris'    }
+Plug 'rust-lang/rust.vim',          { 'for': 'rust'     }
+let g:rust_recommended_style = 0
+Plug 'cespare/vim-toml',            { 'for': 'toml'     }
+Plug 'stephpy/vim-yaml',            { 'for': 'yaml'     }
+Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
+
+Plug 'flazz/vim-colorschemes'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+let g:surround_no_mappings = 1
+let b:surround_indent = 0
+
+" :Bd to close buffers without closing the window
+Plug 'moll/vim-bbye'
+
+Plug 'sotte/presenting.vim'
+
+nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
+nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
+Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
+Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
+Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
+
+
+call plug#end()
+
 function! s:NewScratch(name)
   if (a:name == "")
     tabnew
@@ -30,59 +121,11 @@ function! s:NewScratch(name)
   setl noswapfile
 endfunction
 
-command!          NewScratch      :call s:NewScratch("")
-command! -nargs=1 OpenScratch     :call s:NewScratch(<f-args>)
-
-" leader command section
-nnoremap <silent> <leader>so      :so<SPACE>%<CR>
-nnoremap <silent> <leader>vc      :e<SPACE>~/.vim/vimrc<CR>
-nnoremap <silent> <leader>la      :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
-nnoremap <silent> <leader>;       m`A;<ESC>``
-nnoremap <silent> <leader>gs      :NewScratch<CR>
-nnoremap          <leader>gS      :OpenScratch<SPACE>
-
-nnoremap <silent> <leader>n  :NERDTreeToggle<CR>
-
-" tab bindings
-nnoremap <leader>1           1gt
-nnoremap <leader>2           2gt
-nnoremap <leader>3           3gt
-nnoremap <leader>4           4gt
-nnoremap <leader>5           5gt
-nnoremap <leader>6           6gt
-nnoremap <leader>7           7gt
-nnoremap <leader>8           8gt
-nnoremap <leader>9           9gt
-nnoremap <silent> <leader>0  :tablast<CR>
-
-let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
-let g:tabmoveright_cmd = ":+tabmove\<CR>"
-nnoremap <silent> <leader>hh @=g:tabmoveleft_cmd<CR>
-nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
-nnoremap <leader>j           gt
-nnoremap <leader>k           gT
-
-" surround.vim
-nmap <leader>ds  <Plug>Dsurround
-nmap <leader>cs  <Plug>Csurround
-nmap <leader>cS  <Plug>CSurround
-nmap <leader>ys  <Plug>Ysurround
-nmap <leader>yS  <Plug>YSurround
-nmap <leader>yss <Plug>Yssurround
-nmap <leader>ySs <Plug>YSsurround
-nmap <leader>ySS <Plug>YSsurround
-xmap <leader>S   <Plug>VSurround
-xmap <leader>gS  <Plug>VgSurround
-
 " windowswap
 let g:windowswap_map_keys = 0
-nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
 " tabularize
 let g:haskell_tabular = 1
-vnoremap a= :Tabularize /=<CR>
-vnoremap a; :Tabularize /::<CR>
-vnoremap a- :Tabularize /-><CR>
 
 " tab navigation
 function! TabSwitch(tabnum)
@@ -234,97 +277,6 @@ nnoremap <C-V>     v
 vnoremap    v   <C-V>
 vnoremap <C-V>     v
 
-" vim-plug
-call plug#begin('~/.vim/plugged')
-
-Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
-  let g:deoplete#enable_at_startup = 1
-else
-  " mucomplete
-  set completeopt+=menuone,noselect
-  Plug 'lifepillar/vim-mucomplete'
-endif
-
-" Required for operations modifying multiple buffers like rename.
-set hidden
-" vim language client
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ }
-let g:LanguageClient_serverCommands = {
-  \ 'c'       : ['clangd'],
-  \ 'cpp'     : ['clangd'],
-  \ 'haskell' : ['hie'],
-  \ 'rust'    : ['rls'],
-  \ }
-
-" (Optional) Multi-entry selection UI.
-Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
-
-" echos docstrings
-Plug 'Shougo/echodoc'
-if has('nvim')
-  let g:echodoc#type = "floating"
-else
-  let g:echodoc#type = "echo"
-  set cmdheight=2
-endif
-let g:echodoc#enable_at_startup = 1
-
-let g:surround_no_mappings = 1
-let b:surround_indent = 0
-Plug 'flazz/vim-colorschemes'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'wesQ3/vim-windowswap'
-Plug 'moll/vim-bbye'
-
-" let g:syntastic_python_python_exec = '/usr/bin/python2'
-" let g:syntastic_python_flake8_exec = '/usr/bin/python2'
-" let g:syntastic_python_checkers    = ['pylint', 'python']
-" let g:syntastic_mode_map = {
-"       \ 'mode': 'passive',
-"       \ 'active_filetypes': ['c', 'cpp', 'haskell'],
-"       \ 'passive_filetypes': []
-"       \ }
-" Plug 'scrooloose/syntastic'
-Plug 'sotte/presenting.vim'
-
-nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
-nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
-Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
-Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
-Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
-
-" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
-
-" make sure to load vim-haskell-indent before haskell-vim
-Plug 'itchyny/vim-haskell-indent'
-Plug 'neovimhaskell/haskell-vim'
-
-Plug 'petRUShka/vim-sage',          { 'for': 'sage'    }
-
-Plug 'idris-hackers/idris-vim',     { 'for': 'idris'   }
-
-let g:rust_recommended_style = 0
-Plug 'rust-lang/rust.vim',          { 'for': 'rust'    }
-
-" Plug 'OmniSharp/omnisharp-vim'
-
-" let g:ycm_min_num_of_chars_for_completion = 8
-" let g:ycm_key_list_select_completion = [ "<Down>", ]
-" let g:ycm_key_list_previous_completion = [ "<Up>", ]
-" let g:ycm_confirm_extra_conf = 0
-" let g:ycm_semantic_triggers = {'haskell' : ['.']}
-" let g:ycm_rust_src_path = "/usr/local/rust/rustc-1.10.0/src"
-" Plug 'Valloric/YouCompleteMe'
-" Plug 'rdnetto/YCM-Generator',       { 'branch': 'stable' }
-call plug#end()
-
 if has('nvim')
   " use <ESC> to get out of insert mode in neovim terminals
   tnoremap <ESC> <C-\><C-n>
@@ -335,16 +287,54 @@ if has("autocmd")
 endif
 
 function SetLSPShortcuts()
-  nnoremap <silent> <leader><F5> :call LanguageClient_contextMenu()<CR>
-  nnoremap <silent> <leader>gd   :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <silent> <leader>xx   :call LanguageClient#textDocument_references()<CR>
-  nnoremap <silent> <leader>K    :call LanguageClient#textDocument_hover()<CR>
+  if has_key(g:LanguageClient_serverCommands, &filetype)
+    nmap <buffer> <silent> <leader><F5> <Plug>(lcn-menu)
+    nmap <buffer> <silent> <leader>ca   <Plug>(lcn-codeAction)
+    nmap <buffer> <silent> <leader>gd   <Plug>(lcn-definition)
+    nmap <buffer> <silent> <leader>gi   <Plug>(lcn-implementation)
+    nmap <buffer> <silent> <leader>xx   <Plug>(lcn-references)
+    nmap <buffer> <silent> <leader>K    <Plug>(lcn-hover)
+    nmap <buffer> <silent> K            <Plug>(lcn-hover)
+    nmap <buffer> <silent> <leader>dd   <Plug>(lcn-explain-error)
+    nmap <buffer> <silent> <leader>d[   <Plug>(lcn-diagnostics-next)
+    nmap <buffer> <silent> <leader>d]   <Plug>(lcn-diagnostics-prev)
+    nmap <buffer> <silent> <leader>ff   <Plug>(lcn-format)
+    " au CursorHold * sil call LanguageClient#explainErrorAtPoint({'silent': v:true})
+  endif
 endfunction()
 
-augroup LSP
-  autocmd!
-  autocmd FileType c,cpp,haskell call SetLSPShortcuts()
-augroup END
+"augroup LSP
+"  autocmd!
+"  autocmd FileType c,cpp,haskell call SetLSPShortcuts()
+"augroup END
+"
+
+" function SetLSPShortcuts()
+"   nnoremap <silent> <leader>gD    :lua vim.lsp.buf.declaration()<CR>
+"   nnoremap <silent> <leader>gd    :lua vim.lsp.buf.definition()<CR>
+"   nnoremap <silent> <leader>gd    :lua vim.lsp.buf.implementation()<CR>
+"   nnoremap <silent> <leader>xx    :lua vim.lsp.buf.references()<CR>
+"   nnoremap <silent> <leader><C-k> :lua vim.lsp.buf.signature_help()<CR>
+"   nnoremap <silent> <leader>K     :lua vim.lsp.buf.hover()<CR>
+"   nnoremap <silent> K             :lua vim.lsp.buf.hover()<CR>
+"   nnoremap <silent> <leader>dd    :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+"   nnoremap <silent> <leader>[d    :lua vim.lsp.diagnostic.goto_prev()<CR>
+"   nnoremap <silent> <leader>]d    :lua vim.lsp.diagnostic.goto_next()<CR>
+"   nnoremap <silent> <leader>f     :lua vim.lsp.buf.formatting()<CR>
+"   " autocmd! CursorHold *           lua vim.lsp.diagnostic.show_line_diagnostics()
+"   " set updatetime=200
+"   sign define LspDiagnosticsSignError text=✖ texthl=LspDiagnosticsSignError linehl= numhl=
+"   sign define LspDiagnosticsSignWarning text=⚠ texthl=LspDiagnosticsSignWarning linehl= numhl=
+"   sign define LspDiagnosticsSignInformation text=ℹ texthl=LspDiagnosticsSignInformation linehl= numhl=
+"   sign define LspDiagnosticsSignHint text=➤ texthl=LspDiagnosticsSignHint linehl= numhl=
+" endfunction()
+
+" augroup LSP
+"   autocmd! FileType c,cpp,haskell,rust call SetLSPShortcuts()
+"   autocmd! FileType c,cpp,haskell,rust echo "yolo"
+" augroup END
+
+autocmd FileType * call SetLSPShortcuts()
 
 " set the colorscheme
 if has("gui_running")
@@ -377,3 +367,53 @@ hi Todo        ctermbg=darkred ctermfg=white
 if (!has('nvim') && !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
   set rtp+=~/.vim/powerline/powerline/bindings/vim/
 endif
+
+" leader command section
+nnoremap <silent> <leader>so      :so<SPACE>%<CR>
+nnoremap <silent> <leader>vc      :e<SPACE>~/.vim/vimrc<CR>
+nnoremap <silent> <leader>la      :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
+nnoremap <silent> <leader>;       m`A;<ESC>``
+nnoremap <silent> <leader>gs      :NewScratch<CR>
+nnoremap          <leader>gS      :OpenScratch<SPACE>
+
+nnoremap <silent> <leader>n  :NERDTreeToggle<CR>
+
+" tab bindings
+nnoremap <leader>1           1gt
+nnoremap <leader>2           2gt
+nnoremap <leader>3           3gt
+nnoremap <leader>4           4gt
+nnoremap <leader>5           5gt
+nnoremap <leader>6           6gt
+nnoremap <leader>7           7gt
+nnoremap <leader>8           8gt
+nnoremap <leader>9           9gt
+nnoremap <silent> <leader>0  :tablast<CR>
+
+command!          NewScratch      :call s:NewScratch("")
+command! -nargs=1 OpenScratch     :call s:NewScratch(<f-args>)
+
+let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
+let g:tabmoveright_cmd = ":+tabmove\<CR>"
+nnoremap <silent> <leader>hh @=g:tabmoveleft_cmd<CR>
+nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
+nnoremap <leader>j           gt
+nnoremap <leader>k           gT
+
+" surround.vim
+nmap <leader>ds  <Plug>Dsurround
+nmap <leader>cs  <Plug>Csurround
+nmap <leader>cS  <Plug>CSurround
+nmap <leader>ys  <Plug>Ysurround
+nmap <leader>yS  <Plug>YSurround
+nmap <leader>yss <Plug>Yssurround
+nmap <leader>ySs <Plug>YSsurround
+nmap <leader>ySS <Plug>YSsurround
+xmap <leader>S   <Plug>VSurround
+xmap <leader>gS  <Plug>VgSurround
+
+nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
+
+vnoremap a= :Tabularize /=<CR>
+vnoremap a; :Tabularize /::<CR>
+vnoremap a- :Tabularize /-><CR>
