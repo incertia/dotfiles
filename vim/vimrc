@@ -1,9 +1,19 @@
-"" editing
+" editing
 set ts=2 sw=2 sts=2 et ai number
-" set cinoptions=g-1,:0,(0
 set cinoptions=g0,:0,(0
 set nohlsearch
 set guicursor=
+
+" split to the right and below
+set splitbelow splitright
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+" menuone: popup even if there is only one match
+" noinsert: do not insert selection until accepted
+" noselect: do not automatically select
+set completeopt+=menuone,noinsert,noselect
 
 " appearance
 set t_Co=256 title scrolloff=2 wrap showmatch tw=80
@@ -11,8 +21,8 @@ set list listchars=tab:\|\ ,trail:.
 set laststatus=2
 syntax on
 
-"" other stuff
-set matchtime=1
+" other stuff
+set matchtime=2
 let mapleader="\\"
 let localleader=","
 set sessionoptions-=options
@@ -25,9 +35,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
 
-" Required for operations modifying multiple buffers like rename.
-set hidden
-set completeopt+=menuone,noselect
+" completion plugin
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
   let g:deoplete#enable_at_startup = 1
@@ -38,10 +46,16 @@ else
   Plug 'lifepillar/vim-mucomplete'
 endif
 
+" a completion plugin also needs an LSP source
 Plug 'autozimu/LanguageClient-neovim', {
   \ 'branch': 'next',
   \ 'do': 'bash install.sh',
-  \ }
+\ }
+
+let g:LanguageClient_useVirtualText = "No"
+let g:LanguageClient_hoverMarginSize = 0
+
+" setup language servers
 let g:LanguageClient_serverCommands = {
   \ 'c'       : ['clangd'],
   \ 'cpp'     : ['clangd'],
@@ -62,8 +76,6 @@ let g:LanguageClient_serverCommands = {
     \ }
   \ }
 \ }
-let g:LanguageClient_useVirtualText = "No"
-let g:LanguageClient_hoverMarginSize = 0
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
@@ -71,7 +83,6 @@ Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
 " echos docstrings
 Plug 'Shougo/echodoc'
 if has('nvim')
-  set noshowmode
   let g:echodoc#type = 'floating'
 else
   let g:echodoc#type = "echo"
@@ -90,7 +101,7 @@ Plug 'cespare/vim-toml',            { 'for': 'toml'     }
 Plug 'stephpy/vim-yaml',            { 'for': 'yaml'     }
 Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 
-Plug 'flazz/vim-colorschemes'
+Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 let g:surround_no_mappings = 1
@@ -101,31 +112,12 @@ Plug 'moll/vim-bbye'
 
 Plug 'sotte/presenting.vim'
 
-nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
-nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
 Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
 Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
 Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
-
+let g:haskell_tabular = 1
 
 call plug#end()
-
-function! s:NewScratch(name)
-  if (a:name == "")
-    tabnew
-  else
-    execute "tabnew " . a:name
-  endif
-  setl buftype=nofile
-  setl bufhidden=hide
-  setl noswapfile
-endfunction
-
-" windowswap
-let g:windowswap_map_keys = 0
-
-" tabularize
-let g:haskell_tabular = 1
 
 " tab navigation
 function! TabSwitch(tabnum)
@@ -139,34 +131,7 @@ filetype plugin indent on
 
 set viewoptions-=options
 
-"" autocmd stuff
-if has("autocmd")
-  " Uncomment the following to have Vim jump to the last position when
-  " reopening a file
-  " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-  " Set scripts to be executable from the shell
-  au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
-  au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
-
-  "" save/restore views when exiting/entering vim
-  au BufWrite * mkview
-  au BufRead * silent! loadview
-
-  " tags the 81st column to ColorColumn
-  au BufEnter,WinEnter * call matchadd('ColorColumn', '\%81v', 100)
-
-  " Uncomment the following line to disable auto commenting
-  " au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-  " au FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
-  au FileType tex setlocal textwidth=80
-
-  autocmd FileType markdown
-    \ setlocal formatoptions-=q |
-    \ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
-endif
-
-"folding settings
+" folding settings
 set foldmethod=indent   " fold based on indent
 set foldnestmax=16      " deepest fold is 16 levels
 set nofoldenable        " don't fold by default
@@ -177,10 +142,72 @@ set nf=alpha,octal,hex
 nnoremap <C-x> <nop>
 nnoremap <C-d> <C-x>
 
-" split to the right and below
-set splitbelow splitright
+" autocmd stuff
+if has("autocmd")
+  " Set scripts to be executable from the shell
+  augroup shell_execute
+    autocmd!
+    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
+    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
+  augroup END
 
-" map <F1> to deleting trailing whitespace and clearing empty lines
+  " save/restore views when exiting/entering vim
+  augroup buffer_view
+    autocmd!
+    autocmd BufWrite * mkview
+    autocmd BufRead * silent! loadview
+  augroup END
+
+  " tags the 81st column to ColorColumn and highlights it white
+  augroup color_column
+    autocmd!
+    hi ColorColumn ctermbg=white
+    autocmd BufEnter,WinEnter * call matchadd('ColorColumn', '\%81v', 100)
+  augroup END
+
+  " textwidth on tex should be 80
+  augroup text_width
+    autocmd!
+    autocmd FileType tex setlocal textwidth=80
+  augroup END
+
+  " some markdown stuff
+  augroup markdown
+    autocmd!
+    autocmd FileType markdown
+      \ setlocal formatoptions-=q |
+      \ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
+  augroup END
+
+  " language server goodies
+  function SetLSPShortcuts()
+    if has_key(g:LanguageClient_serverCommands, &filetype)
+      nmap <buffer> <silent> <leader><F5> <Plug>(lcn-menu)
+      nmap <buffer> <silent> <leader>ca   <Plug>(lcn-codeAction)
+      nmap <buffer> <silent> <leader>gd   <Plug>(lcn-definition)
+      nmap <buffer> <silent> <leader>gi   <Plug>(lcn-implementation)
+      nmap <buffer> <silent> <leader>xx   <Plug>(lcn-references)
+      nmap <buffer> <silent> <leader>K    <Plug>(lcn-hover)
+      nmap <buffer> <silent> K            <Plug>(lcn-hover)
+      nmap <buffer> <silent> <leader>dd   <Plug>(lcn-explain-error)
+      nmap <buffer> <silent> <leader>d[   <Plug>(lcn-diagnostics-next)
+      nmap <buffer> <silent> <leader>d]   <Plug>(lcn-diagnostics-prev)
+      nmap <buffer> <silent> <leader>ff   <Plug>(lcn-format)
+    endif
+  endfunction()
+
+  augroup lsp
+    autocmd!
+    autocmd FileType * call SetLSPShortcuts()
+  augroup END
+
+  augroup completion
+    autocmd!
+    autocmd CompleteDone * pclose
+  augroup END
+endif
+
+" function to delete trailing whitespace
 function! KillWhiteThings()
   let save_cursor = getpos(".")
   :silent! %s#\($\n\s*\)\+\%$##
@@ -188,210 +215,89 @@ function! KillWhiteThings()
   call setpos('.', save_cursor)
 endfunction
 
-nnoremap <silent> <F1>  :call KillWhiteThings()<CR>
-nnoremap <silent> <F2>  :set hlsearch! hlsearch?<CR>
-nnoremap <silent> <F3>  :tabonly<CR>
-nnoremap <silent> <F4>  :q!<CR>
+" KEYBINDS YAY
+
+" funciton keys
+nnoremap <silent> <F1>   :call KillWhiteThings()<CR>
+nnoremap <silent> <F2>   :set hlsearch! hlsearch?<CR>
 
 " reflow bindings
-nnoremap Q              gqgq
-vnoremap Q              gq
-
-" emacs <C-x><C-c> with prompt is really nice
-nnoremap <C-x><C-x>     :confirm qa<CR>
+nnoremap Q               gqgq
+vnoremap Q               gq
 
 " switch files with arrow keys
-nnoremap <DOWN>         :bnext<CR>
-nnoremap <UP>           :bprev<CR>
+nnoremap <silent> <DOWN> :bnext<CR>
+nnoremap <silent> <UP>   :bprev<CR>
 
 " tabs
-nnoremap <C-t>          :tabnew<SPACE>
+nnoremap <C-t>           :tabnew<SPACE>
 let g:newtab_command = ":tabnew\<CR>"
-nnoremap <C-y>          @=g:newtab_command<CR>
-nnoremap <S-TAB>        gt
+nnoremap <silent> <C-y>  @=g:newtab_command<CR>
+nnoremap <S-TAB>         gt
 
 " map space to executing the q macro for easy qq recording
-nnoremap <SPACE>        @q
-
-" who cares about ex mode. map QQ to reflow paragraphs
-" nnoremap QQ             gqap
-" vnoremap QQ             gq
+nnoremap <SPACE>         @q
 
 " save shortcut
-inoremap <C-s>          <ESC>:w!<CR>a
-nnoremap <C-s>          :w!<CR>
+nnoremap <C-s>           :w!<CR>
 
 " split workflow
-nnoremap <C-h>          <C-w>h
-nnoremap <C-j>          <C-w>j
-nnoremap <C-k>          <C-w>k
-nnoremap <C-l>          <C-w>l
-nnoremap <leader>-      <C-w>-
-nnoremap <leader>=      <C-w>+
+nnoremap <C-h>           <C-w>h
+nnoremap <C-j>           <C-w>j
+nnoremap <C-k>           <C-w>k
+nnoremap <C-l>           <C-w>l
+nnoremap <leader>-       <C-w>-
+nnoremap <leader>=       <C-w>+
 " because we remmaped <C-l>
-nnoremap <leader><C-l>  <C-l>
+nnoremap <leader><C-l>   <C-l>
 
 " scroll up to <C-q> (don't need this to be visual block)
-nnoremap <C-q>          <C-y>
+" now <C-q> and <C-e> are scroll up/down
+nnoremap <C-q>           <C-y>
 
 " this helps with long lines
-nnoremap j              gj
-nnoremap k              gk
-nnoremap gj             j
-nnoremap gk             k
-vnoremap j              gj
-vnoremap k              gk
-vnoremap gj             j
-vnoremap gk             k
+nnoremap j  gj
+nnoremap k  gk
+nnoremap gj j
+nnoremap gk k
+vnoremap j  gj
+vnoremap k  gk
+vnoremap gj j
+vnoremap gk k
 
-function! Scroll(dir)
-  let lines = winheight(0)
+" convenience because : is used so much more than ;
+nnoremap ; :
+nnoremap : ;
+vnoremap ; :
+vnoremap : ;
 
-  if(a:dir == "up")
-    let cmd = "\<C-y>"
-  elseif(a:dir == "down")
-    let cmd = "\<C-e>"
-  else
-    let cmd = "\<Esc>"
-  endif
-
-  call feedkeys(lines . cmd, "n")
-endfunction
-
-"" All of the following settings were taken from Damian Conway
-"====[ Make the 81st column stand out ]====================
-
-" EITHER the entire 81st column, full-screen
-" highlight ColorColumn ctermbg=magenta
-" set colorcolumn=81
-
-" OR ELSE just the 81st column of wide lines
-hi ColorColumn ctermbg=white
-
-nnoremap  ;  :
-nnoremap  :  ;
-vnoremap  ;  :
-vnoremap  :  ;
-nnoremap    v   <C-V>
-nnoremap <C-V>     v
-vnoremap    v   <C-V>
-vnoremap <C-V>     v
-
-if has('nvim')
-  " use <ESC> to get out of insert mode in neovim terminals
-  tnoremap <ESC> <C-\><C-n>
-endif
-
-if has("autocmd")
-  au CompleteDone * pclose
-endif
-
-function SetLSPShortcuts()
-  if has_key(g:LanguageClient_serverCommands, &filetype)
-    nmap <buffer> <silent> <leader><F5> <Plug>(lcn-menu)
-    nmap <buffer> <silent> <leader>ca   <Plug>(lcn-codeAction)
-    nmap <buffer> <silent> <leader>gd   <Plug>(lcn-definition)
-    nmap <buffer> <silent> <leader>gi   <Plug>(lcn-implementation)
-    nmap <buffer> <silent> <leader>xx   <Plug>(lcn-references)
-    nmap <buffer> <silent> <leader>K    <Plug>(lcn-hover)
-    nmap <buffer> <silent> K            <Plug>(lcn-hover)
-    nmap <buffer> <silent> <leader>dd   <Plug>(lcn-explain-error)
-    nmap <buffer> <silent> <leader>d[   <Plug>(lcn-diagnostics-next)
-    nmap <buffer> <silent> <leader>d]   <Plug>(lcn-diagnostics-prev)
-    nmap <buffer> <silent> <leader>ff   <Plug>(lcn-format)
-    " au CursorHold * sil call LanguageClient#explainErrorAtPoint({'silent': v:true})
-  endif
-endfunction()
-
-"augroup LSP
-"  autocmd!
-"  autocmd FileType c,cpp,haskell call SetLSPShortcuts()
-"augroup END
-"
-
-" function SetLSPShortcuts()
-"   nnoremap <silent> <leader>gD    :lua vim.lsp.buf.declaration()<CR>
-"   nnoremap <silent> <leader>gd    :lua vim.lsp.buf.definition()<CR>
-"   nnoremap <silent> <leader>gd    :lua vim.lsp.buf.implementation()<CR>
-"   nnoremap <silent> <leader>xx    :lua vim.lsp.buf.references()<CR>
-"   nnoremap <silent> <leader><C-k> :lua vim.lsp.buf.signature_help()<CR>
-"   nnoremap <silent> <leader>K     :lua vim.lsp.buf.hover()<CR>
-"   nnoremap <silent> K             :lua vim.lsp.buf.hover()<CR>
-"   nnoremap <silent> <leader>dd    :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-"   nnoremap <silent> <leader>[d    :lua vim.lsp.diagnostic.goto_prev()<CR>
-"   nnoremap <silent> <leader>]d    :lua vim.lsp.diagnostic.goto_next()<CR>
-"   nnoremap <silent> <leader>f     :lua vim.lsp.buf.formatting()<CR>
-"   " autocmd! CursorHold *           lua vim.lsp.diagnostic.show_line_diagnostics()
-"   " set updatetime=200
-"   sign define LspDiagnosticsSignError text=✖ texthl=LspDiagnosticsSignError linehl= numhl=
-"   sign define LspDiagnosticsSignWarning text=⚠ texthl=LspDiagnosticsSignWarning linehl= numhl=
-"   sign define LspDiagnosticsSignInformation text=ℹ texthl=LspDiagnosticsSignInformation linehl= numhl=
-"   sign define LspDiagnosticsSignHint text=➤ texthl=LspDiagnosticsSignHint linehl= numhl=
-" endfunction()
-
-" augroup LSP
-"   autocmd! FileType c,cpp,haskell,rust call SetLSPShortcuts()
-"   autocmd! FileType c,cpp,haskell,rust echo "yolo"
-" augroup END
-
-autocmd FileType * call SetLSPShortcuts()
-
-" set the colorscheme
-if has("gui_running")
-  set background=light
-  set guioptions-=T
-  set guioptions-=m
-  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
-endif
-colorscheme Tomorrow-Night
-
-hi Normal      ctermbg=NONE
-hi NonText     ctermbg=NONE
-hi LineNr      ctermfg=blue
-hi Folded      ctermbg=NONE
-hi SpecialKey  ctermbg=NONE
-hi VertSplit   ctermbg=NONE
-hi SignColumn  ctermbg=NONE
-hi SpellBad    cterm=underline ctermbg=NONE ctermfg=red
-hi SpellCap    cterm=underline ctermbg=NONE ctermfg=magenta
-hi String      ctermbg=NONE ctermfg=cyan
-hi ColorColumn ctermbg=white ctermfg=black
-hi Special     ctermfg=magenta
-hi Label       ctermfg=green
-hi Statement   ctermfg=red
-hi PreProc     ctermfg=lightcyan
-hi cInclude    ctermfg=lightcyan
-hi Todo        ctermbg=darkred ctermfg=white
-
-" enable powerline if it exists and we are not in a tty
-if (!has('nvim') && !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
-  set rtp+=~/.vim/powerline/powerline/bindings/vim/
-endif
+" nobody uses normal visual mode anyway
+nnoremap    v  <C-V>
+nnoremap <C-V>    v
+vnoremap    v  <C-V>
+vnoremap <C-V>    v
 
 " leader command section
 nnoremap <silent> <leader>so      :so<SPACE>%<CR>
 nnoremap <silent> <leader>vc      :e<SPACE>~/.vim/vimrc<CR>
 nnoremap <silent> <leader>la      :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
+
+" this adds a semicolon to the current line
 nnoremap <silent> <leader>;       m`A;<ESC>``
-nnoremap <silent> <leader>gs      :NewScratch<CR>
-nnoremap          <leader>gS      :OpenScratch<SPACE>
 
 nnoremap <silent> <leader>n  :NERDTreeToggle<CR>
 
 " tab bindings
-nnoremap <leader>1           1gt
-nnoremap <leader>2           2gt
-nnoremap <leader>3           3gt
-nnoremap <leader>4           4gt
-nnoremap <leader>5           5gt
-nnoremap <leader>6           6gt
-nnoremap <leader>7           7gt
-nnoremap <leader>8           8gt
-nnoremap <leader>9           9gt
-nnoremap <silent> <leader>0  :tablast<CR>
-
-command!          NewScratch      :call s:NewScratch("")
-command! -nargs=1 OpenScratch     :call s:NewScratch(<f-args>)
+nnoremap <leader>1          1gt
+nnoremap <leader>2          2gt
+nnoremap <leader>3          3gt
+nnoremap <leader>4          4gt
+nnoremap <leader>5          5gt
+nnoremap <leader>6          6gt
+nnoremap <leader>7          7gt
+nnoremap <leader>8          8gt
+nnoremap <leader>9          9gt
+nnoremap <silent> <leader>0 :tablast<CR>
 
 let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
 let g:tabmoveright_cmd = ":+tabmove\<CR>"
@@ -412,8 +318,34 @@ nmap <leader>ySS <Plug>YSsurround
 xmap <leader>S   <Plug>VSurround
 xmap <leader>gS  <Plug>VgSurround
 
-nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
-
+" haskell tabularize bindings
 vnoremap a= :Tabularize /=<CR>
 vnoremap a; :Tabularize /::<CR>
 vnoremap a- :Tabularize /-><CR>
+
+" CtrlP
+nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
+nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
+
+if has('nvim')
+  " use <ESC> to get out of insert mode in neovim terminals
+  tnoremap <ESC> <C-\><C-n>
+endif
+
+" set the colorscheme
+if has("gui_running")
+  set background=light
+  set guioptions-=T
+  set guioptions-=m
+  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+endif
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+" enable powerline if it exists and we are not in a tty
+if (!has('nvim') && !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
+  set rtp+=~/.vim/powerline/powerline/bindings/vim/
+endif
