@@ -16,7 +16,7 @@ set hidden
 set completeopt+=menuone,noinsert,noselect
 
 " appearance
-set t_Co=256 title scrolloff=2 wrap showmatch tw=80
+set title scrolloff=2 wrap showmatch tw=120
 set list listchars=tab:\|\ ,trail:.
 set laststatus=2
 syntax on
@@ -147,8 +147,8 @@ if has("autocmd")
   " Set scripts to be executable from the shell
   augroup shell_execute
     autocmd!
-    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
-    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
+    autocmd BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent execute "!chmod +x %" | endif | endif
+    autocmd BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "zsh" | silent execute "setfiletype zsh" | endif | endif
   augroup END
 
   " save/restore views when exiting/entering vim
@@ -158,11 +158,21 @@ if has("autocmd")
     autocmd BufRead * silent! loadview
   augroup END
 
-  " tags the 81st column to ColorColumn and highlights it white
+  " tags the textwidth + 1 column to ColorColumn and highlights it white
+  function ColorColumn()
+    let l:color_fmt = printf("\\%%%dv", &textwidth + 1)
+    if exists("w:color_id")
+      call matchdelete(w:color_id)
+      call matchadd('ColorColumn', l:color_fmt, 100, w:color_id)
+    else
+      let w:color_id = matchadd('ColorColumn', l:color_fmt, 100)
+    endif
+  endfunction()
+
   augroup color_column
     autocmd!
     hi ColorColumn ctermbg=white
-    autocmd BufEnter,WinEnter * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd BufEnter,WinEnter * call ColorColumn()
   augroup END
 
   " textwidth on tex should be 80
