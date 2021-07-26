@@ -167,12 +167,12 @@ if has("autocmd")
     else
       let w:color_id = matchadd('ColorColumn', l:color_fmt, 100)
     endif
-  endfunction()
+  endfunction
 
   augroup color_column
     autocmd!
-    hi ColorColumn ctermbg=white
     autocmd BufEnter,WinEnter * call ColorColumn()
+    autocmd OptionSet textwidth call ColorColumn()
   augroup END
 
   " textwidth on tex should be 80
@@ -204,7 +204,7 @@ if has("autocmd")
       nmap <buffer> <silent> <leader>d]   <Plug>(lcn-diagnostics-prev)
       nmap <buffer> <silent> <leader>ff   <Plug>(lcn-format)
     endif
-  endfunction()
+  endfunction
 
   augroup lsp
     autocmd!
@@ -214,6 +214,21 @@ if has("autocmd")
   augroup completion
     autocmd!
     autocmd CompleteDone * pclose
+  augroup END
+
+  augroup colorschemes
+    autocmd!
+    " disable background highlighting for SpellBad, etc, because underlines are enough
+    " we have to do this after we :colorscheme because most colorschemes call :hi clear which will reset the
+    " highlighting back to the defaults, and if a colorscheme does not touch the background, it can cause conflicts with
+    " linters that utilize SpellBad, etc
+    autocmd ColorScheme * hi SpellBad    ctermbg=NONE
+    autocmd ColorScheme * hi SpellCap    ctermbg=NONE
+    autocmd ColorScheme * hi SpellRare   ctermbg=NONE
+    autocmd ColorScheme * hi SpellLocal  ctermbg=NONE
+
+    " also reset the ColorColumn
+    autocmd ColorScheme * hi ColorColumn ctermbg=white
   augroup END
 endif
 
@@ -359,3 +374,12 @@ endif
 if (!has('nvim') && !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
   set rtp+=~/.vim/powerline/powerline/bindings/vim/
 endif
+
+function! SynStack()
+  for i1 in synstack(line("."), col("."))
+    let i2 = synIDtrans(i1)
+    let n1 = synIDattr(i1, "name")
+    let n2 = synIDattr(i2, "name")
+    echo n1 "->" n2
+  endfor
+endfunction
