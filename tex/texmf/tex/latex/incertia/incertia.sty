@@ -1,5 +1,8 @@
 \ProvidesPackage{incertia}
 
+% we need this for options
+\usepackage{kvoptions}
+
 \newif\ifincertiageom\incertiageomtrue
 \newif\ifincertiasection\incertiasectiontrue
 \newif\ifincertiasubsection\incertiasubsectionfalse
@@ -22,8 +25,10 @@
 \DeclareOption{nosets}{\incertiasetsfalse}
 \DeclareOption{display}{\incertiadisplaytrue}
 \DeclareOption{nodisplay}{\incertiadisplayfalse}
+\DeclareStringOption{defn}
 
 \ProcessOptions\relax
+\ProcessKeyvalOptions*
 
 % some default packages
 \ifincertiageom
@@ -158,14 +163,14 @@ usepackage("siunitx");
 \DeclareMathOperator{\sech}{sech}
 \DeclareMathOperator{\csch}{csch}
 \DeclareMathOperator{\arcsec}{arcsec}
-\DeclareMathOperator{\arccot}{arcCot}
-\DeclareMathOperator{\arccsc}{arcCsc}
-\DeclareMathOperator{\arccosh}{arcCosh}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+\DeclareMathOperator{\arccosh}{arccosh}
 \DeclareMathOperator{\arcsinh}{arcsinh}
 \DeclareMathOperator{\arctanh}{arctanh}
 \DeclareMathOperator{\arcsech}{arcsech}
-\DeclareMathOperator{\arccsch}{arcCsch}
-\DeclareMathOperator{\arccoth}{arcCoth}
+\DeclareMathOperator{\arccsch}{arccsch}
+\DeclareMathOperator{\arccoth}{arccoth}
 
 % just useful shorthand
 \renewcommand{\st}{\,\operatorname{s.t.}\,}
@@ -197,6 +202,7 @@ usepackage("siunitx");
 \DeclareMathOperator{\cent}{C}
 \DeclareMathOperator{\normal}{N}
 \DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\zdiv}{zdiv}
 \DeclareMathOperator{\gl}{\mathfrak{gl}}
 \let\sl\undefined
 \DeclareMathOperator{\sl}{\mathfrak{sl}}
@@ -208,7 +214,15 @@ usepackage("siunitx");
 \newcommand{\gen}[1]{\left\langle #1 \right\rangle}
 \newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
 \newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
-\newcommand{\op}[1]{#1^{\textrm{op}}}
+\newcommand{\op}{\textrm{op}}
+
+% selectively define the defn command
+%\ifincertia@defn@bold
+%\newcommand{\defn}[1]{\textbf{#1}}%
+%\fi
+%\@namedef{incertia@defn@italic}{
+%  \newcommand{\defn}[1]{\textit{##1}}
+%}
 
 % for easier math
 \ifincertiadisplay
