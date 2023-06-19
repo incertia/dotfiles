@@ -1,8 +1,12 @@
 " editing
-set ts=2 sw=2 sts=2 et ai relativenumber
-set cinoptions=g0,:0,(0
+set ts=2 sw=2 sts=2 et ai number relativenumber noshowmode
+set cinoptions=g0,:0,(0,W1s
 set nohlsearch
 set guicursor=
+set undofile
+
+" this fixes excessive "Pattern not found" messages
+set shm+=c
 
 " split to the right and below
 set splitbelow splitright
@@ -62,10 +66,11 @@ let g:LanguageClient_serverCommands = {
   \ 'haskell' : ['hie'],
   \ 'rust'    : {
     \ 'name'  : 'rust-analyzer',
-    \ 'command': ['rustup', 'run', 'nightly', 'rust-analyzer'],
+    \ 'command': ['rust-analyzer'],
     \ 'initializationOptions': {
       \ 'cargo': {
-        \ 'loadOutDirsFromCheck': v:true
+        \ 'loadOutDirsFromCheck': v:true,
+        \ 'allFeatures': v:true
       \ },
       \ 'procMacro': {
         \ 'enable': v:true
@@ -100,6 +105,7 @@ let g:rust_recommended_style = 0
 Plug 'cespare/vim-toml',            { 'for': 'toml'     }
 Plug 'stephpy/vim-yaml',            { 'for': 'yaml'     }
 Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
+Plug 'tikhomirov/vim-glsl',         { 'for': 'glsl'     }
 
 Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-repeat'
@@ -193,7 +199,8 @@ if has("autocmd")
   function SetLSPShortcuts()
     if has_key(g:LanguageClient_serverCommands, &filetype)
       nmap <buffer> <silent> <leader><F5> <Plug>(lcn-menu)
-      nmap <buffer> <silent> <leader>ca   <Plug>(lcn-codeAction)
+      nmap <buffer> <silent> <leader><F2> <Plug>(lcn-rename)
+      nmap <buffer> <silent> <leader>ca   <Plug>(lcn-code-action)
       nmap <buffer> <silent> <leader>gd   <Plug>(lcn-definition)
       nmap <buffer> <silent> <leader>gi   <Plug>(lcn-implementation)
       nmap <buffer> <silent> <leader>xx   <Plug>(lcn-references)
