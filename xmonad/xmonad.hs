@@ -1,5 +1,5 @@
 import Control.Exception            (catch, SomeException)
-import Data.List                    (intercalate)
+import Data.List                    (intercalate, isInfixOf)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import System.Environment           (getEnv)
@@ -34,23 +34,23 @@ catchAny = catch
 -- also can shift windows to workspaces when needed
 -- use <+> to combine actions
 myManageHook = composeAll
-  [ resource  =? "desktop_window"     --> doIgnore
-  , className =? "Xfce4-notifyd"      --> doIgnore
-  , className =? "Arandr"             --> doFloat
-  , className =? "Vlc"                --> doFloat
-  , className =? "mpv"                --> doFloat
-  , className =? "Steam"              --> doFloat
-  , className =? "feh"                --> doFloat
-  , className =? "Xmessage"           --> doFloat
-  , title     =? "cs242-chess-gui"    --> doFloat
-  , className =? "Firefox"            --> doShift "2:web"
-  , className =? "plugin-container"   --> doShift "8:plugin-container"
+  [ resource  =? "desktop_window"      --> doIgnore
+  , className =? "Xfce4-notifyd"       --> doIgnore
+  , className =? "Arandr"              --> doFloat
+  , className =? "Vlc"                 --> doFloat
+  , className =? "mpv"                 --> doFloat
+  , className =? "Steam"               --> doFloat
+  , className =? "feh"                 --> doFloat
+  , className =? "Xmessage"            --> doFloat
+  , isInfixOf "pinentry" <$> className --> doFloat
+  , className =? "Firefox"             --> doShift "2:web"
+  , className =? "plugin-container"    --> doShift "8:plugin-container"
   , isFullscreen --> doFullFloat
-  , title     =? "vktest"             --> doFloat
+  , title     =? "vktest"              --> doFloat
   , title     =? "StardewValley.bin.x86_64" --> doFloat
   -- urxvt named windows
-  , title     =? "urxvt-weechat"      --> doShift "3:chat"
-  , title     =? "urxvt-htop"         --> doShift "9:system-monitor"
+  , title     =? "urxvt-weechat"       --> doShift "3:chat"
+  , title     =? "urxvt-htop"          --> doShift "9:system-monitor"
   ]
   -- , className =? "feh"            --> doShift "3:graphic" ]
 
@@ -94,7 +94,7 @@ main = do
       , startupHook           = myStartupHook
       , logHook               = myLogHook xmb_input xmb_notif
       , handleEventHook       = docksEventHook
-      , terminal              = "urxvtc"
+      , terminal              = "alacritty"
       , normalBorderColor     = "#63c0f5"
       , focusedBorderColor    = "#00d000"
       , borderWidth           = 2
@@ -152,9 +152,9 @@ main = do
             scrotArgs = [scrotFilename, "-e", scrotPostCmd]
 
         termSpawnBindings =
-          [ ((myModMask .|. shiftMask, xK_Return), safeSpawn "urxvtc" [])
-          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "urxvtc" ["-fn", commaSep ["xft:dejavu sans mono:size=13", "xft:dejavu sans mono for powerline:size=13", "xft:ipagothic:size=13", "xft:unifont:size=13"]])
-          , ((controlMask .|. leftAltMask .|. shiftMask, xK_t), safeSpawn "xfce4-terminal" []) ]
+          [ ((myModMask .|. shiftMask, xK_Return), safeSpawn "alacritty" [])
+          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "alacritty" ["-o", "font.size=9.0"])
+          , ((controlMask .|. leftAltMask .|. shiftMask, xK_t), safeSpawn "xterm" []) ]
           where commaSep = intercalate ","
 
         wsShiftBindings =
@@ -168,7 +168,7 @@ main = do
           [ ((myModMask, xK_g), gotoMenu)
           , ((myModMask, xK_b), bringMenu)
           , ((myModMask, xK_y), sendMessage $ ToggleStrut U)
-          , ((myModMask .|. shiftMask, xK_r), spawn "xmonad --recompile && xmonad --restart")
+          --, ((myModMask .|. shiftMask, xK_r), spawn "xmonad --recompile && xmonad --restart")
           ]
 
     tryOpenFile fname = openFile fname `catchAny` \e -> openFile "/dev/null"

@@ -28,7 +28,7 @@ xrdb -merge ~/.Xresources
 # set stuff for nvidia
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
-xrandr --dpi 96
+# xrandr --dpi 96
 # xrandr --output eDP-1-1 --primary --output HDMI-1-1 --off
 
 # set up left pointer as cursor
@@ -43,9 +43,11 @@ export SHLVL=-3
 
 # set key repeat rates
 xset r rate 250 60
+# mouse accel
+xset m 0 0
 
 # start compton for compositing
-compton --no-fading-openclose &
+picom &
 
 xset -dpms
 xset s off
@@ -65,9 +67,9 @@ export RXVT_SOCKET="$HOME/.urxvt/urxvtd.$DISPNUM"
 xmobar $HOME/.xmonad/xmobarrc &
 stalonetray --config $HOME/.xmonad/stalonetrayrc &
 # nm-applet &
-cinnamon-screensaver &
-ibus-daemon -rx &
-urxvtd -f -o
+# cinnamon-screensaver &
+# ibus-daemon -rx &
+# urxvtd -f -o
 
 # start xmonad
 exec xmonad
