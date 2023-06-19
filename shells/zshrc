@@ -3,13 +3,7 @@
 # This is copied from the default .zshrc when I pushed (2)
 # Set up the prompt
 
-# autoload -Uz promptinit
-# promptinit
-# prompt adam1
-
 setopt histignorealldups sharehistory append_history
-
-# zle -N urxvt-clear
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
@@ -20,8 +14,11 @@ bindkey "\e[7~"   beginning-of-line     # home
 bindkey "\e[8~"   end-of-line           # end
 bindkey "\e\e[C"  forward-word          # alt-right
 bindkey "\e\e[D"  backward-word         # alt-left
-# [[ "$TERM" =~ "rxvt-unicode" ]] && bindkey -s "^l"   '^qurxvt-clear\n'
-# bindkey "^l"   urxvt-clear
+
+source ~/.zplug/init.zsh
+zplug chriskempson/base16-shell, from:github
+zplug load --verbose
+base16_tomorrow-night
 
 # Keep 4096 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=4096
@@ -32,12 +29,19 @@ HISTFILE=~/.zsh_history
 autoload -Uz compinit
 compinit
 
+# set a var for dircolors executable
+if [ -x /bin/dircolors ]; then
+  DIRCOLORS=dircolors
+elif [ -x /opt/homebrew/bin/gdircolors ]; then
+  DIRCOLORS=gdircolors
+fi
+
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
+eval "$($DIRCOLORS -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
@@ -53,12 +57,9 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # the rest comes from .bashrc and I have no idea what I'm doing
 HISTCONTROL=ignoreboth
 
-# append to the history file, don't overwrite it
-# shopt -s histappend
-
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+if [ -n "$DIRCOLORS" ]; then
+    test -r ~/.dircolors && eval "$($DIRCOLORS -b ~/.dircolors)" || eval "$($DIRCOLORS -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
@@ -78,100 +79,6 @@ alias la='ls -A'
 alias lal='ls -Al'
 alias l='ls -CF'
 alias sl='sl -aF'
-
-# some file management aliases
-# alias cp='cp -v'
-# alias rm='rm -v'
-# alias mv='mv -v'
-# alias ln='ln -v'
-
-#  SETUP CONSTANTS
-#  Bunch-o-predefined colors.  Makes reading code easier than escape sequences.
-#  I don't remember where I found this.  o_O
-#  This is also a messy port to zsh using print everywhere, is there a better way to do this?
-
-# Reset
-Color_Off=$(echo "%{\e[0m%}")       # Text Reset
-
-# Regular Colors
-Black=$(echo "%{\e[0;30m%}")        # Black
-Red=$(echo "%{\e[0;31m%}")          # Red
-Green=$(echo "%{\e[0;32m%}")        # Green
-Yellow=$(echo "%{\e[0;33m%}")       # Yellow
-Blue=$(echo "%{\e[0;34m%}")         # Blue
-Purple=$(echo "%{\e[0;35m%}")       # Purple
-Cyan=$(echo "%{\e[0;36m%}")         # Cyan
-White=$(echo "%{\e[0;37m%}")        # White
-
-# Bold
-BBlack=$(echo "%{\e[1;30m%}")       # Black
-BRed=$(echo "%{\e[1;31m%}")         # Red
-BGreen=$(echo "%{\e[1;32m%}")       # Green
-BYellow=$(echo "%{\e[1;33m%}")      # Yellow
-BBlue=$(echo "%{\e[1;34m%}")        # Blue
-BPurple=$(echo "%{\e[1;35m%}")      # Purple
-BCyan=$(echo "%{\e[1;36m%}")        # Cyan
-BWhite=$(echo "%{\e[1;37m%}")       # White
-
-# Underline
-UBlack=$(echo "%{\e[4;30m%}")       # Black
-URed=$(echo "%{\e[4;31m%}")         # Red
-UGreen=$(echo "%{\e[4;32m%}")       # Green
-UYellow=$(echo "%{\e[4;33m%}")      # Yellow
-UBlue=$(echo "%{\e[4;34m%}")        # Blue
-UPurple=$(echo "%{\e[4;35m%}")      # Purple
-UCyan=$(echo "%{\e[4;36m%}")        # Cyan
-UWhite=$(echo "%{\e[4;37m%}")       # White
-
-# Background
-On_Black=$(echo "%{\e[40m%}")       # Black
-On_Red=$(echo "%{\e[41m%}")         # Red
-On_Green=$(echo "%{\e[42m%}")       # Green
-On_Yellow=$(echo "%{\e[43m%}")      # Yellow
-On_Blue=$(echo "%{\e[44m%}")        # Blue
-On_Purple=$(echo "%{\e[45m%}")      # Purple
-On_Cyan=$(echo "%{\e[46m%}")        # Cyan
-On_White=$(echo "%{\e[47m%}")       # White
-
-# High Intensty
-IBlack=$(echo "%{\e[0;90m%}")       # Black
-IRed=$(echo "%{\e[0;91m%}")         # Red
-IGreen=$(echo "%{\e[0;92m%}")       # Green
-IYellow=$(echo "%{\e[0;93m%}")      # Yellow
-IBlue=$(echo "%{\e[0;94m%}")        # Blue
-IPurple=$(echo "%{\e[0;95m%}")      # Purple
-ICyan=$(echo "%{\e[0;96m%}")        # Cyan
-IWhite=$(echo "%{\e[0;97m%}")       # White
-
-# Bold High Intensty
-BIBlack=$(echo "%{\e[1;90m%}")      # Black
-BIRed=$(echo "%{\e[1;91m%}")        # Red
-BIGreen=$(echo "%{\e[1;92m%}")      # Green
-BIYellow=$(echo "%{\e[1;93m%}")     # Yellow
-BIBlue=$(echo "%{\e[1;94m%}")       # Blue
-BIPurple=$(echo "%{\e[1;95m%}")     # Purple
-BICyan=$(echo "%{\e[1;96m%}")       # Cyan
-BIWhite=$(echo "%{\e[1;97m%}")      # White
-
-# High Intensty backgrounds
-On_IBlack=$(echo "%{\e[0;100m%}")   # Black
-On_IRed=$(echo "%{\e[0;101m%}")     # Red
-On_IGreen=$(echo "%{\e[0;102m%}")   # Green
-On_IYellow=$(echo "%{\e[0;103m%}")  # Yellow
-On_IBlue=$(echo "%{\e[0;104m%}")    # Blue
-On_IPurple=$(echo "%{\e[10;95m%}")  # Purple
-On_ICyan=$(echo "%{\e[0;106m%}")    # Cyan
-On_IWhite=$(echo "%{\e[0;107m%}")   # White
-
-# Various variables you might want for your PS1 prompt instead
-Time12h="\T"
-Time12a="\@"
-Time24h="%*"
-Time24a="\A"
-PathShort="\w"
-PathFull="\W"
-NewLine="\n"
-Jobs="\j"
 
 # if the command-not-found package is installed, use it
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
@@ -196,11 +103,6 @@ urxvt-switchfont()
     [[ "$1" == "" ]] || printf '\e]710;%s\007' "$1"
 }
 
-urxvt-clear()
-{
-  yes "" | head -`echo "$LINES - 1" | bc`; clear
-}
-
 # source the required git-prompt.sh
 source ~/.git-prompt.sh
 
@@ -209,12 +111,11 @@ gitprompt()
     git status | grep "nothing to commit" 1>/dev/null 2>/dev/null
     if [ $? -eq 0 ]; then
         # Clean repo
-        echo -n " $Green$(__git_ps1 "(%s)")"
+        echo -n " %F{green}$(__git_ps1 "(%s)")%f"
     else
         # Changes to working tree
-        echo -n " $Red$(__git_ps1 "{%s}")"
+        echo -n " %F{red}$(__git_ps1 "{%s}")%f"
     fi
-    echo $Color_Off
 }
 
 svnprompt()
@@ -223,11 +124,10 @@ svnprompt()
     local cnt=$(svn status | wc -c)
 
     if [ "$cnt" -eq "0" ]; then
-        echo -n " $Green"\[$Green$rv\]
+        echo -n " %F{green}[$rv]%f"
     else
-        echo -n " $Red"\[$Red$rv\]
+        echo -n " %F{red}[$rv]%f"
     fi
-    echo $Color_Off
 }
 
 __svn_rev()
@@ -264,14 +164,13 @@ precmd()
     local EXIT=$(printf "%03d" $?)
     local DERP=""
     if [ $EXIT -eq "000" ]; then
-        DERP=$Green$EXIT
+        DERP="%F{green}$EXIT%f"
     else
-        DERP=$Red$EXIT
+        DERP="%F{red}$EXIT%f"
     fi
-    DERP=$DERP$IBlack
 
-    export PS1=$IBlack'['$DERP']'"[%D{%H:%M:%S}] "$BIYellow"%n@%M"$Color_Off":%~$(repoprompt) "$Cyan'lvl'$Color_Off'('$Red$SHLVL$Color_Off')'$'\n'"%# "
-    export RPS1="on "$IPurple$TTY$Color_Off
+    export PROMPT="%F{8}[%f$DERP%F{8}][%D{%H:%M:%S}]%f %B%F{11}%n@%M%f%b%F{white}:%~%f$(repoprompt) %F{cyan}lvl%f%F{white}(%f%F{red}%L%f%F{white})%f"$'\n'"%# "
+    export RPROMPT="on %F{magenta}$TTY%f"
 }
 
 # for correction purposes
@@ -305,12 +204,6 @@ alias svnremove='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -rf'
 # alias emacs='emacs -nw'
 
 alias irssi='screen irssi'
-
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # set up gpg-agent
 unset SSH_AGENT_PID

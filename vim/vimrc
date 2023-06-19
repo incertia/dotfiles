@@ -1,5 +1,5 @@
 " editing
-set ts=2 sw=2 sts=2 et ai number
+set ts=2 sw=2 sts=2 et ai relativenumber
 set cinoptions=g0,:0,(0
 set nohlsearch
 set guicursor=
@@ -222,15 +222,17 @@ if has("autocmd")
     " we have to do this after we :colorscheme because most colorschemes call :hi clear which will reset the
     " highlighting back to the defaults, and if a colorscheme does not touch the background, it can cause conflicts with
     " linters that utilize SpellBad, etc
-    autocmd ColorScheme * hi SpellBad    ctermbg=NONE
-    autocmd ColorScheme * hi SpellCap    ctermbg=NONE
-    autocmd ColorScheme * hi SpellRare   ctermbg=NONE
-    autocmd ColorScheme * hi SpellLocal  ctermbg=NONE
-
-    " also reset the ColorColumn
-    autocmd ColorScheme * hi ColorColumn ctermbg=white
+    autocmd ColorScheme * call s:base16_customize()
   augroup END
 endif
+
+function! s:base16_customize() abort
+  call g:Base16hi("SpellBad", "", "", "", "NONE")
+  call g:Base16hi("SpellCap", "", "", "", "NONE")
+  call g:Base16hi("SpellRare", "", "", "", "NONE")
+  call g:Base16hi("SpellLocal", "", "", "", "NONE")
+  call g:Base16hi("ColorColumn", "", "", "", "white")
+endfunction
 
 " function to delete trailing whitespace
 function! KillWhiteThings()
@@ -365,9 +367,8 @@ if has("gui_running")
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 endif
 
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
+if filereadable(expand("~/.vim/vimrc_background"))
+  source ~/.vim/vimrc_background
 endif
 
 " enable powerline if it exists and we are not in a tty
@@ -383,3 +384,10 @@ function! SynStack()
     echo n1 "->" n2
   endfor
 endfunction
+
+function! SynGroups()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
