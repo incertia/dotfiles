@@ -36,12 +36,15 @@ elif [ -x /opt/homebrew/bin/gdircolors ]; then
   DIRCOLORS=gdircolors
 fi
 
+# BSD (aka OSX) uses LSCOLORS instead of LS_COLORS from dircolors
+export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+eval "$($DIRCOLORS -b)"
+
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$($DIRCOLORS -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
