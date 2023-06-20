@@ -82,6 +82,11 @@ let g:LanguageClient_serverCommands = {
   \ }
 \ }
 
+" statusline plugin as powerline does not work for neovim
+if has('nvim')
+  Plug 'nvim-lualine/lualine.nvim'
+endif
+
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
 
@@ -107,7 +112,11 @@ Plug 'stephpy/vim-yaml',            { 'for': 'yaml'     }
 Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 Plug 'tikhomirov/vim-glsl',         { 'for': 'glsl'     }
 
-Plug 'chriskempson/base16-vim'
+if has('nvim')
+  Plug 'RRethy/nvim-base16'
+else
+  Plug 'chriskempson/base16-vim'
+endif
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 let g:surround_no_mappings = 1
@@ -234,11 +243,11 @@ if has("autocmd")
 endif
 
 function! s:base16_customize() abort
-  call g:Base16hi("SpellBad", "", "", "", "NONE")
-  call g:Base16hi("SpellCap", "", "", "", "NONE")
-  call g:Base16hi("SpellRare", "", "", "", "NONE")
-  call g:Base16hi("SpellLocal", "", "", "", "NONE")
-  call g:Base16hi("ColorColumn", "", "", "", "white")
+  " hi SpellBad    ctermbg=NONE
+  " hi SpellCap    ctermbg=NONE
+  " hi SpellRare   ctermbg=NONE
+  " hi SpellLocal  ctermbg=NONE
+  hi ColorColumn ctermbg=white
 endfunction
 
 " function to delete trailing whitespace
