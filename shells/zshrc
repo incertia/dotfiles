@@ -16,9 +16,9 @@ bindkey "\e\e[C"  forward-word          # alt-right
 bindkey "\e\e[D"  backward-word         # alt-left
 
 source ~/.zplug/init.zsh
-zplug chriskempson/base16-shell, from:github
+zplug tinted-theming/base16-shell, from:github, at:main
 zplug load --verbose
-base16_tomorrow-night
+# base16_tomorrow-night
 
 # Keep 4096 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=4096
