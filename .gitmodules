@@ -8,10 +8,6 @@
 	path = powerline
   branch = develop
 	url = https://github.com/powerline/powerline.git
-[submodule "powerline-fonts"]
-	path = powerline-fonts
-  branch = master
-	url = https://github.com/powerline/fonts.git
 [submodule "vim/vim-plug"]
 	path = vim/vim-plug
   branch = master
