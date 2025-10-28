@@ -1,8 +1,9 @@
 Config { bgColor = "black"
        , fgColor = "green"
        , position = Static { xpos = 0, ypos = 0, width = 3616, height = 32 }
-       , font = "xft:monospace:size=8,IPAGothic:size=8,Unifont:size=8"
-       , additionalFonts = ["xft:IPAGothic:size=8"]
+       , font = "Dejavu Sans Mono 20"
+       --, font = "xft:monospace:size=8,IPAGothic:size=8,Unifont:size=8"
+       --, additionalFonts = ["xft:IPAGothic:size=8"]
 
        -- general behavior
        , lowerOnStart = True

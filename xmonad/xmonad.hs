@@ -47,6 +47,7 @@ myManageHook = composeAll
   , className =? "plugin-container"    --> doShift "8:plugin-container"
   , isFullscreen --> doFullFloat
   , title     =? "vktest"              --> doFloat
+  , title     =? "katla-test"          --> doFloat
   , title     =? "StardewValley.bin.x86_64" --> doFloat
   -- urxvt named windows
   , title     =? "urxvt-weechat"       --> doShift "3:chat"
@@ -81,6 +82,8 @@ main = do
   xmb_notif <- fdToHandle =<< tryOpenFile notif_pipe
   hSetBuffering xmb_input LineBuffering
   hSetBuffering xmb_notif LineBuffering
+  hSetEncoding xmb_input utf8
+  hSetEncoding xmb_notif utf8
   hPutStrLn xmb_notif "starting xmonad..."
   xmonad $ defaults xmb_input xmb_notif `additionalKeys` myBindings
   hClose xmb_input
@@ -105,7 +108,7 @@ main = do
     myLogHook xmb_input xmb_notif = dynamicLogWithPP xmobarPP
       { ppOutput = \s -> output xmb_input s >> output xmb_notif "no notifications"
       , ppHidden = takeUntil ':'
-      , ppTitle = shorten 32
+      , ppTitle = shorten 80
       , ppExtras = []
       }
       where output handle = T.hPutStrLn handle . T.pack
@@ -146,14 +149,14 @@ main = do
           [ ((0          , xK_Print), safeSpawn scrot scrotArgs)    -- use PrintScr to scrot the entire screen
           , ((leftAltMask, xK_Print), safeSpawn scrot ("-s":scrotArgs)) ]  -- use LeftAlt-PrintScr to scrot the current window
           where
-            scrot = "escrotum"
+            scrot = "scrotre"
             scrotPostCmd = "mv $f ~/scrots/"
             scrotFilename = "%Y-%m-%d_%T.png"
             scrotArgs = [scrotFilename, "-e", scrotPostCmd]
 
         termSpawnBindings =
           [ ((myModMask .|. shiftMask, xK_Return), safeSpawn "alacritty" [])
-          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "alacritty" ["-o", "font.size=9.0"])
+          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "alacritty" ["-o", "font.size=13.0"])
           , ((controlMask .|. leftAltMask .|. shiftMask, xK_t), safeSpawn "xterm" []) ]
           where commaSep = intercalate ","
 
@@ -173,7 +176,7 @@ main = do
 
     tryOpenFile fname = openFile fname `catchAny` \e -> openFile "/dev/null"
       where openFile fname = do
-              fd <- openFd fname ReadWrite Nothing defaultFileFlags
+              fd <- openFd fname ReadWrite defaultFileFlags
               setFdOption fd CloseOnExec True
               return fd
 

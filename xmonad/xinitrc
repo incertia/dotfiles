@@ -44,7 +44,7 @@ export SHLVL=-3
 # set key repeat rates
 xset r rate 250 60
 # mouse accel
-xset m 0 0
+xset m 1 0
 
 # start compton for compositing
 picom &

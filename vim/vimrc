@@ -1,6 +1,6 @@
 " editing
 set ts=2 sw=2 sts=2 et ai number relativenumber noshowmode
-set cinoptions=g0,:0,(0,W1s
+set cinoptions=g0,:0,(0,W1s,E-s
 set nohlsearch
 set guicursor=
 set undofile
@@ -61,8 +61,8 @@ let g:LanguageClient_hoverMarginSize = 0
 
 " setup language servers
 let g:LanguageClient_serverCommands = {
-  \ 'c'       : ['clangd'],
-  \ 'cpp'     : ['clangd'],
+  \ 'c'       : ['clangd', '--enable-config'],
+  \ 'cpp'     : ['clangd', '--enable-config'],
   \ 'haskell' : ['hie'],
   \ 'rust'    : {
     \ 'name'  : 'rust-analyzer',
