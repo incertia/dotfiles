@@ -12,7 +12,7 @@ XMOBAR_NOTIFICATION_PIPE="$XMOBAR_PIPE_LOCATION/notifications.pipe.$DISPNUM"
 
 export XMOBAR_NOTIFICATION_PIPE
 export XMOBAR_INPUT_PIPE
-export BROWSER=xdg-open
+export BROWSER=firefox
 
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
  for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
@@ -47,7 +47,7 @@ xset r rate 250 60
 xset m 1 0
 
 # start compton for compositing
-picom &
+picom -b
 
 xset -dpms
 xset s off

@@ -5,4 +5,5 @@
 " endif
 
 let base16colorspace=256
-colorscheme base16-$BASE16_THEME
+" colorscheme base16-$BASE16_THEME
+colorscheme base16-tomorrow-night

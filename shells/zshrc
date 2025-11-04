@@ -25,6 +25,9 @@ HISTSIZE=4096
 SAVEHIST=4096
 HISTFILE=~/.zsh_history
 
+# setup fzf
+hash fzf 2>/dev/null && source <(fzf --zsh)
+
 # Use modern completion system
 autoload -Uz compinit
 compinit

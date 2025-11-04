@@ -51,10 +51,10 @@ else
 endif
 
 " a completion plugin also needs an LSP source
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-\ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"   \ 'branch': 'next',
+"   \ 'do': 'bash install.sh',
+" \ }
 
 let g:LanguageClient_useVirtualText = "No"
 let g:LanguageClient_hoverMarginSize = 0
@@ -63,6 +63,7 @@ let g:LanguageClient_hoverMarginSize = 0
 let g:LanguageClient_serverCommands = {
   \ 'c'       : ['clangd', '--enable-config'],
   \ 'cpp'     : ['clangd', '--enable-config'],
+  \ 'zig'     : ['zls'],
   \ 'haskell' : ['hie'],
   \ 'rust'    : {
     \ 'name'  : 'rust-analyzer',
@@ -112,11 +113,6 @@ Plug 'stephpy/vim-yaml',            { 'for': 'yaml'     }
 Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 Plug 'tikhomirov/vim-glsl',         { 'for': 'glsl'     }
 
-if has('nvim')
-  Plug 'RRethy/nvim-base16'
-else
-  Plug 'chriskempson/base16-vim'
-endif
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 let g:surround_no_mappings = 1
@@ -127,7 +123,8 @@ Plug 'moll/vim-bbye'
 
 Plug 'sotte/presenting.vim'
 
-Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
+" Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
+" Plug 'ibhagwan/fzf-lua'
 Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
 Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
 let g:haskell_tabular = 1
@@ -139,8 +136,6 @@ function! TabSwitch(tabnum)
   call feedkeys(a:tabnum . "gt", "n")
 endfunction
 command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
-nnoremap <C-x><C-t>          :TabSwitch<SPACE>
-nnoremap <C-x>t              :TabSwitch<SPACE>
 
 filetype plugin indent on
 
@@ -154,8 +149,6 @@ set foldlevel=100       " yay
 
 " number formats
 set nf=alpha,octal,hex
-nnoremap <C-x> <nop>
-nnoremap <C-d> <C-x>
 
 " autocmd stuff
 if has("autocmd")
@@ -204,29 +197,6 @@ if has("autocmd")
       \ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
   augroup END
 
-  " language server goodies
-  function SetLSPShortcuts()
-    if has_key(g:LanguageClient_serverCommands, &filetype)
-      nmap <buffer> <silent> <leader><F5> <Plug>(lcn-menu)
-      nmap <buffer> <silent> <leader><F2> <Plug>(lcn-rename)
-      nmap <buffer> <silent> <leader>ca   <Plug>(lcn-code-action)
-      nmap <buffer> <silent> <leader>gd   <Plug>(lcn-definition)
-      nmap <buffer> <silent> <leader>gi   <Plug>(lcn-implementation)
-      nmap <buffer> <silent> <leader>xx   <Plug>(lcn-references)
-      nmap <buffer> <silent> <leader>K    <Plug>(lcn-hover)
-      nmap <buffer> <silent> K            <Plug>(lcn-hover)
-      nmap <buffer> <silent> <leader>dd   <Plug>(lcn-explain-error)
-      nmap <buffer> <silent> <leader>d[   <Plug>(lcn-diagnostics-next)
-      nmap <buffer> <silent> <leader>d]   <Plug>(lcn-diagnostics-prev)
-      nmap <buffer> <silent> <leader>ff   <Plug>(lcn-format)
-    endif
-  endfunction
-
-  augroup lsp
-    autocmd!
-    autocmd FileType * call SetLSPShortcuts()
-  augroup END
-
   augroup completion
     autocmd!
     autocmd CompleteDone * pclose
@@ -243,10 +213,6 @@ if has("autocmd")
 endif
 
 function! s:base16_customize() abort
-  " hi SpellBad    ctermbg=NONE
-  " hi SpellCap    ctermbg=NONE
-  " hi SpellRare   ctermbg=NONE
-  " hi SpellLocal  ctermbg=NONE
   hi ColorColumn ctermbg=white
 endfunction
 
@@ -299,14 +265,14 @@ nnoremap <leader><C-l>   <C-l>
 nnoremap <C-q>           <C-y>
 
 " this helps with long lines
-nnoremap j  gj
-nnoremap k  gk
-nnoremap gj j
-nnoremap gk k
-vnoremap j  gj
-vnoremap k  gk
-vnoremap gj j
-vnoremap gk k
+nnoremap <silent> j  gj
+nnoremap <silent> k  gk
+nnoremap <silent> gj j
+nnoremap <silent> gk k
+vnoremap <silent> j  gj
+vnoremap <silent> k  gk
+vnoremap <silent> gj j
+vnoremap <silent> gk k
 
 " convenience because : is used so much more than ;
 nnoremap ; :
@@ -367,13 +333,13 @@ vnoremap a; :Tabularize /::<CR>
 vnoremap a- :Tabularize /-><CR>
 
 " CtrlP
-nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
-nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
+" nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
+" nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
 
-if has('nvim')
-  " use <ESC> to get out of insert mode in neovim terminals
-  tnoremap <ESC> <C-\><C-n>
-endif
+" if has('nvim')
+"   " use <ESC> to get out of insert mode in neovim terminals
+"   tnoremap <ESC> <C-\><C-n>
+" endif
 
 " set the colorscheme
 if has("gui_running")
@@ -381,10 +347,6 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=m
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
-endif
-
-if filereadable(expand("~/.vim/vimrc_background"))
-  source ~/.vim/vimrc_background
 endif
 
 " enable powerline if it exists and we are not in a tty
