@@ -1,34 +1,17 @@
 " editing
-set ts=2 sw=2 sts=2 et ai number relativenumber noshowmode
-set cinoptions=g0,:0,(0,W1s,E-s
-set nohlsearch
 set guicursor=
 set undofile
 
 " this fixes excessive "Pattern not found" messages
 set shm+=c
 
-" split to the right and below
-set splitbelow splitright
-
-" Required for operations modifying multiple buffers like rename.
-set hidden
-
 " menuone: popup even if there is only one match
 " noinsert: do not insert selection until accepted
 " noselect: do not automatically select
 set completeopt+=menuone,noinsert,noselect
 
-" appearance
-set title scrolloff=2 wrap showmatch tw=120
-set list listchars=tab:\|\ ,trail:.
-set laststatus=2
-syntax on
-
 " other stuff
 set matchtime=2
-let mapleader="\\"
-let localleader=","
 set sessionoptions-=options
 
 " latex should be default
@@ -50,39 +33,6 @@ else
   Plug 'lifepillar/vim-mucomplete'
 endif
 
-" a completion plugin also needs an LSP source
-" Plug 'autozimu/LanguageClient-neovim', {
-"   \ 'branch': 'next',
-"   \ 'do': 'bash install.sh',
-" \ }
-
-let g:LanguageClient_useVirtualText = "No"
-let g:LanguageClient_hoverMarginSize = 0
-
-" setup language servers
-let g:LanguageClient_serverCommands = {
-  \ 'c'       : ['clangd', '--enable-config'],
-  \ 'cpp'     : ['clangd', '--enable-config'],
-  \ 'zig'     : ['zls'],
-  \ 'haskell' : ['hie'],
-  \ 'rust'    : {
-    \ 'name'  : 'rust-analyzer',
-    \ 'command': ['rust-analyzer'],
-    \ 'initializationOptions': {
-      \ 'cargo': {
-        \ 'loadOutDirsFromCheck': v:true,
-        \ 'allFeatures': v:true
-      \ },
-      \ 'procMacro': {
-        \ 'enable': v:true
-      \ },
-      \ 'diagnostics': {
-        \ 'disabled': [ 'use-field-shorthand' ]
-      \ },
-    \ }
-  \ }
-\ }
-
 " statusline plugin as powerline does not work for neovim
 if has('nvim')
   Plug 'nvim-lualine/lualine.nvim'
@@ -97,7 +47,6 @@ if has('nvim')
   let g:echodoc#type = 'floating'
 else
   let g:echodoc#type = "echo"
-  set cmdheight=2
 endif
 let g:echodoc#enable_at_startup = 1
 
@@ -247,44 +196,18 @@ nnoremap <S-TAB>         gt
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>         @q
 
-" save shortcut
-nnoremap <C-s>           :w!<CR>
-
-" split workflow
-nnoremap <C-h>           <C-w>h
-nnoremap <C-j>           <C-w>j
-nnoremap <C-k>           <C-w>k
-nnoremap <C-l>           <C-w>l
-nnoremap <leader>-       <C-w>-
-nnoremap <leader>=       <C-w>+
 " because we remmaped <C-l>
 nnoremap <leader><C-l>   <C-l>
 
-" scroll up to <C-q> (don't need this to be visual block)
-" now <C-q> and <C-e> are scroll up/down
-nnoremap <C-q>           <C-y>
-
 " this helps with long lines
-nnoremap <silent> j  gj
-nnoremap <silent> k  gk
-nnoremap <silent> gj j
-nnoremap <silent> gk k
-vnoremap <silent> j  gj
-vnoremap <silent> k  gk
-vnoremap <silent> gj j
-vnoremap <silent> gk k
-
-" convenience because : is used so much more than ;
-nnoremap ; :
-nnoremap : ;
-vnoremap ; :
-vnoremap : ;
-
-" nobody uses normal visual mode anyway
-nnoremap    v  <C-V>
-nnoremap <C-V>    v
-vnoremap    v  <C-V>
-vnoremap <C-V>    v
+" nnoremap <silent> j  gj
+" nnoremap <silent> k  gk
+" nnoremap <silent> gj j
+" nnoremap <silent> gk k
+" vnoremap <silent> j  gj
+" vnoremap <silent> k  gk
+" vnoremap <silent> gj j
+" vnoremap <silent> gk k
 
 " leader command section
 nnoremap <silent> <leader>so      :so<SPACE>%<CR>
@@ -331,15 +254,6 @@ xmap <leader>gS  <Plug>VgSurround
 vnoremap a= :Tabularize /=<CR>
 vnoremap a; :Tabularize /::<CR>
 vnoremap a- :Tabularize /-><CR>
-
-" CtrlP
-" nnoremap <silent> <C-p>             :<C-u>CtrlP<CR>
-" nnoremap <silent> <leader><C-p>     :<C-u>CtrlP<SPACE>$HOME<CR>
-
-" if has('nvim')
-"   " use <ESC> to get out of insert mode in neovim terminals
-"   tnoremap <ESC> <C-\><C-n>
-" endif
 
 " set the colorscheme
 if has("gui_running")
