@@ -12,5 +12,7 @@ require('fzf-lua').setup({'fzf-native'})
 -- load user configs
 require('opts')
 require('keymaps')
-require('lsp')
 require('colorscheme')
+require('diagnostics')
+require('completion')
+require('lsp')
