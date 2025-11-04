@@ -38,9 +38,6 @@ if has('nvim')
   Plug 'nvim-lualine/lualine.nvim'
 endif
 
-" (Optional) Multi-entry selection UI.
-Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --bin' }
-
 " echos docstrings
 Plug 'Shougo/echodoc'
 if has('nvim')
@@ -72,8 +69,6 @@ Plug 'moll/vim-bbye'
 
 Plug 'sotte/presenting.vim'
 
-" Plug 'ctrlpvim/ctrlp.vim',          { 'on': 'CtrlP' }
-" Plug 'ibhagwan/fzf-lua'
 Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
 Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
 let g:haskell_tabular = 1
