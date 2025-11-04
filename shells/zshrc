@@ -15,10 +15,20 @@ bindkey "\e[8~"   end-of-line           # end
 bindkey "\e\e[C"  forward-word          # alt-right
 bindkey "\e\e[D"  backward-word         # alt-left
 
-source ~/.zplug/init.zsh
-zplug tinted-theming/base16-shell, from:github, at:main
-zplug load --verbose
-# base16_tomorrow-night
+# setup zimfw
+ZIM_CONFIG_FILE=~/.config/zsh/zimrc
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+fi
+# Install missing modules and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
 
 # Keep 4096 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=4096
