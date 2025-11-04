@@ -1,3 +1,4 @@
 vim/view/*
 .netrwhist
 *.swp
+config/nvim/lazy-lock.json
