@@ -11,7 +11,7 @@ end
 require("config.lazy")
 
 -- load fzf
-require('fzf-lua').setup({'fzf-native'})
+prequire('fzf')
 
 -- load user configs
 prequire('opts')

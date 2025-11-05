@@ -4,7 +4,7 @@ local km = vim.keymap.set
 km("n", "<C-\\>", [[<Cmd>lua require"fzf-lua".buffers()<CR>]], {})
 -- km("n", "<C-k>", [[<Cmd>lua require"fzf-lua".builtin()<CR>]], {})
 km("n", "<C-p>", [[<Cmd>lua require"fzf-lua".files()<CR>]], {})
-km("n", "<C-l>", [[<Cmd>lua require"fzf-lua".live_grep()<CR>]], {})
+km("n", "<C-m>", [[<Cmd>lua require"fzf-lua".live_grep()<CR>]], {})
 km("n", "<C-g>", [[<Cmd>lua require"fzf-lua".grep_project()<CR>]], {})
 -- km("n", "<F1>", [[<Cmd>lua require"fzf-lua".help_tags()<CR>]], {})
 
