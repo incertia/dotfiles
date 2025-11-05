@@ -90,13 +90,12 @@ main = do
   hClose xmb_notif
 
   where
-    defaults xmb_input xmb_notif = defaultConfig
+    defaults xmb_input xmb_notif = docks $ def
       { modMask               = mod4Mask
-      , manageHook            = myManageHook <+> manageDocks
+      , manageHook            = myManageHook
       , layoutHook            = avoidStruts $ myLayoutHook
       , startupHook           = myStartupHook
       , logHook               = myLogHook xmb_input xmb_notif
-      , handleEventHook       = docksEventHook
       , terminal              = "alacritty"
       , normalBorderColor     = "#63c0f5"
       , focusedBorderColor    = "#00d000"
