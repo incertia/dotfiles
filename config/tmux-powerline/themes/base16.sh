@@ -148,7 +148,7 @@ if [ -z "$TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS" ]; then
 		#"mailcount 9 255"
 		#"now_playing green black"
 		#"cpu 240 136"
-		"load orange black"
+		"load brightyellow black"
 		#"tmux_mem_cpu_load 234 136"
 		"battery blue black"
 		#"air ${TMUX_POWERLINE_SEG_AIR_COLOR} 255"
