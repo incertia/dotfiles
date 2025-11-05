@@ -48,16 +48,8 @@ endif
 let g:echodoc#enable_at_startup = 1
 
 " language plugins
-Plug 'itchyny/vim-haskell-indent',  { 'for': 'haskell'  } " make sure to load vim-haskell-indent before haskell-vim
-Plug 'neovimhaskell/haskell-vim',   { 'for': 'haskell'  }
 Plug 'petRUShka/vim-sage',          { 'for': 'sage'     }
-Plug 'idris-hackers/idris-vim',     { 'for': 'idris'    }
-Plug 'rust-lang/rust.vim',          { 'for': 'rust'     }
 let g:rust_recommended_style = 0
-Plug 'cespare/vim-toml',            { 'for': 'toml'     }
-Plug 'stephpy/vim-yaml',            { 'for': 'yaml'     }
-Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
-Plug 'tikhomirov/vim-glsl',         { 'for': 'glsl'     }
 
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
