@@ -40,3 +40,8 @@ opt.cmdheight = 2
 
 -- equivalent of :syntax on
 opt.syntax = "on"
+opt.mouse = ""
+
+if vim.fn.has("termguicolors") == 1 then
+  vim.opt.termguicolors = true
+end
