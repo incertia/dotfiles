@@ -1,0 +1,20 @@
+font-family = ""
+#font-family = "DejaVuSansM Nerd Font Mono"
+font-family = "Hasklug Nerd Font Mono"
+font-family-bold = "Hasklug Nerd Font Mono"
+#font-style-bold = SemiBold
+font-style-bold = Medium
+font-family-italic = "Hasklug Nerd Font Mono"
+font-family-bold-italic = "Hasklug Nerd Font Mono"
+#font-style-bold-italic = SemiBold Italic
+font-style-bold-italic = Medium Italic
+adjust-cell-width = -6.25%
+adjust-cell-height = -12.5%
+adjust-cursor-height = 0%
+font-size = 9.5
+
+theme = base24-tomorrow-night
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+window-decoration = none

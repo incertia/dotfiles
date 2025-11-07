@@ -96,7 +96,8 @@ main = do
       , layoutHook            = avoidStruts $ myLayoutHook
       , startupHook           = myStartupHook
       , logHook               = myLogHook xmb_input xmb_notif
-      , terminal              = "alacritty"
+      -- , terminal              = "alacritty"
+      , terminal              = "ghostty"
       , normalBorderColor     = "#63c0f5"
       , focusedBorderColor    = "#00d000"
       , borderWidth           = 2
@@ -154,8 +155,10 @@ main = do
             scrotArgs = [scrotFilename, "-e", scrotPostCmd]
 
         termSpawnBindings =
-          [ ((myModMask .|. shiftMask, xK_Return), safeSpawn "alacritty" [])
-          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "alacritty" ["-o", "font.size=13.0"])
+          --[ ((myModMask .|. shiftMask, xK_Return), safeSpawn "alacritty" [])
+          --, ((controlMask .|. leftAltMask, xK_t), safeSpawn "alacritty" ["-o", "font.size=13.0"])
+          [ ((myModMask .|. shiftMask, xK_Return), safeSpawn "ghostty" [])
+          , ((controlMask .|. leftAltMask, xK_t), safeSpawn "ghostty" ["--font-size=13.0"])
           , ((controlMask .|. leftAltMask .|. shiftMask, xK_t), safeSpawn "xterm" []) ]
           where commaSep = intercalate ","
 
