@@ -123,7 +123,7 @@ fi
 # shellcheck disable=SC1143,SC2128
 if [ -z "$TMUX_POWERLINE_LEFT_STATUS_SEGMENTS" ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-		"tmux_session_info blue black"
+		"tmux_session_info blue black default_separator no_sep_bg_color no_sep_fg_color both_disable separator_disable"
 		"hostname magenta black"
 		#"mode_indicator 165 0"
 		#"ifstat 30 255"

@@ -361,7 +361,12 @@
 # tmux_session_info.sh {
 	# Session info format to feed into the command: tmux display-message -p
 	# For example, if FORMAT is '[ #S ]', the command is: tmux display-message -p '[ #S ]'
-	export TMUX_POWERLINE_SEG_TMUX_SESSION_INFO_FORMAT="#S:#I.#P"
+    export SESSION_PREFIX_BG="brightblue"
+    export SESSION_NOPREFIX_FG="blue"
+    export SESSION_PREFIX_COLOR="#{?client_prefix,#[bg=$SESSION_PREFIX_BG],}"
+    export SESSION_FORMAT=" #S:#I.#P "
+    export SESSION_SEPARATOR="#{?client_prefix,#[fg=$SESSION_PREFIX_BG],#[fg=$SESSION_NOPREFIX_FG]}#[bg=magenta]"
+    export TMUX_POWERLINE_SEG_TMUX_SESSION_INFO_FORMAT="${SESSION_PREFIX_COLOR}${SESSION_FORMAT}${SESSION_SEPARATOR}"
 # }
 
 # utc_time.sh {
