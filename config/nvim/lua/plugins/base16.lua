@@ -1,5 +1,5 @@
 return {
   {
-    "tinted-theming/tinted-vim",
+    "tinted-theming/tinted-nvim",
   }
 }
