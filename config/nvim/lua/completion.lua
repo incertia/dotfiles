@@ -41,8 +41,8 @@ cmp.setup({
     ["."] = completer,
     ["->"] = completer,
     ["::"] = completer,
-    ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-    ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+    ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
     ["<C-e>"] = cmp.mapping.abort(),
     ["<CR>"] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = function(fallback)
@@ -82,3 +82,10 @@ vim.lsp.config('*', { capabilities = caps })
 -- setup omnifunc
 vim.opt.omnifunc = ""
 vim.keymap.set("i", "<C-x><C-o>", function() require('cmp').complete() end, { silent = true, noremap = true })
+
+cmp.event:on('menu_opened', function()
+  vim.b.matchup_matchparen_enabled = false
+end)
+cmp.event:on('menu_closed', function()
+  vim.b.matchup_matchparen_enabled = true
+end)
