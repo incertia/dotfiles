@@ -36,3 +36,7 @@ km("n", "<leader>-", "<C-w>-", { silent = true, noremap = true })
 km("n", "<leader>+", "<C-w>+", { silent = true, noremap = true })
 km("n", "<leader><", "<C-w><", { silent = true, noremap = true })
 km("n", "<leader>>", "<C-w>>", { silent = true, noremap = true })
+
+-- use <M-{j,k}> to navigate quickfix
+km("n", "<M-j>", "<cmd>cnext<CR>", { silent = true, noremap = true })
+km("n", "<M-k>", "<cmd>cprev<CR>", { silent = true, noremap = true })

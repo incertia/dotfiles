@@ -8,9 +8,9 @@ vim.api.nvim_create_autocmd(
       vim.cmd('hi clear MatchParen')
       vim.cmd('hi MatchParen gui=bold,underline guifg=' .. colors.base16)
       vim.cmd('hi LspReferenceText gui=underline guibg=' .. colors.base02)
-      --vim.cmd('call Tinted_Hi("Title", g:tinted_gui0E, "", g:tinted_cterm0E, "")')
-      --vim.cmd('call Tinted_Hi("TabLineSel", "", g:tinted_gui02, "", g:tinted_cterm02)')
-      --vim.cmd('call Tinted_Hi("Todo", g:tinted_gui08, "", g:tinted_cterm08, "", "bold")')
+      vim.cmd('hi LspReferenceRead gui=underline guibg=' .. colors.base02)
+      vim.cmd('hi LspReferenceWrite gui=underline guibg=' .. colors.base02)
+      vim.cmd('hi LspReferenceTarget gui=underline guibg=' .. colors.base02)
     end
   }
 )
