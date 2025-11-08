@@ -1,4 +1,4 @@
-require('matchup').setup({
+require('match-up').setup({
   treesitter = {
     stopline = 100,
   },
