@@ -220,8 +220,6 @@ nnoremap <silent> <leader>0 :tablast<CR>
 
 let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
 let g:tabmoveright_cmd = ":+tabmove\<CR>"
-nnoremap <silent> <leader>hh @=g:tabmoveleft_cmd<CR>
-nnoremap <silent> <leader>ll @=g:tabmoveright_cmd<CR>
 nnoremap <leader>j           gt
 nnoremap <leader>k           gT
 

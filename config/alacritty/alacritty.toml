@@ -5,24 +5,20 @@ import = [ "~/.config/alacritty/base24-tomorrow-night.toml" ]
 TERM = "xterm-256color"
 
 [font]
-size = 9
+size = 9.5
 builtin_box_drawing = false
-
-[font.bold]
-family = "DejaVuSansM Nerd Font Mono"
-# family = "Hasklug Nerd Font Mono"
-
-[font.bold_italic]
-family = "DejaVuSansM Nerd Font Mono"
-# family = "Hasklug Nerd Font Mono"
-
-[font.italic]
-family = "DejaVuSansM Nerd Font Mono"
-# family = "Hasklug Nerd Font Mono"
+#offset = { x = 1, y = -4 }
 
 [font.normal]
-family = "DejaVuSansM Nerd Font Mono"
+# family = "DejaVuSansM Nerd Font Mono"
 # family = "Hasklug Nerd Font Mono"
+family = "Iosevka Nerd Font Mono"
+
+[font.bold]
+
+[font.italic]
+
+[font.bold_italic]
 
 [[hints.enabled]]
 command = "xdg-open"

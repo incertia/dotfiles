@@ -56,5 +56,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- use cmp for <C-x><C-o> omni
     vim.opt.omnifunc = ""
     km("i", "<C-x><C-o>", function() require('cmp').complete() end, opts)
+
+    if client.server_capabilities.documentHighlightProvider then
+      local doc_highlight = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+      km("n", "<leader>h", function()
+        vim.lsp.buf.document_highlight()
+        vim.api.nvim_clear_autocmds { buffer = bufnr, group = doc_highlight }
+        vim.api.nvim_create_autocmd("CursorMoved", {
+          callback = function()
+            vim.lsp.buf.clear_references()
+            vim.api.nvim_clear_autocmds { buffer = bufnr, group = doc_highlight }
+          end,
+          buffer = bufnr,
+          group = doc_highlight,
+          desc = "clear all the references",
+        })
+        end, opts)
+    end
   end,
 })
