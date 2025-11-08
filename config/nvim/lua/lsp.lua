@@ -1,5 +1,6 @@
 -- enable LSP files (see config/lsp/*.lua)
 vim.lsp.enable('clangd')
+vim.lsp.enable('hls')
 vim.lsp.enable('rust-analyzer')
 vim.lsp.enable('zls')
 
