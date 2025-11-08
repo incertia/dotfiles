@@ -200,7 +200,7 @@ precmd()
 setopt correct
 export SPROMPT="Correct "$BRed"%R"$Color_Off" to "$BGreen"%r"$Color_Off"? (ynae) "
 
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # this lets us use <C-s> for stuff
 stty -ixon
