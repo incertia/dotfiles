@@ -3,8 +3,14 @@ vim.opt.runtimepath:append("~/.vim/after")
 vim.cmd("let &packpath = &runtimepath")
 vim.cmd("source ~/.vim/vimrc")
 
+local error = false
+local errors = ""
 local function prequire(mod)
-  pcall(require(mod))
+  success, result = pcall(require, mod)
+  if success == false then
+    error = true
+    errors = errors .. result
+  end
 end
 
 -- loads lazy.nvim
@@ -22,3 +28,7 @@ prequire('matchup')
 prequire('diagnostics')
 prequire('completion')
 prequire('lsp')
+
+if error then
+  vim.notify(errors, vim.log.levels.ERROR)
+end
