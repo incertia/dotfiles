@@ -75,6 +75,15 @@ myWorkspaces =
   , "-1:extra-space-1"
   ]
 
+scrot :: String
+scrot = "maim"
+scrotFilename :: String
+scrotFilename = "%Y-%m-%d_%T.png"
+scrotFile :: (MonadIO m) => String -> m String
+scrotFile home = do
+  fname <- trim <$> runProcessWithInput "date" ["+" <> scrotFilename] ""
+  pure $ home <> "/scrots/" <> fname
+
 -- xmonad main
 main = do
   setLocale LC_ALL (Just "en_US.UTF-8")
@@ -88,9 +97,9 @@ main = do
   hSetEncoding xmb_input utf8
   hSetEncoding xmb_notif utf8
   hPutStrLn xmb_notif "starting xmonad..."
-  xmonad $ defaults xmb_input xmb_notif `additionalKeys` myBindings home
-  hClose xmb_input
+  xmonad $ defaults xmb_input xmb_notif `additionalKeys` myBindings home xmb_notif
   hClose xmb_notif
+  hClose xmb_input
  where
   defaults xmb_input xmb_notif =
     docks $
@@ -114,7 +123,7 @@ main = do
       xmobarPP
         { ppOutput = \s -> output xmb_input s >> output xmb_notif "no notifications"
         , ppHidden = takeUntil ':'
-        , ppTitle = shorten 80
+        , ppTitle = shorten 120
         , ppExtras = []
         }
    where
@@ -123,10 +132,10 @@ main = do
     takeUntil _ [] = []
     takeUntil x (a : as) = if a == x then [] else a : takeUntil x as
 
-  myBindings home =
+  myBindings home notif =
     concat
       [ bspBindings
-      , printScreenBindings home
+      , printScreenBindings
       , termSpawnBindings
       , wsShiftBindings
       , miscBindings
@@ -155,30 +164,27 @@ main = do
       ]
     delta = 0.002
 
-    printScreenBindings home =
-      [ ((0, xK_Print), maimRoot) -- use PrintScr to scrot the entire screen
-      , ((leftAltMask, xK_Print), maimSelect) -- use LeftAlt-PrintScr to scrot the current window
+    printScreenBindings =
+      [ ((0, xK_Print), maimCommand ["-i", "root"]) -- use PrintScr to scrot the entire screen
+      , ((leftAltMask, xK_Print), maimCommand ["-s", "-t", "2"]) -- use LeftAlt-PrintScr to scrot the current window
       ]
      where
-      scrot = "maim"
-      scrotFilename = "%Y-%m-%d_%T.png"
-      scrotFile = do
-        fname <- trim <$> runProcessWithInput "date" ["+" <> scrotFilename] ""
-        pure $ home <> "/scrots/" <> fname
-      maimRoot = do
-        f <- scrotFile
-        safeSpawn scrot ["-u", "-i", "root", f]
-      maimSelect = do
-        f <- scrotFile
-        safeSpawn scrot ["-u", "-s", "-t", "2", f]
+      maimCommand opts = do
+        f <- scrotFile home
+        safeSpawn scrot $ ["-u"] <> opts <> [f]
+        -- TODO: safeSpawn just forks and spawns the process without waiting
+        -- in order to wait, we would need a safeSpawn wrapper that also
+        -- executes some stuff after waiting, but we cannot wait in the main
+        -- process
+        -- in hindsight we can probably use unsafeSpawn and launch everything
+        -- inside sh -c "command" but that feels awful
+        liftIO $ hPutStrLn notif $ "saving screenshot to " <> f
 
     termSpawnBindings =
       [ ((myModMask .|. shiftMask, xK_Return), safeSpawn "alacritty" [])
       , ((controlMask .|. leftAltMask, xK_t), safeSpawn "alacritty" ["-o", "font.size=13.0"])
       , ((controlMask .|. leftAltMask .|. shiftMask, xK_t), safeSpawn "xterm" [])
       ]
-     where
-      commaSep = intercalate ","
 
     wsShiftBindings =
       [ ((myModMask, xK_Right), nextWS)
