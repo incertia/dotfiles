@@ -19,7 +19,7 @@ return {
   root_markers = { 'hie.yaml', 'stack.yaml', 'cabal.project', '*.cabal', 'package.yaml' },
   settings = {
     haskell = {
-      formattingProvider = 'ormolu',
+      formattingProvider = 'fourmolu',
       cabalFormattingProvider = 'cabalfmt',
     },
   },
