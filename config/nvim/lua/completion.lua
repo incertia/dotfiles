@@ -18,7 +18,8 @@ cmp.setup({
     disabled = disabled or (vim.bo.buftype == 'prompt')
     disabled = disabled or (vim.fn.reg_recording() ~= '')
     disabled = disabled or (vim.fn.reg_executing() ~= '')
-    disabled = disabled or (context.in_treesitter_capture('comment') and not context.in_syntax_group('Comment'))
+    disabled = disabled or (context.in_treesitter_capture('comment'))
+    disabled = disabled or (context.in_syntax_group('Comment'))
 
     return not disabled
   end,
