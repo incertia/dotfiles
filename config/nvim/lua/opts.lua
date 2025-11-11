@@ -33,6 +33,7 @@ opt.splitright = true
 
 -- provide folds based on treesitter
 opt.foldmethod = 'expr'
+opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 opt.foldnestmax = 8
 opt.foldenable = false -- do not fold by default
 opt.foldlevel = 100 -- not sure what this does
