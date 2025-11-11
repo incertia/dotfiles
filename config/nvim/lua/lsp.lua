@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       -- Optional: trigger autocompletion on EVERY keypress. May be slow!
       -- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
       -- client.server_capabilities.completionProvider.triggerCharacters = chars
-      -- vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
       --
       -- NOTE: completion should be given by cmp
     end
@@ -65,8 +65,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     km("n", "<leader>dl", function() vim.diagnostic.config({ virtual_lines = not vim.diagnostic.config().virtual_lines }) end, opts)
 
     -- use cmp for <C-x><C-o> omni
-    vim.opt.omnifunc = ""
-    km("i", "<C-x><C-o>", function() require('cmp').complete() end, opts)
+    -- vim.opt.omnifunc = ""
+    -- km("i", "<C-x><C-o>", function() require('cmp').complete() end, opts)
 
     if client.server_capabilities.documentHighlightProvider then
       local doc_highlight = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })

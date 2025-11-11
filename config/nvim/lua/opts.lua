@@ -47,7 +47,7 @@ opt.cmdheight = 2
 --
 -- this is a temporary hack until i figure out what to do with nvim-cmp's insert
 -- mode mappings not being nowait
-opt.timeoutlen = 0
+-- opt.timeoutlen = 0
 
 -- equivalent of :syntax on
 opt.syntax = "on"

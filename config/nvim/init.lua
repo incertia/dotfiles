@@ -26,7 +26,7 @@ prequire('colorscheme')
 prequire('treesitter')
 prequire('matchup')
 prequire('diagnostics')
-prequire('completion')
+-- prequire('completion')
 prequire('lsp')
 
 if error then
