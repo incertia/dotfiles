@@ -32,6 +32,9 @@ km("n", "<C-j>", "<C-w>j", { silent = true, noremap = true })
 km("n", "<C-k>", "<C-w>k", { silent = true, noremap = true })
 km("n", "<C-l>", "<C-w>l", { silent = true, noremap = true })
 
+-- rebind <C-l> to <leader><C-l> to repaint the window
+km("n", "<leader><C-l>", "<C-l>", { noremap = true })
+
 -- use mapleader instead <C-w> to control split width/heights
 km("n", "<leader>-", "<C-w>-", { silent = true, noremap = true })
 km("n", "<leader>+", "<C-w>+", { silent = true, noremap = true })
@@ -53,3 +56,4 @@ km("n", "<leader>7", "7gt", { noremap = true })
 km("n", "<leader>8", "8gt", { noremap = true })
 km("n", "<leader>9", "9gt", { noremap = true })
 km("n", "<leader>0", "<Cmd>tablast<CR>", { silent = true, noremap = true })
+km("n", "<S-Tab>", "gt", { noremap = true })

@@ -5,9 +5,18 @@ opt.tabstop = 2
 opt.shiftwidth = 2
 opt.softtabstop = 2
 
--- spaces and autoindent
+-- spaces and autoindent and save history
 opt.autoindent = true
 opt.expandtab = true
+opt.undofile = true
+
+-- this fixes excessive "Pattern not found" messages
+opt.shm:append('c')
+
+-- menuone: popup even if there is only one match
+-- noinsert: do not insert selection until accepted
+-- noselect: do not automatically select
+opt.completeopt:append('menuone,noinsert,noselect')
 
 -- show current number + rel numbers
 opt.number = true
@@ -41,6 +50,7 @@ opt.laststatus = 2
 opt.list = true     -- shows trailing whitespace/tabs
 opt.listchars = "tab:| ,trail:."
 opt.cmdheight = 2
+opt.matchtime = 2  -- show matching parens for 0.2s
 
 -- if any keymaps share the same prefix, e.g. <leader>r and <leader>rr, this
 -- will forcibly execute <leader>r
@@ -52,6 +62,7 @@ opt.cmdheight = 2
 -- equivalent of :syntax on
 opt.syntax = "on"
 opt.mouse = ""
+opt.guicursor = ""
 
 -- number formats that we can control with <C-a> and <C-d>
 opt.nf = 'alpha,octal,hex'
@@ -61,3 +72,4 @@ if vim.fn.has("termguicolors") == 1 then
 end
 
 vim.g.rust_recommended_style = false
+vim.g.tex_flavor = "latex"

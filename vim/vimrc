@@ -1,22 +1,3 @@
-" editing
-set guicursor=
-set undofile
-
-" this fixes excessive "Pattern not found" messages
-set shm+=c
-
-" menuone: popup even if there is only one match
-" noinsert: do not insert selection until accepted
-" noselect: do not automatically select
-set completeopt+=menuone,noinsert,noselect
-
-" other stuff
-set matchtime=2
-set sessionoptions-=options
-
-" latex should be default
-let g:tex_flavor = "latex"
-
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
@@ -24,15 +5,6 @@ call plug#begin('~/.vim/plugged')
 if has('nvim')
   Plug 'nvim-lualine/lualine.nvim'
 endif
-
-" echos docstrings
-Plug 'Shougo/echodoc'
-if has('nvim')
-  let g:echodoc#type = 'floating'
-else
-  let g:echodoc#type = "echo"
-endif
-let g:echodoc#enable_at_startup = 1
 
 " language plugins
 Plug 'petRUShka/vim-sage',          { 'for': 'sage'     }
@@ -137,25 +109,13 @@ endfunction
 nnoremap <silent> <F1>   :call KillWhiteThings()<CR>
 nnoremap <silent> <F2>   :set hlsearch! hlsearch?<CR>
 
-" reflow bindings
-nnoremap Q               gqgq
-vnoremap Q               gq
-
-" switch files with arrow keys
-nnoremap <silent> <DOWN> :bnext<CR>
-nnoremap <silent> <UP>   :bprev<CR>
-
 " tabs
 nnoremap <C-t>           :tabnew<SPACE>
 let g:newtab_command = ":tabnew\<CR>"
 nnoremap <silent> <C-y>  @=g:newtab_command<CR>
-nnoremap <S-TAB>         gt
 
 " map space to executing the q macro for easy qq recording
 nnoremap <SPACE>         @q
-
-" because we remmaped <C-l>
-nnoremap <leader><C-l>   <C-l>
 
 " this helps with long lines
 " nnoremap <silent> j  gj
