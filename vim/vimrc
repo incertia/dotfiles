@@ -20,19 +20,6 @@ let g:tex_flavor = "latex"
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
-Plug 'Shougo/vimproc.vim',          { 'do': 'make' }
-
-" completion plugin
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
-  let g:deoplete#enable_at_startup = 1
-  " Plug 'neovim/nvim-lspconfig'
-  " set omnifunc=v:lua.vim.lsp.omnifunc
-else
-  " mucomplete
-  Plug 'lifepillar/vim-mucomplete'
-endif
-
 " statusline plugin as powerline does not work for neovim
 if has('nvim')
   Plug 'nvim-lualine/lualine.nvim'
@@ -49,7 +36,6 @@ let g:echodoc#enable_at_startup = 1
 
 " language plugins
 Plug 'petRUShka/vim-sage',          { 'for': 'sage'     }
-let g:rust_recommended_style = 0
 
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -61,7 +47,6 @@ Plug 'moll/vim-bbye'
 
 Plug 'sotte/presenting.vim'
 
-Plug 'scrooloose/nerdtree',         { 'on': 'NERDTreeToggle' }
 Plug 'godlygeek/tabular',           { 'on': 'Tabularize' }
 let g:haskell_tabular = 1
 
@@ -76,15 +61,6 @@ command! -nargs=1 TabSwitch :call TabSwitch(<f-args>)
 filetype plugin indent on
 
 set viewoptions-=options
-
-" folding settings
-set foldmethod=indent   " fold based on indent
-set foldnestmax=16      " deepest fold is 16 levels
-set nofoldenable        " don't fold by default
-set foldlevel=100       " yay
-
-" number formats
-set nf=alpha,octal,hex
 
 " autocmd stuff
 if has("autocmd")
@@ -131,11 +107,6 @@ if has("autocmd")
     autocmd FileType markdown
       \ setlocal formatoptions-=q |
       \ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
-  augroup END
-
-  augroup completion
-    autocmd!
-    autocmd CompleteDone * pclose
   augroup END
 
   augroup colorschemes
@@ -201,23 +172,6 @@ nnoremap <silent> <leader>so      :so<SPACE>%<CR>
 nnoremap <silent> <leader>vc      :e<SPACE>~/.vim/vimrc<CR>
 nnoremap <silent> <leader>la      :e<SPACE>~/texmf/tex/latex/incertia/incertia.sty<CR>
 
-" this adds a semicolon to the current line
-nnoremap <silent> <leader>;       m`A;<ESC>``
-
-nnoremap <silent> <leader>n  :NERDTreeToggle<CR>
-
-" tab bindings
-nnoremap <leader>1          1gt
-nnoremap <leader>2          2gt
-nnoremap <leader>3          3gt
-nnoremap <leader>4          4gt
-nnoremap <leader>5          5gt
-nnoremap <leader>6          6gt
-nnoremap <leader>7          7gt
-nnoremap <leader>8          8gt
-nnoremap <leader>9          9gt
-nnoremap <silent> <leader>0 :tablast<CR>
-
 let g:tabmoveleft_cmd  = ":-tabmove\<CR>"
 let g:tabmoveright_cmd = ":+tabmove\<CR>"
 nnoremap <leader>j           gt
@@ -239,19 +193,6 @@ xmap <leader>gS  <Plug>VgSurround
 vnoremap a= :Tabularize /=<CR>
 vnoremap a; :Tabularize /::<CR>
 vnoremap a- :Tabularize /-><CR>
-
-" set the colorscheme
-if has("gui_running")
-  set background=light
-  set guioptions-=T
-  set guioptions-=m
-  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
-endif
-
-" enable powerline if it exists and we are not in a tty
-if (!has('nvim') && !(&term=~'linux') && isdirectory(expand("~/.vim/powerline"))) || has("gui_running")
-  set rtp+=~/.vim/powerline/powerline/bindings/vim/
-endif
 
 function! SynStack()
   for i1 in synstack(line("."), col("."))

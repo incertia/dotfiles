@@ -41,3 +41,15 @@ km("n", "<leader>>", "<C-w>>", { silent = true, noremap = true })
 -- use <M-{j,k}> to navigate quickfix
 km("n", "<M-j>", "<cmd>cnext<CR>", { silent = true, noremap = true })
 km("n", "<M-k>", "<cmd>cprev<CR>", { silent = true, noremap = true })
+
+-- tab switching
+km("n", "<leader>1", "1gt", { noremap = true })
+km("n", "<leader>2", "2gt", { noremap = true })
+km("n", "<leader>3", "3gt", { noremap = true })
+km("n", "<leader>4", "4gt", { noremap = true })
+km("n", "<leader>5", "5gt", { noremap = true })
+km("n", "<leader>6", "6gt", { noremap = true })
+km("n", "<leader>7", "7gt", { noremap = true })
+km("n", "<leader>8", "8gt", { noremap = true })
+km("n", "<leader>9", "9gt", { noremap = true })
+km("n", "<leader>0", "<Cmd>tablast<CR>", { silent = true, noremap = true })
