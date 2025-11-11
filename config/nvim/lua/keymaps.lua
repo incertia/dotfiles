@@ -5,7 +5,7 @@ km("n", "<C-\\>", [[<Cmd>lua require"fzf-lua".buffers()<CR>]], {})
 km("n", "<leader><C-k>", [[<Cmd>lua require"fzf-lua".quickfix()<CR>]], {})
 km("n", "<C-p>", [[<Cmd>lua require"fzf-lua".files()<CR>]], {})
 km("n", "<leader><C-t>", [[<Cmd>lua require"fzf-lua".tabs()<CR>]], {})
-km("n", "<C-m>", [[<Cmd>lua require"fzf-lua".live_grep()<CR>]], {})
+km("n", "<leader><C-g>", [[<Cmd>lua require"fzf-lua".live_grep()<CR>]], {})
 km("n", "<C-g>", [[<Cmd>lua require"fzf-lua".grep_project()<CR>]], {})
 -- km("n", "<F1>", [[<Cmd>lua require"fzf-lua".help_tags()<CR>]], {})
 
