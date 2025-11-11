@@ -18,6 +18,17 @@ opt.shm:append('c')
 -- noselect: do not automatically select
 opt.completeopt:append('menuone,noinsert,noselect')
 
+-- when opening a new line with o or O, do not auto insert comments
+-- we have to use autocommands because a bunch of ft plugins set these options
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  group = vim.api.nvim_create_augroup("FormatOptions", { clear = true }),
+  pattern = { "*" },
+  callback = function()
+    vim.opt_local.formatoptions:remove("r")
+    vim.opt_local.formatoptions:remove("o")
+  end,
+})
+
 -- show current number + rel numbers
 opt.number = true
 opt.relativenumber = true
