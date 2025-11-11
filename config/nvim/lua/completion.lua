@@ -1,22 +1,15 @@
 local cmp = require('cmp')
 local max_signature_len = 80
 
-function completer(fallback)
-  if not cmp.visible() then
-    cmp.complete()
-  end
-  fallback()
-end
-
 cmp.setup({
   snippet = {
     expand = function(args)
       vim.snippet.expand(args.body)
     end,
   },
-  completion = {
-    autocomplete = false,
-  },
+  -- completion = {
+  --   autocomplete = false,
+  -- },
   -- context aware completions
   enabled = function()
     local disabled = false
@@ -38,20 +31,10 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
   mapping = {
-    ["."] = completer,
-    ["->"] = completer,
-    ["::"] = completer,
     ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
     ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
     ["<C-e>"] = cmp.mapping.abort(),
-    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-    ["<Tab>"] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end,
+    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
   },
   formatting = {
     format = function(entry, vim_item)
@@ -81,7 +64,7 @@ vim.lsp.config('*', { capabilities = caps })
 
 -- setup omnifunc
 vim.opt.omnifunc = ""
-vim.keymap.set("i", "<C-x><C-o>", function() require('cmp').complete() end, { silent = true, noremap = true })
+vim.keymap.set("i", "<C-x><C-o>", function() require('cmp').mapping.complete() end, { silent = true, noremap = true })
 
 cmp.event:on('menu_opened', function()
   vim.b.matchup_matchparen_enabled = false

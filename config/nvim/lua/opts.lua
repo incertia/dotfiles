@@ -66,7 +66,7 @@ opt.mouse = ""
 opt.guicursor = ""
 
 -- number formats that we can control with <C-a> and <C-d>
-opt.nf = 'alpha,octal,hex'
+opt.nf = 'bin,octal,hex'
 
 if vim.fn.has("termguicolors") == 1 then
   vim.opt.termguicolors = true
