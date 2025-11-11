@@ -38,6 +38,13 @@ opt.list = true     -- shows trailing whitespace/tabs
 opt.listchars = "tab:| ,trail:."
 opt.cmdheight = 2
 
+-- if any keymaps share the same prefix, e.g. <leader>r and <leader>rr, this
+-- will forcibly execute <leader>r
+--
+-- this is a temporary hack until i figure out what to do with nvim-cmp's insert
+-- mode mappings not being nowait
+opt.timeoutlen = 0
+
 -- equivalent of :syntax on
 opt.syntax = "on"
 opt.mouse = ""
