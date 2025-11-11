@@ -11,6 +11,9 @@ vim.api.nvim_create_autocmd(
       vim.cmd('hi LspReferenceRead gui=underline guibg=' .. colors.base02)
       vim.cmd('hi LspReferenceWrite gui=underline guibg=' .. colors.base02)
       vim.cmd('hi LspReferenceTarget gui=underline guibg=' .. colors.base02)
+
+      -- clear highlighting for variables, these can just be normal
+      vim.cmd('hi clear TSVariable')
     end
   }
 )
