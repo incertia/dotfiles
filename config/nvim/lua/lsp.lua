@@ -47,7 +47,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
     km("n", "<leader>gd", function() vim.lsp.buf.definition() end, opts)
     km("n", "<leader>gD", function() vim.lsp.buf.declaration() end, opts)
     km("n", "<leader>gt", function() vim.lsp.buf.type_definition() end, opts)
-    km("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
+    km("n", "<leader>rr", function() vim.lsp.buf.references(nil, {
+      on_list = function(items, title, context)
+        vim.fn.setqflist({}, ' ', items)
+        local l = vim.fn.getqflist()
+        print(#l .. " references")
+        local success, fzf = pcall(require, 'fzf-lua')
+        if success == true then
+          fzf.quickfix()
+        end
+      end,
+    }) end, opts)
 
     -- by default, [d and ]d go to the previous and next diagnostic
     km("n", "<leader>dd", function() vim.diagnostic.open_float({ desc = "Diagnostics" }) end, opts)
