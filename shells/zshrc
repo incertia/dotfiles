@@ -37,9 +37,14 @@ else
   echo "No tinty. Run cargo install tinty."
 fi
 
-# Keep 4096 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=4096
-SAVEHIST=4096
+# unset DISPLAY while inside tmux
+if [ -n "$TMUX" ]; then
+  unset DISPLAY
+fi
+
+# Keep 8192 lines of history within the shell and save it to ~/.zsh_history:
+HISTSIZE=8192
+SAVEHIST=8192
 HISTFILE=~/.zsh_history
 
 # setup fzf
@@ -205,14 +210,8 @@ export EDITOR='nvim'
 # this lets us use <C-s> for stuff
 stty -ixon
 
-# for teh lulz
-alias fucking='sudo'
-
 # js sandbox
 alias jsc='jrunscript'
-
-# just in case
-alias svi='sudo vi'
 
 # migrate to neovim
 alias vim='nvim'
@@ -225,8 +224,6 @@ alias svnremove='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -rf'
 
 # screw guis, and i will never use emacs so whatever
 # alias emacs='emacs -nw'
-
-alias irssi='screen irssi'
 
 # set up gpg-agent
 unset SSH_AGENT_PID
