@@ -6,6 +6,7 @@ ensure_installed = {
   "haskell",
   "idris",
   "markdown",
+  "markdown_inline",
   "python",
   "rust",
   "toml",
@@ -44,10 +45,11 @@ if vim.fn.executable('tree-sitter') ~= 1 then
   vim.api.nvim_set_option_value('relativenumber', false, { win = win })
 end
 
-require('nvim-treesitter').install(ensure_installed)
+local ts = require('nvim-treesitter')
+ts.install(ensure_installed)
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { '<filetype>' },
+  pattern = ts.get_installed('parsers'),
   callback = function()
     vim.treesitter.start()
     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
