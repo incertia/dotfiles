@@ -85,3 +85,8 @@ end
 
 vim.g.rust_recommended_style = false
 vim.g.tex_flavor = "latex"
+
+-- set the DISPLAY to :0, highly unlikely i will connect from other displays
+if vim.env.DISPLAY == nil then
+  vim.env.DISPLAY = ":0"
+end
