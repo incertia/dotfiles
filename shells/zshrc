@@ -37,6 +37,12 @@ else
   echo "No tinty. Run cargo install tinty."
 fi
 
+if hash goenv 2>/dev/null; then
+  eval "$(goenv init -)"
+else
+  echo "No goenv. Use google to install."
+fi
+
 # unset DISPLAY while inside tmux
 if [ -n "$TMUX" ]; then
   unset DISPLAY
