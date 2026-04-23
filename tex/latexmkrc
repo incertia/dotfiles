@@ -5,3 +5,4 @@ add_cus_dep("asy","tex",0,"asy");
 
 $pdf_mode = 1;
 $out_dir = "./build/";
+$pdflatex = 'pdflatex %O -interaction=nonstopmode %S';
