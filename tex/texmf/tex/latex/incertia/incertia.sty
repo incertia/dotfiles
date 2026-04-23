@@ -3,36 +3,56 @@
 % we need this for options
 \usepackage{kvoptions}
 
-\newif\ifincertiageom\incertiageomtrue
 \newif\ifincertiasection\incertiasectiontrue
-\newif\ifincertiasubsection\incertiasubsectionfalse
 \newif\ifincertiacd\incertiacdfalse
-\newif\ifincertiaasy\incertiaasyfalse
 \newif\ifincertiasets\incertiasetstrue
 \newif\ifincertiadisplay\incertiadisplaytrue
 
-\DeclareOption{geom}{\incertiageomtrue}
-\DeclareOption{nogeom}{\incertiageomfalse}
 \DeclareOption{section}{\incertiasectiontrue}
 \DeclareOption{nosection}{\incertiasectionfalse}
-\DeclareOption{subsection}{\incertiasubsectiontrue}
-\DeclareOption{nosubsection}{\incertiasubsectionfalse}
 \DeclareOption{cd}{\incertiacdtrue}
 \DeclareOption{nocd}{\incertiacdfalse}
-\DeclareOption{asy}{\incertiaasytrue}
-\DeclareOption{noasy}{\incertiaasyfalse}
 \DeclareOption{sets}{\incertiasetstrue}
 \DeclareOption{nosets}{\incertiasetsfalse}
 \DeclareOption{display}{\incertiadisplaytrue}
 \DeclareOption{nodisplay}{\incertiadisplayfalse}
-\DeclareStringOption{defn}
+\DeclareOption*{}
+
+% bool options
+\DeclareBoolOption[true]{geom}
+\DeclareBoolOption{asy}
+\DeclareBoolOption{hyperref}
+
+% NOTE: to forward these to packages, use
+% \PassOptoinsToPackage{option-string}{package}
+\DeclareStringOption[1in]{margin}
+\DeclareStringOption[bold]{defn}
+\DeclareStringOption[cm]{cal}
+\DeclareStringOption[ams]{bb}
+\DeclareStringOption[boondox]{frak}
+\DeclareStringOption[rsfso]{scr}
+\DeclareStringOption{thm}
+\DeclareStringOption[thm]{prb}
 
 \ProcessOptions\relax
 \ProcessKeyvalOptions*
 
+% this fixes the weird spacing introduced by \left and \right
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
 % some default packages
-\ifincertiageom
-\usepackage[margin=1in]{geometry}
+\ifincertia@geom
+\PassOptionsToPackage{margin=\incertia@margin}{geometry}
+\usepackage{geometry}
+\fi
+
+\ifincertia@hyperref
+\usepackage{hyperref}
+% define sref to be \ref but using
+\newcommand{\sref}[1]{\hyperref[#1]{\S\ref*{#1}}}
 \fi
 
 \usepackage{amsmath}
@@ -40,8 +60,11 @@
 \usepackage{amssymb}
 \usepackage{centernot}
 \usepackage{fancyhdr}
-% \usepackage[cal=cm,bb=ams,frak=boondox,scr=rsfso]{mathalfa}
-% \usepackage{mathrsfs}
+\PassOptionsToPackage{cal=\incertia@cal}{mathalpha}
+\PassOptionsToPackage{bb=\incertia@bb}{mathalpha}
+\PassOptionsToPackage{frak=\incertia@frak}{mathalpha}
+\PassOptionsToPackage{scr=\incertia@scr}{mathalpha}
+\usepackage{mathalpha}
 \usepackage{mathtools}
 \usepackage{siunitx}
 \usepackage{tikz}
@@ -50,7 +73,6 @@
 \fi
 \usepackage{xfrac}
 \usepackage{faktor}
-\usepackage[mathscr]{euscript}
 
 % tikz things
 \usetikzlibrary{arrows}
@@ -81,7 +103,7 @@
 \newcommand{\iso}{\cong}
 
 % asymptote
-\ifincertiaasy
+\ifincertia@asy
 \usepackage{asymptote}
 
 \begin{asydef}
@@ -126,10 +148,10 @@ usepackage("siunitx");
 {}
 
 \theoremstyle{norm}
-\ifincertiasection
-\newtheorem{thm}{Theorem}[section]
-\else
+\ifx\incertia@thm\empty
 \newtheorem{thm}{Theorem}
+\else
+\newtheorem{thm}{Theorem}[\incertia@thm]
 \fi
 \newtheorem{lem}[thm]{Lemma}
 \newtheorem{df}[thm]{Definition}
@@ -141,16 +163,7 @@ usepackage("siunitx");
 \newtheorem{clm}[thm]{Claim}
 \newtheorem{exr}[thm]{Exercise}
 \newtheorem{ex}[thm]{Example}
-\ifincertiasection
-\ifincertiasubsection
-\newtheorem{prb}{Problem}[subsection]
-\else
-\newtheorem{prb}{Problem}[section]
-\fi
-\else
-\newtheorem{prb}{Problem}
-\fi
-% \newtheorem{prb}[thm]{Problem}
+\newtheorem{prb}{Problem}[\incertia@prb]
 \newtheorem{note}[thm]{Note}
 
 % i like parskip
@@ -204,6 +217,7 @@ usepackage("siunitx");
 \DeclareMathOperator{\normal}{N}
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\zdiv}{zdiv}
+\DeclareMathOperator{\ob}{ob}
 \DeclareMathOperator{\gl}{\mathfrak{gl}}
 \let\sl\undefined
 \DeclareMathOperator{\sl}{\mathfrak{sl}}
@@ -216,6 +230,7 @@ usepackage("siunitx");
 \newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
 \newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
 \newcommand{\op}{\textrm{op}}
+\newcommand{\dd}{\mathrm{d}}
 
 % selectively define the defn command
 %\ifincertia@defn@bold
@@ -243,3 +258,6 @@ usepackage("siunitx");
 \newcommand{\epi}{\twoheadrightarrow}
 
 \newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+% define hquad to be half a quad (1em)
+\newcommand{\hquad}{\hspace{0.5em}}
