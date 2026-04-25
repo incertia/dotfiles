@@ -13,8 +13,7 @@ local function prequire(mod)
   end
 end
 
--- loads lazy.nvim
-require("config.lazy")
+prequire('plugins')
 
 -- load fzf
 prequire('fzf')
