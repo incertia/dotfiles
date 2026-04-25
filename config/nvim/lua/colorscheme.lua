@@ -20,11 +20,8 @@ vim.api.nvim_create_autocmd(
 
 -- vim.g.tinted_italic = 0
 vim.g.tinted_colorspace = 256
-require('tinted-colorscheme').with_config({
-  supports = {
-    tinty = true,
-    live_reload = true,
-    tinted_shell = false,
+require('tinted-nvim').setup({
+  selector = {
+    enabled = true,
   },
 })
-require('tinted-colorscheme').setup()
