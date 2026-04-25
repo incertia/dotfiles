@@ -5,21 +5,19 @@
 
 \newif\ifincertiasection\incertiasectiontrue
 \newif\ifincertiacd\incertiacdfalse
-\newif\ifincertiasets\incertiasetstrue
 \newif\ifincertiadisplay\incertiadisplaytrue
 
 \DeclareOption{section}{\incertiasectiontrue}
 \DeclareOption{nosection}{\incertiasectionfalse}
 \DeclareOption{cd}{\incertiacdtrue}
 \DeclareOption{nocd}{\incertiacdfalse}
-\DeclareOption{sets}{\incertiasetstrue}
-\DeclareOption{nosets}{\incertiasetsfalse}
 \DeclareOption{display}{\incertiadisplaytrue}
 \DeclareOption{nodisplay}{\incertiadisplayfalse}
 \DeclareOption*{}
 
 % bool options
 \DeclareBoolOption[true]{geom}
+\DeclareBoolOption[true]{sets}
 \DeclareBoolOption{asy}
 \DeclareBoolOption{hyperref}
 
@@ -27,8 +25,9 @@
 % \PassOptoinsToPackage{option-string}{package}
 \DeclareStringOption[1in]{margin}
 \DeclareStringOption[bold]{defn}
-\DeclareStringOption[cm]{cal}
-\DeclareStringOption[ams]{bb}
+\DeclareStringOption[cm]{math}
+\DeclareStringOption{bb}
+\DeclareStringOption{cal}
 \DeclareStringOption[boondox]{frak}
 \DeclareStringOption[rsfso]{scr}
 \DeclareStringOption{thm}
@@ -55,13 +54,22 @@
 \newcommand{\sref}[1]{\hyperref[#1]{\S\ref*{#1}}}
 \fi
 
+% some fonts define \Bbbk, which is defined by amssymb
+\ifcsname Bbbk\endcsname
+\let\Bbbk\relax
+\fi
+
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{centernot}
 \usepackage{fancyhdr}
-\PassOptionsToPackage{cal=\incertia@cal}{mathalpha}
+\unless\ifx\incertia@bb\empty
 \PassOptionsToPackage{bb=\incertia@bb}{mathalpha}
+\fi
+\unless\ifx\incertia@cal\empty
+\PassOptionsToPackage{cal=\incertia@cal}{mathalpha}
+\fi
 \PassOptionsToPackage{frak=\incertia@frak}{mathalpha}
 \PassOptionsToPackage{scr=\incertia@scr}{mathalpha}
 \usepackage{mathalpha}
@@ -86,7 +94,7 @@
 
 % set related commands
 % common sets
-\ifincertiasets
+\ifincertia@sets
 \newcommand{\CC}{\mathbb{C}}
 \newcommand{\ZZ}{\mathbb{Z}}
 \newcommand{\QQ}{\mathbb{Q}}
@@ -134,6 +142,10 @@ usepackage("siunitx");
 \fi
 
 % theorem
+% some fonts define \openbox, which is defined by amsthm
+\ifcsname openbox\endcsname
+\let\openbox\relax
+\fi
 \usepackage{amsthm}
 
 % setup definition/theorem etc
@@ -225,12 +237,19 @@ usepackage("siunitx");
 \DeclareMathOperator{\Ht}{ht}
 \DeclareMathOperator{\nil}{nil}
 \newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
-\newcommand{\cycgroup}[1]{\left\langle #1 \right\rangle}
-\newcommand{\gen}[1]{\left\langle #1 \right\rangle}
-\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
-\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
 \newcommand{\op}{\textrm{op}}
 \newcommand{\dd}{\mathrm{d}}
+
+%\newcommand{\gen}[1]{\left\langle #1 \right\rangle}
+%\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
+%\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+
+% use mathtools to make new commands for paired delimiters
+\DeclarePairedDelimiter{\paren}{\lparen}{\rparen}
+\DeclarePairedDelimiter{\gen}{\langle}{\rangle}
+\DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\comm}{\lbracket}{\rbracket}
 
 % selectively define the defn command
 %\ifincertia@defn@bold
