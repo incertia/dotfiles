@@ -22,6 +22,7 @@
 
 	# The initial visibility of the status bar. Can be {"on", "off", "2"}. 2 will create two status lines: one for the window list and one with status bar segments.
 	export TMUX_POWERLINE_STATUS_VISIBILITY="on"
+	export TMUX_POWERLINE_STATUS_VISIBILITY="2"
 	# In case of visibility = 2, where to display window status and where left/right status bars.
 	# 0: window status top, left/right status bottom; 1: window status bottom, left/right status top
 	export TMUX_POWERLINE_WINDOW_STATUS_LINE=0
@@ -33,7 +34,7 @@
 	export TMUX_POWERLINE_STATUS_JUSTIFICATION="left"
 
 	# The maximum length of the left status bar.
-	export TMUX_POWERLINE_STATUS_LEFT_LENGTH="60"
+	export TMUX_POWERLINE_STATUS_LEFT_LENGTH="100"
 	# The maximum length of the right status bar.
 	export TMUX_POWERLINE_STATUS_RIGHT_LENGTH="90"
 
@@ -376,7 +377,7 @@
 
 # vcs_branch.sh {
 	# Max length of the branch name.
-	export TMUX_POWERLINE_SEG_VCS_BRANCH_MAX_LEN=""
+	export TMUX_POWERLINE_SEG_VCS_BRANCH_MAX_LEN="40"
 	# Symbol when branch length exceeds max length
 	# export TMUX_POWERLINE_SEG_VCS_BRANCH_TRUNCATE_SYMBOL="…"
 	# Default branch symbol
