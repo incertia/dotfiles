@@ -12,6 +12,10 @@
       "rev": "1ae863c83e0823225b4e041845f10c918d5fb882",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "lean.nvim": {
+      "rev": "b4535dc9efc3572d94a7d4697c13701d47987a68",
+      "src": "https://github.com/Julian/lean.nvim"
+    },
     "nvim-cmp": {
       "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
       "src": "https://github.com/hrsh7th/nvim-cmp"

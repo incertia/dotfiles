@@ -1,9 +1,24 @@
 -- enable LSP files (see config/lsp/*.lua)
 vim.lsp.enable('clangd')
-vim.lsp.enable('hls')
 vim.lsp.enable('gopls')
+vim.lsp.enable('hls')
+--vim.lsp.enable('pyright')
 vim.lsp.enable('rust-analyzer')
+vim.lsp.enable('ty')
 vim.lsp.enable('zls')
+
+success, lean = pcall(require, 'lean')
+if success == true then
+  lean.setup({
+    mappings = false,
+    lsp = {
+      hover = false,
+    },
+    init_options = {
+      editDelay = 50,
+    },
+  })
+end
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),

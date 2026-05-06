@@ -93,6 +93,7 @@ end
 
 -- setup an autocmd for not indenting tex
 vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'tex',
   group = vim.api.nvim_create_augroup('my.tex', {}),
   callback = function()
     vim.bo.indentexpr = "0"

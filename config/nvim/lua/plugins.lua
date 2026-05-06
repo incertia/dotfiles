@@ -21,5 +21,7 @@ vim.pack.add({
   'https://github.com/hrsh7th/cmp-nvim-lsp',
   'https://github.com/hrsh7th/nvim-cmp',
 
+  -- language support
+  'https://github.com/Julian/lean.nvim',
   'https://github.com/ziglang/zig.vim',
 })
