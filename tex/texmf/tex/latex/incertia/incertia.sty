@@ -3,23 +3,15 @@
 % we need this for options
 \usepackage{kvoptions}
 
-\newif\ifincertiasection\incertiasectiontrue
-\newif\ifincertiacd\incertiacdfalse
-\newif\ifincertiadisplay\incertiadisplaytrue
-
-\DeclareOption{section}{\incertiasectiontrue}
-\DeclareOption{nosection}{\incertiasectionfalse}
-\DeclareOption{cd}{\incertiacdtrue}
-\DeclareOption{nocd}{\incertiacdfalse}
-\DeclareOption{display}{\incertiadisplaytrue}
-\DeclareOption{nodisplay}{\incertiadisplayfalse}
-\DeclareOption*{}
-
 % bool options
+\DeclareBoolOption[true]{display}
 \DeclareBoolOption[true]{geom}
 \DeclareBoolOption[true]{sets}
+\DeclareBoolOption{amssymb}
 \DeclareBoolOption{asy}
+\DeclareBoolOption{cd}
 \DeclareBoolOption{hyperref}
+\DeclareBoolOption{sprefix}
 
 % NOTE: to forward these to packages, use
 % \PassOptoinsToPackage{option-string}{package}
@@ -32,8 +24,8 @@
 \DeclareStringOption[rsfso]{scr}
 \DeclareStringOption{thm}
 \DeclareStringOption[thm]{prb}
+\DeclareStringOption[bold]{cat}
 
-\ProcessOptions\relax
 \ProcessKeyvalOptions*
 
 % this fixes the weird spacing introduced by \left and \right
@@ -50,8 +42,6 @@
 
 \ifincertia@hyperref
 \usepackage{hyperref}
-% define sref to be \ref but using
-\newcommand{\sref}[1]{\hyperref[#1]{\S\ref*{#1}}}
 \fi
 
 % some fonts define \Bbbk, which is defined by amssymb
@@ -61,7 +51,9 @@
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\ifincertia@amssymb
 \usepackage{amssymb}
+\fi
 \usepackage{centernot}
 \usepackage{fancyhdr}
 \unless\ifx\incertia@bb\empty
@@ -76,15 +68,21 @@
 \usepackage{mathtools}
 \usepackage{siunitx}
 \usepackage{tikz}
-\ifincertiacd
+\ifincertia@cd
 \usepackage{tikz-cd}
 \fi
 \usepackage{xfrac}
 \usepackage{faktor}
 
+% try to fix symbols
+\usepackage{stmaryrd}
+
 % tikz things
-\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
 \usetikzlibrary{patterns}
+\tikzset{
+morphism/.style={scale=0.7},
+}
 
 % \DeclareFontFamily{U}{mt2ms}{\skewchar\font42}
 % \DeclareFontShape{U}{mt2ms}{m}{n}{}{}
@@ -148,6 +146,25 @@ usepackage("siunitx");
 \fi
 \usepackage{amsthm}
 
+% i like parskip
+\usepackage{parskip}
+
+% this is usually nice
+% \usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+
+\ifincertia@hyperref
+\usepackage{zref-clever}
+%\newcommand{\cref}[1]{\zcref{#1}}
+%\newcommand{\Cref}[1]{\zcref[S]{#1}}
+\newcommand{\cref}{\@ifstar{\@incertiarefS}{\@incertiarefN}}
+\newcommand{\Cref}{\@ifstar{\@incertiaRefS}{\@incertiaRefN}}
+\newcommand{\@incertiarefS}[1]{\zcref[noname]{#1}}
+\newcommand{\@incertiarefN}[1]{\zcref{#1}}
+\newcommand{\@incertiaRefS}[1]{\zcref[noname,S]{#1}}
+\newcommand{\@incertiaRefN}[1]{\zcref[S]{#1}}
+\fi
+
 % setup definition/theorem etc
 \newtheoremstyle{norm}
 {3pt}
@@ -173,17 +190,142 @@ usepackage("siunitx");
 \newtheorem{cor}[thm]{Corollary}
 \newtheorem{conj}[thm]{Conjecture}
 \newtheorem{clm}[thm]{Claim}
-\newtheorem{exr}[thm]{Exercise}
 \newtheorem{ex}[thm]{Example}
 \newtheorem{prb}{Problem}[\incertia@prb]
+\newtheorem{exr}{Exercise}[\incertia@prb]
 \newtheorem{note}[thm]{Note}
+\labelformat{section}{\S\thesection}
+\labelformat{subsection}{\S\thesubsection}
+\labelformat{subsubsection}{\S\thesubsubsection}
+\labelformat{thm}{\S\thethm}
+\labelformat{prb}{\S\theprb}
+\labelformat{exr}{\S\theexr}
 
-% i like parskip
-\usepackage{parskip}
-
-% this is usually nice
-% \usepackage{enumerate}
-\usepackage[shortlabels]{enumitem}
+% set up the zref-clever prefixes we need
+\ifincertia@hyperref
+\ifincertia@sprefix
+\newcommand{\incertiasprefix}{ \S}
+\else
+\newcommand{\incertiasprefix}{}
+\fi
+\zcRefTypeSetup{thm}{
+Name-sg=Theorem,
+name-sg=theorem,
+Name-pl=Theorems,
+name-pl=theorems,
+}
+\AddToHook{env/thm/begin}{
+\zcsetup{countertype={thm=thm}}
+}
+\zcRefTypeSetup{lem}{
+Name-sg=Lemma,
+name-sg=lemma,
+Name-pl=Lemmas,
+name-pl=lemmas,
+}
+\AddToHook{env/lem/begin}{
+\zcsetup{countertype={thm=lem}}
+}
+\zcRefTypeSetup{df}{
+Name-sg=Definition,
+name-sg=definition,
+Name-pl=Definitions,
+name-pl=definitions,
+}
+\AddToHook{env/df/begin}{
+\zcsetup{countertype={thm=df}}
+}
+\zcRefTypeSetup{rem}{
+Name-sg=Remark,
+name-sg=remark,
+Name-pl=Remarks,
+name-pl=remarks,
+}
+\AddToHook{env/rem/begin}{
+\zcsetup{countertype={thm=rem}}
+}
+\zcRefTypeSetup{st}{
+Name-sg=Step,
+name-sg=step,
+Name-pl=Steps,
+name-pl=steps,
+}
+\AddToHook{env/st/begin}{
+\zcsetup{countertype={thm=st}}
+}
+\zcRefTypeSetup{prop}{
+Name-sg=Proposition,
+name-sg=proposition,
+Name-pl=Propositions,
+name-pl=propositions,
+}
+\AddToHook{env/prop/begin}{
+\zcsetup{countertype={thm=prop}}
+}
+\zcRefTypeSetup{cor}{
+Name-sg=Corollary,
+name-sg=corollary,
+Name-pl=Corollaries,
+name-pl=corollaries,
+}
+\AddToHook{env/cor/begin}{
+\zcsetup{countertype={thm=cor}}
+}
+\zcRefTypeSetup{conj}{
+Name-sg=Conjecture,
+name-sg=conjecture,
+Name-pl=Conjectures,
+name-pl=conjectures,
+}
+\AddToHook{env/conj/begin}{
+\zcsetup{countertype={thm=conj}}
+}
+\zcRefTypeSetup{clm}{
+Name-sg=Claim,
+name-sg=claim,
+Name-pl=Claims,
+name-pl=claims,
+}
+\AddToHook{env/clm/begin}{
+\zcsetup{countertype={thm=clm}}
+}
+\zcRefTypeSetup{exr}{
+Name-sg=Exercise,
+name-sg=exercise,
+Name-pl=Exercises,
+name-pl=exercises,
+}
+\AddToHook{env/exr/begin}{
+\zcsetup{countertype={thm=exr}}
+}
+\zcRefTypeSetup{ex}{
+Name-sg=Example,
+name-sg=example,
+Name-pl=Examples,
+name-pl=examples,
+}
+\AddToHook{env/ex/begin}{
+\zcsetup{countertype={thm=ex}}
+}
+\zcRefTypeSetup{prb}{
+Name-sg=Problem,
+name-sg=problem,
+Name-pl=Problems,
+name-pl=problems,
+}
+\AddToHook{env/prb/begin}{
+\zcsetup{countertype={thm=prb}}
+}
+\zcRefTypeSetup{note}{
+Name-sg=Note,
+name-sg=note,
+Name-pl=Notes,
+name-pl=notes,
+}
+\AddToHook{env/note/begin}{
+\zcsetup{countertype={thm=note}}
+}
+\fi
 
 % hyperbolic trig
 \DeclareMathOperator{\sech}{sech}
@@ -239,10 +381,40 @@ usepackage("siunitx");
 \newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
 \newcommand{\op}{\textrm{op}}
 \newcommand{\dd}{\mathrm{d}}
-
-%\newcommand{\gen}[1]{\left\langle #1 \right\rangle}
-%\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
-%\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\tast}{\textasteriskcentered{}}
+\ExplSyntaxOn
+\str_if_eq:eeTF{\incertia@cat}{bold}{
+% cat=bold
+\newcommand{\cat}[1]{\textbf{#1}}
+}{
+\str_if_eq:eeTF{\incertia@cat}{serif}{
+% cat=serif
+\newcommand{\cat}[1]{\textsf{#1}}
+}{
+\str_if_eq:eeTF{\incertia@cat}{boldserif}{
+% cat=boldserif
+\newcommand{\cat}[1]{\textbf{\textsf{#1}}}
+}{
+% else
+\newcommand{\cat}[1]{\textbf{#1}}
+\PackageWarning{incertia}{invalid~option~set~for~cat,~defaulting~to~bold
+:~\incertia@cat}
+}}}
+\str_if_eq:eeTF{\incertia@defn}{bold}{
+% defn=bold
+\newcommand{\defn}[1]{\textbf{#1}}
+}{
+\str_if_eq:eeTF{\incertia@defn}{italic}{
+% defn=italic
+\newcommand{\defn}[1]{\textit{#1}}
+}{
+% else
+\newcommand{\defn}[1]{\textbf{#1}}
+\PackageWarning{incertia}{invalid~option~set~for~defn,~defaulting~to~bold
+:~\incertia@defn}
+}}
+\ExplSyntaxOff
+\newcommand{\pointedset}{\cat{Set\textsuperscript{\tast}}}
 
 % use mathtools to make new commands for paired delimiters
 \DeclarePairedDelimiter{\paren}{\lparen}{\rparen}
@@ -251,16 +423,8 @@ usepackage("siunitx");
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\comm}{\lbracket}{\rbracket}
 
-% selectively define the defn command
-%\ifincertia@defn@bold
-%\newcommand{\defn}[1]{\textbf{#1}}%
-%\fi
-%\@namedef{incertia@defn@italic}{
-%  \newcommand{\defn}[1]{\textit{##1}}
-%}
-
 % for easier math
-\ifincertiadisplay
+\ifincertia@display
 \everymath{\displaystyle}
 \fi
 \newcommand{\degree}{^\circ}
@@ -268,8 +432,10 @@ usepackage("siunitx");
 % define some arrows for easier use
 \newcommand{\surj}{\twoheadrightarrow}
 \newcommand{\inj}{\rightarrowtail}
+\newcommand{\injh}{\hookrightarrow}
 \newcommand{\rsurj}{\twoheadleftarrow}
 \newcommand{\rinj}{\leftarrowtail}
+\newcommand{\rinjh}{\hookleftarrow}
 \newcommand{\bijection}{\leftrightarrow}
 \newcommand{\biject}{\xrightarrow{\sim}}
 \newcommand{\mono}{\rightarrowtail}
@@ -280,3 +446,7 @@ usepackage("siunitx");
 
 % define hquad to be half a quad (1em)
 \newcommand{\hquad}{\hspace{0.5em}}
+
+% define symbols for true and false
+\newcommand{\true}{\texttt{true}}
+\newcommand{\false}{\texttt{false}}

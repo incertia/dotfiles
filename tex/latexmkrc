@@ -5,4 +5,8 @@ add_cus_dep("asy","tex",0,"asy");
 
 $pdf_mode = 1;
 $out_dir = "./build/";
-$pdflatex = 'pdflatex %O -interaction=nonstopmode %S';
+
+# forward these args to all engines
+# set_tex_cmds('%O -shell-escape -interaction=nonstopmode %S');
+# batchmode should be quieter
+set_tex_cmds('%O -shell-escape -interaction=batchmode %S');
