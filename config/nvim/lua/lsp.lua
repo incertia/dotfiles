@@ -5,6 +5,7 @@ vim.lsp.enable('hls')
 --vim.lsp.enable('pyright')
 vim.lsp.enable('rust-analyzer')
 vim.lsp.enable('ty')
+vim.lsp.enable('vtsls')
 vim.lsp.enable('zls')
 
 success, lean = pcall(require, 'lean')
